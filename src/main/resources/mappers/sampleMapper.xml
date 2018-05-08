@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.sist.erp.dao.SampleDAO">
+	<insert id="sampleMethod" >
+		INSERT INTO CUSTOMERS VALUES
+		((SELECT NVL(MAX(CUSID),0)+1 FROM CUSTOMERS),#{email},#{pwd},#{name},#{phone},#{address},'N')
+	</insert>
+</mapper>
