@@ -11,4 +11,7 @@
 	<select id="getBranches" resultType="com.sist.erp.vo.BranchVO">
 	
 	</select>
+	<select id="searchBranches" resultType="com.sist.erp.vo.BranchVO">
+	
+	</select>
 </mapper>

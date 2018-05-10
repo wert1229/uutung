@@ -1,6 +1,9 @@
 package com.sist.erp.dao;
 
+import com.sist.erp.vo.MemberVO;
+
 public interface MemberDAO
 {
-	int
+	void addMember(MemberVO m);
+	MemberVO getMember(String email);
 }

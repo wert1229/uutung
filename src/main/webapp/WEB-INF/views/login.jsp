@@ -16,13 +16,13 @@
                         <h3 class="panel-title">로그인이 필요합니다.</h3>
                     </div>
                     <div class="panel-body">
-                        <form role="form">
+                        <form role="form" action="${path}/login" method="POST">
                             <fieldset>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="이메일" name="email" type="email" autofocus>
+                                    <input class="form-control" placeholder="이메일" name="email" type="email" autofocus required>
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="비밀번호" name="password" type="password" value="">
+                                    <input class="form-control" placeholder="비밀번호" name="password" type="password" value="" required>
                                 </div>
                                 <div class="checkbox">
                                     <label>
@@ -30,8 +30,8 @@
                                     </label>
                                 </div>
                                 <!-- Change this to a button or input when using this as a form -->
-                                <a href="#" class="btn btn-lg btn-success btn-block">로그인</a>
-                                <a href="#" class="btn btn-lg btn-info col-md-offset-4" style="margin-top:5px">회원가입</a>
+                                <button type="submit" class="btn btn-lg btn-success btn-block">로그인</button>
+                                <a href="${path}/join" class="btn btn-lg btn-info col-md-offset-4" style="margin-top:5px">회원가입</a>
                             </fieldset>
                         </form>
                     </div>
