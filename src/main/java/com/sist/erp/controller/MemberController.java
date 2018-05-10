@@ -1,15 +1,27 @@
 package com.sist.erp.controller;
 
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.UUID;
+
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpSession;
+
+import org.imgscalr.Scalr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.sist.erp.dao.MemberDAO;
 import com.sist.erp.vo.MemberVO;
+
 
 @Controller
 public class MemberController
@@ -24,10 +36,14 @@ public class MemberController
 	}
 	
 	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public String login(@RequestParam String email) {
+	public String login(String email, String pwd, HttpSession session) {
 		MemberVO m = memberDAO.getMember(email);
 		
-		return "home";
+		if(m.getPwd().equals(pwd)) {
+			session.setAttribute("loginSeq", m.getMseq());
+		}
+		
+		return "redirect:home";
 	}
 	
 	@RequestMapping(value="/join", method=RequestMethod.GET)
@@ -37,11 +53,10 @@ public class MemberController
 	}
 	
 	@RequestMapping(value="/join", method=RequestMethod.POST)
-	public String join(@ModelAttribute MemberVO m, MultipartFile imageFile) {
+	public String join(@ModelAttribute MemberVO m) {
+		memberDAO.addMember(m);
 		
-		
-		
-		return "home";
+		return "redirect:home";
 	}
 	
 	@RequestMapping(value="/edit", method=RequestMethod.GET) 
@@ -56,4 +71,40 @@ public class MemberController
 		return "edit";
 	}
 	
+	@ResponseBody
+	@RequestMapping("/profilePic")
+	public String upload(@RequestParam("file") MultipartFile file, HttpSession session) {
+		UUID uuid = UUID.randomUUID();
+		String originFileName = file.getOriginalFilename();
+		String saveFileName = uuid.toString()+"_"+originFileName;
+		
+		String uploadPath = session.getServletContext().getRealPath("/resources/uploadImg/");
+		String fullPath = uploadPath +saveFileName;
+		
+		String ThumbnailedFilePath = uploadPath+"s_"+saveFileName;
+		String formatName = originFileName.substring(originFileName.indexOf(".")+1);
+		
+		try
+		{
+			file.transferTo(new File(fullPath));
+			makeThumbnail(fullPath, ThumbnailedFilePath, formatName);
+		}
+		catch (IllegalStateException | IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		return ThumbnailedFilePath;
+	}
+	
+	public void makeThumbnail(String filePath, String targetFilePath, String format) throws IOException {
+		BufferedImage originImg = ImageIO.read(new File(filePath));
+		
+		int width = 150;
+		int height = 180;
+		
+		BufferedImage resizedImg = Scalr.resize(originImg, width, height);
+		
+		ImageIO.write(resizedImg, format, new File(targetFilePath));
+	}
 }

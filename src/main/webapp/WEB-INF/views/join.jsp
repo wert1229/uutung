@@ -43,7 +43,29 @@
 			var key = $("#dept").val();
 			
 			window.open("${path}/searchBranch?key="+key, "branch",
-					"width=800, height=500, top=300, left=800, resizable=no, location=no");
+					"width=400, height=500, top=300, left=800, resizable=no, location=no");
+		})
+		
+		$("#upload").change(function(){
+			var formData = new FormData();
+			formData.append("file",$("#upload")[0].files[0]);
+			
+			$.ajax({
+				type: "POST",
+		        url: "${path}/profilePic",
+		        data: formData,
+		        dataType: "text",
+		        processData: false,
+		        contentType: false,
+		        success: function(data) {
+		        	var fileName = data.substring(data.indexOf("uploadImg")+10);
+		        	var imgPath = '${path}/uploadImg/'+fileName;
+		        	var content = '<img src="'+imgPath+'">';
+		        	$("#displayImg").html(content);
+		        	$("#imgPath").val(imgPath);
+		        }
+			});
+			
 		})
 		
 	})
@@ -106,8 +128,9 @@
                                     </div>
                                     <div class="form-group">
                                         <label>사진</label>
-                                        <div style="width:150px; height:180px; border: 1px solid black"></div>
-                                        <input type="file" name="profilePic" required>
+                                        <div id="displayImg" style="width:150px; height:180px; border: 1px solid black"></div>
+                                        <input id="upload" type="file" name="file" required>
+                                        <input id="imgPath" type="hidden" name="img">
                                     </div>
                                     <button id="submit" type="submit" class="btn btn-lg btn-info btn-outline col-lg-offset-5">회원가입</button>
                                 </form>

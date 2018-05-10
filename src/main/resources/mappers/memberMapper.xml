@@ -6,6 +6,11 @@
 <mapper namespace="com.sist.erp.dao.MemberDAO">
 	<insert id="addMember" >
 		INSERT INTO MEMBER VALUES
-		((SELECT NVL(MAX(MSEQ),0)+1 FROM MEMBER),#{email},#{pwd},#{name},#{phone},#{address},'N')
+		((SELECT NVL(MAX(TO_NUMBER(MSEQ)), TO_NUMBER(EXTRACT(YEAR FROM SYSDATE)||'000'))+1 FROM MEMBER WHERE SUBSTR(MSEQ,1,4) = EXTRACT(YEAR FROM SYSDATE)),
+		#{email},#{pwd},#{name},#{dept},#{position},#{phone},#{img},SYSDATE)
 	</insert>
+	
+	<select id="getMember" resultType="com.sist.erp.vo.MemberVO">
+		SELECT * FROM MEMBER WHERE EMAIL=#{email}
+	</select>
 </mapper>

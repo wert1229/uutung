@@ -16,9 +16,9 @@
 	<!--dataSource 추가 -->
  	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
         <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
-        <property name="url" value="jdbc:oracle:thin:@localhost:1521:orcl" />
-        <property name="username" value="spring" />
-        <property name="password" value="111111" />
+        <property name="url" value="jdbc:oracle:thin:@211.238.142.15:1521:orcl" />
+        <property name="username" value="UUTUNG" />
+        <property name="password" value="132435" />
     </bean>
     
     <bean id="dataSourceLogged" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">

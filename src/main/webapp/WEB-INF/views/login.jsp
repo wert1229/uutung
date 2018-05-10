@@ -22,7 +22,7 @@
                                     <input class="form-control" placeholder="이메일" name="email" type="email" autofocus required>
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="비밀번호" name="password" type="password" value="" required>
+                                    <input class="form-control" placeholder="비밀번호" name="pwd" type="password" value="" required>
                                 </div>
                                 <div class="checkbox">
                                     <label>
