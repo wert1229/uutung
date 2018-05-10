@@ -7,11 +7,15 @@ import java.io.IOException;
 import java.util.UUID;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.imgscalr.Scalr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,20 +34,50 @@ public class MemberController
 	MemberDAO memberDAO;
 	
 	@RequestMapping(value="/login", method=RequestMethod.GET)
-	public String login() {
+	public String login(@CookieValue(value="remember", defaultValue="0") String email, Model model) {
+
+		model.addAttribute("remember", email);
 		
 		return "login";
 	}
 	
 	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public String login(String email, String pwd, HttpSession session) {
-		MemberVO m = memberDAO.getMember(email);
+	public String login(String email, String pwd, String remember, HttpSession session, HttpServletResponse response) {
 		
-		if(m.getPwd().equals(pwd)) {
-			session.setAttribute("loginSeq", m.getMseq());
+		session.setAttribute("loginSeq", memberDAO.getMember(email).getMseq());
+
+		if(remember != null) {
+			Cookie cookie = new Cookie("remember", email);
+			cookie.setMaxAge(60*60*24*7);
+			
+			response.addCookie(cookie);
+		}else{
+			Cookie cookie = new Cookie("remember", email);
+			cookie.setMaxAge(0);
+			
+			response.addCookie(cookie);
 		}
 		
-		return "redirect:home";
+		
+		if(session.getAttribute("prevPage")!=null) {
+			String prev = (String)session.getAttribute("prevPage");
+			
+			return "redirect:"+prev;
+		}else{
+			return "redirect:/";
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping("/login/valid")
+	public boolean loginValidate(String email, String pwd)
+	{
+		MemberVO m = memberDAO.getMember(email);
+
+		if(m!=null && m.getPwd().equals(pwd))
+			return true;
+		else
+			return false;
 	}
 	
 	@RequestMapping(value="/join", method=RequestMethod.GET)
@@ -56,7 +90,7 @@ public class MemberController
 	public String join(@ModelAttribute MemberVO m) {
 		memberDAO.addMember(m);
 		
-		return "redirect:home";
+		return "redirect:/";
 	}
 	
 	@RequestMapping(value="/edit", method=RequestMethod.GET) 

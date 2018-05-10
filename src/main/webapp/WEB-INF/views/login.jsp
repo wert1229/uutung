@@ -6,6 +6,47 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <%@include file="/resources/jspf/links.jspf"%>
 <title>Insert title here</title>
+<script>
+	$(function()
+	{
+		$("#form").submit(function(event)
+		{
+			event.preventDefault();
+			
+			$.ajax(
+			{
+				type:"POST",
+				url:"${path}/login/valid",
+				data: 
+				{
+					email: $("#email").val(),
+					pwd: $("#pwd").val()
+				},
+				success: function(login) 
+				{
+					if(login==false)
+					{
+						alert("일치하는 정보가 존재하지않습니다.");
+					}
+					else
+					{
+						$("#form").unbind('submit').submit();
+					}
+				}
+			});
+		});
+		
+		var remember = '${remember}';
+		
+		if(remember!="" && remember!="0")
+		{
+			$("#email").val(remember);
+			$("#remember").attr("checked", true);
+		}	
+		
+	});
+
+</script>
 </head>
 <body>
 	<div class="container">
@@ -16,17 +57,17 @@
                         <h3 class="panel-title">로그인이 필요합니다.</h3>
                     </div>
                     <div class="panel-body">
-                        <form role="form" action="${path}/login" method="POST">
+                        <form id="form" role="form" action="${path}/login" method="POST">
                             <fieldset>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="이메일" name="email" type="email" autofocus required>
+                                    <input id="email" class="form-control" placeholder="이메일" name="email" type="email" autofocus required>
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="비밀번호" name="pwd" type="password" value="" required>
+                                    <input id="pwd" class="form-control" placeholder="비밀번호" name="pwd" type="password" value="" required>
                                 </div>
                                 <div class="checkbox">
                                     <label>
-                                        <input name="remember" type="checkbox" value="Remember Me">Remember Me
+                                        <input id="remember" name="remember" type="checkbox" value="Remember Me">Remember Me
                                     </label>
                                 </div>
                                 <!-- Change this to a button or input when using this as a form -->

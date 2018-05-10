@@ -35,12 +35,12 @@
 	
 	<context:component-scan base-package="com.sist.erp" />
 	
-	<beans:bean id="sampleInterceptor" class="com.sist.erp.interceptor.SampleInterceptor"/>
+	<beans:bean id="loginInterceptor" class="com.sist.erp.interceptor.LoginInterceptor"/>
 	
 	<interceptors>
 		<interceptor>
-			<mapping path="/sample/"/>
-			<beans:ref bean="sampleInterceptor"/>
+			<mapping path="/"/>
+			<beans:ref bean="loginInterceptor"/>
 		</interceptor>
 	</interceptors>	
 	
