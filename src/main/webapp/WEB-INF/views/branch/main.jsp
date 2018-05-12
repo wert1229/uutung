@@ -6,9 +6,19 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <%@include file="/resources/jspf/links.jspf"%>
 <script>
-$(function(){
-	$("#testTable").DataTable();
 	
+$(function(){
+	
+	var page = "${page}";
+	
+	if(page=="") {
+		page = 1;
+	} else {
+		page = parseInt(page);
+	}
+		
+ 	$("#testTable").DataTable().page(page-1).draw('page');
+ 	
 	$("#reg").click(function(){
 		
 		window.open("${path}/branch/new", "addBranch",
@@ -19,7 +29,50 @@ $(function(){
 		
 		location.href="${path}/excelDownload";
 	});
+	
+	$("#del").click(function(){
+		
+		var checkedList=[];
+		var page = $(".paginate_button.active a").text();
+		
+		$("input[type='checkbox']:checked").each(function() {
+			
+			var bseq = $(this).parent().text(); 
+
+			checkedList.push(bseq);
+		});
+		
+		if(checkedList.length==0) {
+			alert("선택된 항목이 없습니다!");
+			return;
+		}
+			
+		$.ajax({
+			type:"POST",
+			url:"${path}/delBranch",
+			data: JSON.stringify(checkedList),
+			contentType : 'application/json; charset=utf-8', 
+			success: function(result){
+				
+				if(result==true)
+				{
+					location.href="${path}/branch?page="+page;
+				}	
+			} 
+		});
+	});
+	
 });
+
+function edit(one)
+{
+	var page = $(".paginate_button.active a").text();
+	
+	var bseq = $(one).parent().prev().text();
+	
+	window.open("${path}/branch/edit?bseq="+bseq+"&page="+page, "addBranch",
+			"width=600, height=600, top=200, left=600, resizable=no, location=no");
+}
 </script>
 <title>Insert title here</title>
 </head>
@@ -50,31 +103,20 @@ $(function(){
                             </thead>
                             <tbody>
                             	<c:forEach items="${blist}" var="b">
-                            	
+                            		<tr>
+	                                    <td><input type="checkbox">${b.bseq}</td>
+	                                    <td><a class="edit" onclick="edit(this)" style="cursor: pointer;">${b.name}</a></td>
+	                                    <td>${b.managerName} (${b.manager})</td>
+	                                    <td>${b.phone}</td>
+	                                    <td>${b.location}</td>
+	                                </tr>
                             	</c:forEach>
-                                <tr>
-                                    <td><input type="checkbox">1</td>
-                                    <td><a href="#">Mark</a></td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                    <td>@fat</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Larry</td>
-                                    <td>the Bird</td>
-                                    <td>@twitter</td>
-                                </tr>
                             </tbody>
                         </table>
                      <div class="col-md-4">
                    		<button id="reg" type="button" class="btn btn-primary" style="margin-right:10px;">등록</button>
-               	    	<button id="excel" type="button" class="btn btn-danger">엑셀 다운</button>
+               	    	<button id="del" type="button" class="btn btn-default" style="margin-right:10px;">선택 삭제</button>
+               	    	<button id="excel" type="button" class="btn btn-default">엑셀 다운</button>
                      </div>
                     </div>
                     <!-- /.panel-body -->

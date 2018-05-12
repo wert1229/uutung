@@ -2,12 +2,11 @@ package com.sist.erp.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,7 +15,7 @@ import org.springframework.web.servlet.View;
 
 import com.google.gson.Gson;
 import com.sist.erp.dao.BranchDAO;
-import com.sist.erp.util.ExcelDown;
+import com.sist.erp.util.BranchExcelDown;
 import com.sist.erp.vo.BranchVO;
 
 @Controller
@@ -26,11 +25,16 @@ public class BranchController
 	private BranchDAO branchDAO;
 	
 	@RequestMapping(value="/branch", method=RequestMethod.GET)
-	public String branchHome(Model model)
+	public String branchHome(Model model, String page)
 	{
-		List<BranchVO> branchList = branchDAO.getBranches();
+		List<BranchVO> blist = branchDAO.getBranches();
 		
-		model.addAttribute("branchList",branchList);
+		if(page!=null)
+		{
+			model.addAttribute("page", page);
+		}
+		
+		model.addAttribute("blist",blist);
 		
 		return "branch/main";
 	}
@@ -41,15 +45,56 @@ public class BranchController
 		return "branch/addBranch";
 	}
 	
+	@RequestMapping(value="/branch/edit", method=RequestMethod.GET)
+	public String editBranch(Model model, String bseq, String page) {
+		 
+		BranchVO b = branchDAO.getBranch(bseq);
+		
+		model.addAttribute("page", page);
+		model.addAttribute("branch", b);
+		
+		return "branch/editBranch";
+	}
+	
 	@RequestMapping(value="/branch", method=RequestMethod.POST)
-	public String addBranch(@ModelAttribute BranchVO b, HttpServletRequest request)
+	public String addBranch(@ModelAttribute BranchVO b, Model model)
 	{
 		branchDAO.addBranch(b);
 		
-		request.setAttribute("flag", "1");
+		model.addAttribute("flag", "1");
 		
 		return "branch/addBranch";
 	}
+	
+	@RequestMapping(value="/branch/edit", method=RequestMethod.POST)
+	public String editBranch(@ModelAttribute BranchVO b, String page, Model model) {
+		
+		branchDAO.updateBranch(b);
+		
+		model.addAttribute("flag", "1");
+		model.addAttribute("page", page);
+		
+		return "branch/editBranch";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/delBranch", method=RequestMethod.POST)
+	public boolean delBranch(@RequestBody String checkList)
+	{
+		System.out.println(checkList);
+		
+		Gson gson = new Gson();
+		
+		String[] list = gson.fromJson(checkList, String[].class);
+		
+		for(String bseq : list)
+		{
+			branchDAO.delBranch(bseq);
+		}
+		
+		return true;
+	}
+	
 	
 	@RequestMapping(value="/searchBranch", method=RequestMethod.GET)
 	public String searchBranch()
@@ -77,6 +122,6 @@ public class BranchController
 		
 		model.addAttribute("blist", blist);
 		
-		return new ExcelDown();
+		return new BranchExcelDown();
 	}
 }

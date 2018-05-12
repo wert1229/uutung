@@ -17,7 +17,7 @@ import org.springframework.web.servlet.view.document.AbstractXlsView;
 
 import com.sist.erp.vo.BranchVO;
 
-public class ExcelDown extends AbstractXlsView
+public class BranchExcelDown extends AbstractXlsView
 {
 	@Override
 	protected void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request,

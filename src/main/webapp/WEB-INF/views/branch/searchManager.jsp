@@ -46,15 +46,26 @@
 				}
 				
 				$("#content").html(content);
+				
+				$("#testTable").DataTable({
+					searching : false,
+					ordering : false,
+					lengthChange : false,
+					info : false
+				});
 			} 
 		});
 	}
 	
 	function select(one){
+		var mseq = $(one).children("td:eq(0)").text();
+		var name = $(one).children("td:eq(1)").text();
 		
-		var value = $(one).children("td:eq(0)").text();
+		var value = mseq +" ("+name+")";
 		
-		$("#manager", opener.document).val(value);
+		$("#managerName", opener.document).val(value);
+		$("#manager", opener.document).val(mseq);
+		
 		window.close();
 	}
 </script>

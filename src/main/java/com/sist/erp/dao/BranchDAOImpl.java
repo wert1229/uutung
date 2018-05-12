@@ -33,4 +33,22 @@ public class BranchDAOImpl implements BranchDAO
 		
 		return session.getMapper(BranchDAO.class).searchBranches(realKey);
 	}
+
+	@Override
+	public void delBranch(String bseq)
+	{
+		session.getMapper(BranchDAO.class).delBranch(bseq);
+	}
+
+	@Override
+	public BranchVO getBranch(String bseq)
+	{
+		return session.getMapper(BranchDAO.class).getBranch(bseq);
+	}
+
+	@Override
+	public void updateBranch(BranchVO b)
+	{
+		session.getMapper(BranchDAO.class).updateBranch(b);;
+	}
 }

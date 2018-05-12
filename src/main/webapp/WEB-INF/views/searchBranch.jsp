@@ -9,7 +9,7 @@
 <script>
 	$(function(){
 		$("#search").click();
-	})
+	});
 	
 	function search(){
 		var key = $("#key").val();
@@ -46,13 +46,20 @@
 				}
 				
 				$("#content").html(content);
+				
+				$("#testTable").DataTable({
+					searching : false,
+					ordering : false,
+					lengthChange : false,
+					info : false
+				});
 			} 
 		});
 	}
 	
 	function select(one){
 		
-		var value = $(one).children("td:eq(0)").text();
+		var value = $(one).children("td:eq(1)").text();
 		
 		$("#dept", opener.document).val(value);
 		window.close();
