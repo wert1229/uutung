@@ -13,4 +13,8 @@
 	<select id="getMember" resultType="com.sist.erp.vo.MemberVO">
 		SELECT * FROM MEMBER WHERE EMAIL=#{email}
 	</select>
+	
+	<select id="searchMembers" resultType="com.sist.erp.vo.MemberVO">
+		SELECT * FROM MEMBER WHERE NAME LIKE #{key} ORDER BY MSEQ DESC
+	</select>
 </mapper>

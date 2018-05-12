@@ -5,13 +5,15 @@
   
 <mapper namespace="com.sist.erp.dao.BranchDAO">
 	<insert id="addBranch" >
-		INSERT INTO CUSTOMERS VALUES
-		((SELECT NVL(MAX(CUSID),0)+1 FROM CUSTOMERS),#{email},#{pwd},#{name},#{phone},#{address},'N')
+		INSERT INTO BRANCH VALUES
+			((SELECT NVL(MAX(TO_NUMBER(BSEQ)),0)+1 FROM BRANCH), #{name}, #{manager}, #{phone}, #{location})
 	</insert>
+	
 	<select id="getBranches" resultType="com.sist.erp.vo.BranchVO">
-	
+		SELECT * FROM BRANCH ORDER BY BSEQ DESC
 	</select>
-	<select id="searchBranches" resultType="com.sist.erp.vo.BranchVO">
 	
+	<select id="searchBranches" resultType="com.sist.erp.vo.BranchVO">
+		SELECT * FROM BRANCH WHERE NAME LIKE #{key} ORDER BY BSEQ DESC
 	</select>
 </mapper>

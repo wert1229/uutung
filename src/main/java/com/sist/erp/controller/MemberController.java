@@ -1,17 +1,11 @@
 package com.sist.erp.controller;
 
+import java.util.List;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.UUID;
-
-import javax.imageio.ImageIO;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.imgscalr.Scalr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,9 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.Gson;
 import com.sist.erp.dao.MemberDAO;
+import com.sist.erp.util.IOUtil;
 import com.sist.erp.vo.MemberVO;
-
 
 @Controller
 public class MemberController
@@ -88,57 +83,39 @@ public class MemberController
 	
 	@RequestMapping(value="/join", method=RequestMethod.POST)
 	public String join(@ModelAttribute MemberVO m) {
+		
 		memberDAO.addMember(m);
 		
 		return "redirect:/";
 	}
 	
-	@RequestMapping(value="/edit", method=RequestMethod.GET) 
-	public String edit() {
-		
-		return "edit";
-	}
-	
-	@RequestMapping(value="/edit", method=RequestMethod.POST) 
-	public String edit(@ModelAttribute MemberVO m) {
-		
-		return "edit";
-	}
-	
 	@ResponseBody
 	@RequestMapping("/profilePic")
 	public String upload(@RequestParam("file") MultipartFile file, HttpSession session) {
-		UUID uuid = UUID.randomUUID();
-		String originFileName = file.getOriginalFilename();
-		String saveFileName = uuid.toString()+"_"+originFileName;
 		
-		String uploadPath = session.getServletContext().getRealPath("/resources/uploadImg/");
-		String fullPath = uploadPath +saveFileName;
+		String path = "/resources/uploadImg/";
 		
-		String ThumbnailedFilePath = uploadPath+"s_"+saveFileName;
-		String formatName = originFileName.substring(originFileName.indexOf(".")+1);
-		
-		try
-		{
-			file.transferTo(new File(fullPath));
-			makeThumbnail(fullPath, ThumbnailedFilePath, formatName);
-		}
-		catch (IllegalStateException | IOException e)
-		{
-			e.printStackTrace();
-		}
+		String ThumbnailedFilePath = IOUtil.fileUpload(file, session, path);
 		
 		return ThumbnailedFilePath;
 	}
 	
-	public void makeThumbnail(String filePath, String targetFilePath, String format) throws IOException {
-		BufferedImage originImg = ImageIO.read(new File(filePath));
+	@RequestMapping(value="/searchManager", method=RequestMethod.GET)
+	public String searchBranch()
+	{
+		return "branch/searchManager";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/searchManager", method=RequestMethod.POST, produces = "application/text; charset=utf8")
+	public String searchBranch(@RequestParam String key)
+	{
+		Gson gson = new Gson();
 		
-		int width = 150;
-		int height = 180;
+		List<MemberVO> mlist = memberDAO.searchMembers(key);
 		
-		BufferedImage resizedImg = Scalr.resize(originImg, width, height);
-		
-		ImageIO.write(resizedImg, format, new File(targetFilePath));
+		String mlistJson = gson.toJson(mlist);
+
+		return mlistJson;
 	}
 }

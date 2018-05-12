@@ -29,6 +29,8 @@ public class BranchDAOImpl implements BranchDAO
 	@Override
 	public List<BranchVO> searchBranches(String key)
 	{
-		return session.getMapper(BranchDAO.class).searchBranches(key);
+		String realKey = "%"+key+"%";
+		
+		return session.getMapper(BranchDAO.class).searchBranches(realKey);
 	}
 }

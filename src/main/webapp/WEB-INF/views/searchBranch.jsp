@@ -16,21 +16,23 @@
 		
 		$.ajax({
 			type:"POST",
-			url:"${path}/branchSearch",
+			url:"${path}/searchBranch",
 			dataType : 'json',
-			data: key,
+			data: { "key" : key},
 			success: function(blist){
 				var content="";
 				
 				if(blist.length != 0)
 				{	
 					content+='<table class="table table-striped table-bordered table-hover" id="testTable">';
-					content+='<thead><tr><th>매장명</th></tr></thead>';
+					content+='<thead><tr><th>매장코드</th><th>매장명</th><th>주소</th></tr></thead>';
 					content+='<tbody>';
 					
 					for(var i in blist){
-						content+='<tr>';
-						content+='<td onclick="select()">'+ blist[i].name +'</td>';
+						content+='<tr onclick="select(this)">';
+						content+='<td>'+ blist[i].bseq +'</td>';
+						content+='<td>'+ blist[i].name +'</td>';
+						content+='<td>'+ blist[i].location +'</td>';
 						content+='</tr>';
 						
 					}
@@ -48,8 +50,10 @@
 		});
 	}
 	
-	function select(){
-		var value = $(this).text();
+	function select(one){
+		
+		var value = $(one).children("td:eq(0)").text();
+		
 		$("#dept", opener.document).val(value);
 		window.close();
 	}

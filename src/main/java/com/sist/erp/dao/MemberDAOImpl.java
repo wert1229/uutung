@@ -1,5 +1,7 @@
 package com.sist.erp.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -22,5 +24,13 @@ public class MemberDAOImpl implements MemberDAO
 	public MemberVO getMember(String email)
 	{
 		return session.getMapper(MemberDAO.class).getMember(email);
+	}
+
+	@Override
+	public List<MemberVO> searchMembers(String key)
+	{
+		String realKey = "%"+key+"%"; 
+		
+		return session.getMapper(MemberDAO.class).searchMembers(realKey);
 	}
 }
