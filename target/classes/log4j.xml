@@ -32,6 +32,18 @@
         <appender-ref ref="console-infolog"/>  
     </logger>
     
+    <logger name="jdbc.audit">
+      <level value="off"/>
+  	</logger>
+    
+    <logger name="jdbc.resultset">
+      <level value="off"/>
+  	</logger>
+  	
+  	<logger name="jdbc.connection">
+      <level value="off"/>
+  	</logger>
+    
     <logger name="jdbc.resultsettable" additivity="false">  
         <level value="INFO"/>  
         <appender-ref ref="console"/>  
@@ -56,7 +68,7 @@
 
 	<!-- Root Logger -->
 	<root>
-		<priority value="debug" />
+		<priority value="info" />
 		<appender-ref ref="console" />
 	</root>
 	

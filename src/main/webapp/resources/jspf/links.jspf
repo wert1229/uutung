@@ -24,6 +24,6 @@
 <!-- MetisMenu JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/metisMenu/2.7.7/metisMenu.js"></script>
 <!-- DataTables JS -->
-<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script src="${path}/js/jquery.dataTables.min.js"></script>
 <script src="${path}/js/dataTables.bootstrap.min.js"></script>
 <script src="${path}/js/dataTables.responsive.js"></script>
