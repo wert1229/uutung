@@ -33,7 +33,7 @@ public class MemberController
 
 		model.addAttribute("remember", email);
 		
-		return "login";
+		return "member/login";
 	}
 	
 	@RequestMapping(value="/login", method=RequestMethod.POST)
@@ -78,7 +78,7 @@ public class MemberController
 	@RequestMapping(value="/join", method=RequestMethod.GET)
 	public String join() {
 		
-		return "join";
+		return "member/join";
 	}
 	
 	@RequestMapping(value="/join", method=RequestMethod.POST)

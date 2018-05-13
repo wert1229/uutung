@@ -27,7 +27,7 @@ $(function(){
 	
 	$("#excel").click(function(){
 		
-		location.href="${path}/excel";
+		location.href="${path}/excelDownload";
 	});
 	
 	$("#del").click(function(){
@@ -49,14 +49,14 @@ $(function(){
 			
 		$.ajax({
 			type:"POST",
-			url:"${path}/delete",
+			url:"${path}/delBranch",
 			data: JSON.stringify(checkedList),
 			contentType : 'application/json; charset=utf-8', 
 			success: function(result){
 				
 				if(result==true)
 				{
-					location.href="${path}/branch/"+page;
+					location.href="${path}/branch?page="+page;
 				}	
 			} 
 		});
@@ -70,7 +70,7 @@ function edit(one)
 	
 	var bseq = $(one).parent().prev().text();
 	
-	window.open("${path}/branch/edit?page="+page+"&bseq="+bseq, "addBranch",
+	window.open("${path}/branch/edit?bseq="+bseq+"&page="+page, "addBranch",
 			"width=600, height=600, top=200, left=600, resizable=no, location=no");
 }
 </script>

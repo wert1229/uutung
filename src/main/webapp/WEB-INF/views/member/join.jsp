@@ -42,7 +42,7 @@
 		$("#search").click(function(){
 			var key = $("#dept").val();
 			
-			window.open("${path}/searchBranch?key="+key, "searchBranch",
+			window.open("${path}/branch/searchBranch?key="+key, "searchBranch",
 					"width=400, height=500, top=300, left=800, resizable=no, location=no");
 		})
 		

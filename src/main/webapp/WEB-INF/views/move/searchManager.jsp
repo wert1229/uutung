@@ -9,30 +9,30 @@
 <script>
 	$(function(){
 		$("#search").click();
-	});
+	})
 	
 	function search(){
 		var key = $("#key").val();
-		
+
 		$.ajax({
 			type:"POST",
-			url:"${path}/searchBranch",
+			url:"${path}/searchManager",
 			dataType : 'json',
 			data: { "key" : key},
-			success: function(blist){
+			success: function(mlist){
 				var content="";
 				
-				if(blist.length != 0)
+				if(mlist.length != 0)
 				{	
 					content+='<table class="table table-striped table-bordered table-hover" id="testTable">';
-					content+='<thead><tr><th>매장코드</th><th>매장명</th><th>주소</th></tr></thead>';
+					content+='<thead><tr><th>사번</th><th>이름</th><th>직급</th></tr></thead>';
 					content+='<tbody>';
 					
-					for(var i in blist){
+					for(var i in mlist){
 						content+='<tr onclick="select(this)">';
-						content+='<td>'+ blist[i].bseq +'</td>';
-						content+='<td>'+ blist[i].name +'</td>';
-						content+='<td>'+ blist[i].location +'</td>';
+						content+='<td>'+ mlist[i].mseq +'</td>';
+						content+='<td>'+ mlist[i].name +'</td>';
+						content+='<td>'+ mlist[i].position +'</td>';
 						content+='</tr>';
 						
 					}
@@ -58,10 +58,14 @@
 	}
 	
 	function select(one){
+		var mseq = $(one).children("td:eq(0)").text();
+		var name = $(one).children("td:eq(1)").text();
 		
-		var value = $(one).children("td:eq(1)").text();
+		var value = mseq +" ("+name+")";
 		
-		$("#dept", opener.document).val(value);
+		$("#managerName", opener.document).val(value);
+		$("#manager", opener.document).val(mseq);
+		
 		window.close();
 	}
 </script>
@@ -72,7 +76,7 @@
             <div class="col-md-4 col-md-offset-4">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">매장 검색</h3>
+                        <h3 class="panel-title">담당자 검색</h3>
                     </div>
                     <div class="panel-body">
 	                    <div class="form-group input-group">
