@@ -94,11 +94,16 @@ function edit(one)
                         <table class="table table-striped table-bordered table-hover" id="testTable">
                             <thead>
                                 <tr>
-                                    <th>매장 코드</th>
-                                    <th>매장 이름</th>
-                                    <th>매장 관리자</th>
-                                    <th>매장 연락처</th>
-                                    <th>매장 위치</th>
+                                    <th>결재 코드</th>
+                                    <th>제목</th>
+                                    <th>기안자</th>
+                                    <th>결재자</th>
+                                    <th>대상 매장</th>
+                                    <th>물품</th>
+                                    <th>물품 납기일</th>
+                                    <th>진행 현황</th>
+                                    <th>결재 만료일</th>
+                                    <th>결재 등록일</th>
                                 </tr>
                             </thead>
                             <tbody>

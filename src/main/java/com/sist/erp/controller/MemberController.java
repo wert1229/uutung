@@ -26,7 +26,7 @@ import com.sist.erp.vo.MemberVO;
 public class MemberController
 {
 	@Autowired
-	MemberDAO memberDAO;
+	private MemberDAO memberDAO;
 	
 	@RequestMapping(value="/login", method=RequestMethod.GET)
 	public String login(@CookieValue(value="remember", defaultValue="0") String email, Model model) {

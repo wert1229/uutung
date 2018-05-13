@@ -6,7 +6,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <%@include file="/resources/jspf/links.jspf"%>
 <script>
-	
+
+var childWin;
+
 $(function(){
 	
 	var page = "${page}";
@@ -21,7 +23,7 @@ $(function(){
  	
 	$("#reg").click(function(){
 		
-		window.open("${path}/branch/new", "addBranch",
+		childWin = window.open("${path}/branch/new", "addBranch",
 				"width=600, height=600, top=200, left=600, resizable=no, location=no");
 	});
 	
@@ -49,20 +51,23 @@ $(function(){
 			
 		$.ajax({
 			type:"POST",
-			url:"${path}/delete",
+			url:"${path}/branch/delete",
 			data: JSON.stringify(checkedList),
 			contentType : 'application/json; charset=utf-8', 
 			success: function(result){
 				
 				if(result==true)
 				{
-					location.href="${path}/branch/"+page;
+					location.href="${path}/branch?page="+page;
 				}	
 			} 
 		});
 	});
-	
 });
+
+window.onunload=function(){
+	childWin.close();
+};
 
 function edit(one)
 {

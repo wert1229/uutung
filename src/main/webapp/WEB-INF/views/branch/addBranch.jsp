@@ -7,22 +7,28 @@
 <%@include file="/resources/jspf/links.jspf"%>
 <title>Insert title here</title>
 <script>
-	$(function(){
-		var flag = "${flag}";
+var childWin;
+
+$(function(){
+	var flag = "${flag}";
+	
+	if(flag =="1")
+	{
+		$(opener.location).attr("href", "${path}/branch");
+		window.close();			
+	}	
+	
+	$("#search").click(function(){
+		var key = $("#manager").val();
 		
-		if(flag =="1")
-		{
-			$(opener.location).attr("href", "${path}/branch");
-			window.close();			
-		}	
-		
-		$("#search").click(function(){
-			var key = $("#manager").val();
-			
-			window.open("${path}/searchManager?key="+key, "searchManager",
-					"width=400, height=500, top=300, left=800, resizable=no, location=no");
-		});
+		childWin = window.open("${path}/searchManager?key="+key, "searchManager",
+				"width=400, height=500, top=300, left=800, resizable=no, location=no");
 	});
+});
+
+window.onunload=function(){
+	childWin.close();
+};
 </script>
 </head>
 <body>
