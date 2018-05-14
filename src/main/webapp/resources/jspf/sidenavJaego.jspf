@@ -25,13 +25,10 @@
                 <a href="#"><i class="fa fa-share-alt fa-fw"></i> 재고 이동<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                 	<li>
-                        <a href="${path}/move"><i class="fa fa-angle-right fa-fw"></i> 이동 조회</a>
+                        <a href="${path}/move"><i class="fa fa-angle-right fa-fw"></i> 재고 이동 조회</a>
                     </li>
                     <li>
-                        <a href="${path}/move/out"><i class="fa fa-angle-right fa-fw"></i> 재고 불출 등록</a>
-                    </li>
-                    <li>
-                        <a href="${path}/move/in"><i class="fa fa-angle-right fa-fw"></i> 재고 요청 등록</a>
+                        <a href="${path}/move/new"><i class="fa fa-angle-right fa-fw"></i> 재고 이동 등록</a>
                     </li>
                 </ul>
             </li>

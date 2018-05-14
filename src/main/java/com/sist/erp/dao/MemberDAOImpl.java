@@ -33,4 +33,10 @@ public class MemberDAOImpl implements MemberDAO
 		
 		return session.getMapper(MemberDAO.class).searchMembers(realKey);
 	}
+
+	@Override
+	public MemberVO getMemberBySeq(String mseq)
+	{
+		return session.getMapper(MemberDAO.class).getMemberBySeq(mseq);
+	}
 }

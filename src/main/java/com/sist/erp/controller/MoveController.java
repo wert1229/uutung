@@ -2,6 +2,8 @@ package com.sist.erp.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.View;
 
+import com.sist.erp.dao.MemberDAO;
 import com.sist.erp.dao.MoveDAO;
 import com.sist.erp.util.MoveExcelDown;
 import com.sist.erp.vo.MoveVO;
@@ -20,6 +23,8 @@ public class MoveController
 {
 	@Autowired
 	private MoveDAO moveDAO;
+	@Autowired
+	private MemberDAO memberDAO;
 	
 	@RequestMapping(value="", method=RequestMethod.GET)
 	public String moveHome(Model model, String page)
@@ -37,9 +42,15 @@ public class MoveController
 	}
 	
 	@RequestMapping("/new")
-	public String addBranch() {
+	public String addBranch(Model model, HttpSession session) {
 		
-		return "move/addMove";
+		String mseq = (String)session.getAttribute("loginSeq");
+		
+		String slaveName = memberDAO.getMemberBySeq(mseq).getName();
+		
+		model.addAttribute("slave", slaveName);
+		
+		return "move/addMove2";
 	}
 	
 	@RequestMapping(value="/detail", method=RequestMethod.GET)
@@ -92,13 +103,19 @@ public class MoveController
 		return true;
 	}*/
 	
-	/*@RequestMapping(value="/searchBranch", method=RequestMethod.GET)
+	@RequestMapping(value="/searchBranch", method=RequestMethod.GET)
 	public String searchBranch()
 	{
-		return "member/searchBranch";
+		return "move/searchBranch";
 	}
 	
-	@ResponseBody
+	@RequestMapping(value="/searchApprovers", method=RequestMethod.GET)
+	public String searchApprovers()
+	{
+		return "move/searchApprovers";
+	}
+	
+	/*@ResponseBody
 	@RequestMapping(value="/searchBranch", method=RequestMethod.POST, produces = "application/text; charset=utf8")
 	public String searchBranch(String key)
 	{
