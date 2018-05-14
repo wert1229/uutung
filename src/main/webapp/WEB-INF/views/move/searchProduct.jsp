@@ -16,28 +16,25 @@
 
 		$.ajax({
 			type:"POST",
-			url:"${path}/searchClient",
+			url:"${path}/searchProduct",
 			dataType : 'json',
 			data: { "key" : key},
-			success: function(clist){
+			success: function(plist){
 				var content="";
 				
-				if(clist.length != 0)
+				if(plist.length != 0)
 				{	
 					content+='<table class="table table-striped table-bordered table-hover" id="testTable">';
-					content+='<thead><tr><th>거래처코드</th><th>이름</th><th>대표</th><th>연락처</th><th>담당자</th><th>비고</th></tr></thead>';
+					content+='<thead><tr><th>물품코드</th><th>품목명</th><th>분류</th><th>비고</th></tr></thead>';
 					content+='<tbody>';
 					
-					for(var i in clist){
+					for(var i in plist){
 						content+='<tr onclick="select(this)">';
-						content+='<td>'+ clist[i].cseq +'</td>';
-						content+='<td>'+ clist[i].name +'</td>';
-						content+='<td>'+ clist[i].owner +'</td>';
-						content+='<td>'+ clist[i].phone +'</td>';
-						content+='<td>'+ '담당자아무개' +'</td>';
-						content+='<td>'+ clist[i].note +'</td>';
+						content+='<td>'+ plist[i].pseq +'</td>';
+						content+='<td>'+ plist[i].name +'</td>';
+						content+='<td>'+ plist[i].category +'</td>';
+						content+='<td>'+ plist[i].note +'</td>';
 						content+='</tr>';
-						
 					}
 					
 					content+='</tbody>';
@@ -55,27 +52,24 @@
 					ordering : false,
 					lengthChange : false,
 					info : false
-				});
+				}).page.len(10).draw();
 			} 
 		});
 	}
 	
 	function select(one){
-		var client = $(one).children("td");
+		var no = parseInt("${no}")-1;
+		var product = $(one).children("td");
 		
-		var cseq = $(client).eq(0).text();
-		var name = $(client).eq(1).text();
-		var owner = $(client).eq(2).text();;
-		var phone = $(client).eq(3).text();;
-		var charge = $(client).eq(4).text();;
-		var note = $(client).eq(5).text();;
+		var pseq = $(product).eq(0).text();
+		var name = $(product).eq(1).text();
+		var category = $(product).eq(2).text();;
+		var note = $(product).eq(3).text();;
 		
-		$("#cseq", opener.document).val(cseq);
-		$("#name", opener.document).text(name);
-		$("#owner", opener.document).text(owner);
-		$("#phone", opener.document).text(phone);
-		$("#charge", opener.document).text(charge);
-		$("#note", opener.document).text(note);
+		$(".productList:eq("+no+") .pseq", opener.document).val(pseq);
+		$(".productList:eq("+no+") .name", opener.document).text(name);
+		$(".productList:eq("+no+") .category", opener.document).text(category);
+		$(".productList:eq("+no+") .note", opener.document).val(note);
 		
 		window.close();
 	}
@@ -87,7 +81,7 @@
             <div class="col-md-4 col-md-offset-4">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">거래처 검색</h3>
+                        <h3 class="panel-title">품목 검색</h3>
                     </div>
                     <div class="panel-body">
 	                    <div class="form-group input-group">

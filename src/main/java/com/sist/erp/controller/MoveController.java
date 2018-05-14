@@ -50,7 +50,7 @@ public class MoveController
 		
 		model.addAttribute("slave", slaveName);
 		
-		return "move/addMove2";
+		return "move/addMove";
 	}
 	
 	@RequestMapping(value="/detail", method=RequestMethod.GET)
@@ -74,35 +74,6 @@ public class MoveController
 		return "move/addMove";
 	}
 	
-	/*@RequestMapping(value="/edit", method=RequestMethod.POST)
-	public String editBranch(@ModelAttribute BranchVO b, String page, Model model) {
-		
-		branchDAO.updateBranch(b);
-		
-		model.addAttribute("flag", "1");
-		model.addAttribute("page", page);
-		
-		return "branch/editBranch";
-	}*/
-	
-	/*@ResponseBody
-	@RequestMapping(value="/delete", method=RequestMethod.POST)
-	public boolean delBranch(@RequestBody String checkList)
-	{
-		System.out.println(checkList);
-		
-		Gson gson = new Gson();
-		
-		String[] list = gson.fromJson(checkList, String[].class);
-		
-		for(String bseq : list)
-		{
-			branchDAO.delBranch(bseq);
-		}
-		
-		return true;
-	}*/
-	
 	@RequestMapping(value="/searchBranch", method=RequestMethod.GET)
 	public String searchBranch()
 	{
@@ -115,18 +86,13 @@ public class MoveController
 		return "move/searchApprovers";
 	}
 	
-	/*@ResponseBody
-	@RequestMapping(value="/searchBranch", method=RequestMethod.POST, produces = "application/text; charset=utf8")
-	public String searchBranch(String key)
+	@RequestMapping(value="/searchProduct", method=RequestMethod.GET)
+	public String searchClient(String no, Model model)
 	{
-		Gson gson = new Gson();
+		model.addAttribute("no", no);
 		
-		List<BranchVO> blist = branchDAO.searchBranches(key);
-		
-		String blistJson = gson.toJson(blist);
-		
-		return blistJson;
-	}*/
+		return "move/searchProduct";
+	}
 	
 	@RequestMapping("/excel")
 	public View excelDownload(Model model)

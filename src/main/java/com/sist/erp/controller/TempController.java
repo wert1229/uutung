@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.sist.erp.dao.TempDAO;
-import com.sist.erp.vo.BranchVO;
 import com.sist.erp.vo.TempVO;
 
 @Controller
@@ -19,22 +18,16 @@ public class TempController
 	@Autowired
 	private TempDAO tempDAO;
 	
-	@RequestMapping(value="/searchClient", method=RequestMethod.GET)
-	public String searchClient()
-	{
-		return "move/searchClient";
-	}
-	
 	@ResponseBody
-	@RequestMapping(value="/searchClient", method=RequestMethod.POST, produces = "application/text; charset=utf8")
+	@RequestMapping(value="/searchProduct", method=RequestMethod.POST, produces = "application/text; charset=utf8")
 	public String searchClient(String key)
 	{
 		Gson gson = new Gson();
 		
-		List<TempVO> clist = tempDAO.searchClient(key);
+		List<TempVO> plist = tempDAO.searchProduct(key);
 		
-		String clistJson = gson.toJson(clist);
+		String plistJson = gson.toJson(plist);
 		
-		return clistJson;
+		return plistJson;
 	}
 }

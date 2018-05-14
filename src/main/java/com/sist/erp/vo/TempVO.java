@@ -2,20 +2,20 @@ package com.sist.erp.vo;
 
 public class TempVO
 {
-	private String cseq;
+	private String pseq;
 	private String name;
-	private String owner;
-	private String phone;
-	private String charge;
+	private String img;
+	private String category;
 	private String note;
+	private String state;
 	
-	public String getCseq()
+	public String getPseq()
 	{
-		return cseq;
+		return pseq;
 	}
-	public void setCseq(String cseq)
+	public void setPseq(String pseq)
 	{
-		this.cseq = cseq;
+		this.pseq = pseq;
 	}
 	public String getName()
 	{
@@ -25,29 +25,21 @@ public class TempVO
 	{
 		this.name = name;
 	}
-	public String getOwner()
+	public String getImg()
 	{
-		return owner;
+		return img;
 	}
-	public void setOwner(String owner)
+	public void setImg(String img)
 	{
-		this.owner = owner;
+		this.img = img;
 	}
-	public String getPhone()
+	public String getCategory()
 	{
-		return phone;
+		return category;
 	}
-	public void setPhone(String phone)
+	public void setCategory(String category)
 	{
-		this.phone = phone;
-	}
-	public String getCharge()
-	{
-		return charge;
-	}
-	public void setCharge(String charge)
-	{
-		this.charge = charge;
+		this.category = category;
 	}
 	public String getNote()
 	{
@@ -56,5 +48,13 @@ public class TempVO
 	public void setNote(String note)
 	{
 		this.note = note;
+	}
+	public String getState()
+	{
+		return state;
+	}
+	public void setState(String state)
+	{
+		this.state = state;
 	}
 }

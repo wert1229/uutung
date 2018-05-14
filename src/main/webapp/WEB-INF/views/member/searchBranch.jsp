@@ -59,11 +59,15 @@
 	
 	function select(one){
 		
-		var value = $(one).children("td:eq(1)").text();
+		var deptSeq = $(one).children("td:eq(0)").text();
+		var deptName = $(one).children("td:eq(1)").text();
 		
-		$("#dept", opener.document).val(value);
+		$("#deptSeq", opener.document).val(deptSeq);
+		$("#deptName", opener.document).val(deptName);
+		
 		window.close();
 	}
+	
 </script>
 </head>
 <body>
