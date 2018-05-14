@@ -21,13 +21,12 @@ $(function(){
  	
 	$("#reg").click(function(){
 		
-		window.open("${path}/branch/new", "addBranch",
-				"width=600, height=600, top=200, left=600, resizable=no, location=no");
+		location.href="${path}/move/new";
 	});
 	
 	$("#excel").click(function(){
 		
-		location.href="${path}/excelDownload";
+		location.href="${path}/move/excel";
 	});
 	
 	$("#del").click(function(){
@@ -96,20 +95,17 @@ function edit(one)
                                 <tr>
                                     <th>결재 코드</th>
                                     <th>제목</th>
-                                    <th>기안자</th>
-                                    <th>결재자</th>
                                     <th>대상 매장</th>
+                                    <th>종류</th>
                                     <th>물품</th>
                                     <th>물품 납기일</th>
                                     <th>진행 현황</th>
-                                    <th>결재 만료일</th>
-                                    <th>결재 등록일</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            	<c:forEach items="${blist}" var="b">
+                            	<c:forEach items="${mlist}" var="m">
                             		<tr>
-	                                    <td><input type="checkbox">${b.bseq}</td>
+	                                    <td>${m.mseq}</td>
 	                                    <td><a class="edit" onclick="edit(this)" style="cursor: pointer;">${b.name}</a></td>
 	                                    <td>${b.managerName} (${b.manager})</td>
 	                                    <td>${b.phone}</td>
@@ -120,7 +116,6 @@ function edit(one)
                         </table>
                      <div class="col-md-4">
                    		<button id="reg" type="button" class="btn btn-primary" style="margin-right:10px;">등록</button>
-               	    	<button id="del" type="button" class="btn btn-default" style="margin-right:10px;">선택 삭제</button>
                	    	<button id="excel" type="button" class="btn btn-default">엑셀 다운</button>
                      </div>
                     </div>

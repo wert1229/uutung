@@ -29,7 +29,7 @@ $(function(){
 	
 	$("#excel").click(function(){
 		
-		location.href="${path}/excel";
+		location.href="${path}/branch/excel";
 	});
 	
 	$("#del").click(function(){

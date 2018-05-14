@@ -16,23 +16,26 @@
 
 		$.ajax({
 			type:"POST",
-			url:"${path}/searchManager",
+			url:"${path}/searchClient",
 			dataType : 'json',
 			data: { "key" : key},
-			success: function(mlist){
+			success: function(clist){
 				var content="";
 				
-				if(mlist.length != 0)
+				if(clist.length != 0)
 				{	
 					content+='<table class="table table-striped table-bordered table-hover" id="testTable">';
-					content+='<thead><tr><th>사번</th><th>이름</th><th>직급</th></tr></thead>';
+					content+='<thead><tr><th>거래처코드</th><th>이름</th><th>대표</th><th>연락처</th><th>담당자</th><th>비고</th></tr></thead>';
 					content+='<tbody>';
 					
-					for(var i in mlist){
+					for(var i in clist){
 						content+='<tr onclick="select(this)">';
-						content+='<td>'+ mlist[i].mseq +'</td>';
-						content+='<td>'+ mlist[i].name +'</td>';
-						content+='<td>'+ mlist[i].position +'</td>';
+						content+='<td>'+ clist[i].cseq +'</td>';
+						content+='<td>'+ clist[i].name +'</td>';
+						content+='<td>'+ clist[i].owner +'</td>';
+						content+='<td>'+ clist[i].phone +'</td>';
+						content+='<td>'+ '담당자아무개' +'</td>';
+						content+='<td>'+ clist[i].note +'</td>';
 						content+='</tr>';
 						
 					}
@@ -58,13 +61,21 @@
 	}
 	
 	function select(one){
-		var mseq = $(one).children("td:eq(0)").text();
-		var name = $(one).children("td:eq(1)").text();
+		var client = $(one).children("td");
 		
-		var value = mseq +" ("+name+")";
+		var cseq = $(client).eq(0).text();
+		var name = $(client).eq(1).text();
+		var owner = $(client).eq(2).text();;
+		var phone = $(client).eq(3).text();;
+		var charge = $(client).eq(4).text();;
+		var note = $(client).eq(5).text();;
 		
-		$("#managerName", opener.document).val(value);
-		$("#manager", opener.document).val(mseq);
+		$("#cseq", opener.document).val(cseq);
+		$("#name", opener.document).text(name);
+		$("#owner", opener.document).text(owner);
+		$("#phone", opener.document).text(phone);
+		$("#charge", opener.document).text(charge);
+		$("#note", opener.document).text(note);
 		
 		window.close();
 	}
@@ -76,7 +87,7 @@
             <div class="col-md-4 col-md-offset-4">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">담당자 검색</h3>
+                        <h3 class="panel-title">거래처 검색</h3>
                     </div>
                     <div class="panel-body">
 	                    <div class="form-group input-group">

@@ -13,7 +13,7 @@
 		if(flag =="1")
 		{
 			$(opener.location).attr("href", "${path}/branch");
-			window.close();			
+			window.close();
 		}	
 		
 		$("#search").click(function(){

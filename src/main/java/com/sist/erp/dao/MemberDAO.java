@@ -11,4 +11,6 @@ public interface MemberDAO
 	MemberVO getMember(String email);
 
 	List<MemberVO> searchMembers(String key);
+	
+	MemberVO getMemberBySeq(String mseq);
 }

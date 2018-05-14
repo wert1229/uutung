@@ -2,6 +2,8 @@ package com.sist.erp.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -97,7 +99,7 @@ public class BranchController
 	
 	
 	@RequestMapping(value="/searchBranch", method=RequestMethod.GET)
-	public String searchBranch()
+	public String searchBranch(HttpServletRequest request)
 	{
 		return "member/searchBranch";
 	}
