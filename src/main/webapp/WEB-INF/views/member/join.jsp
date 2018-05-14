@@ -7,6 +7,8 @@
 <%@include file="/resources/jspf/links.jspf"%>
 <title>Insert title here</title>
 <script>
+	var childWin;
+
 	$(function(){
 		$("#email").keyup(function(){
 			var reg=/^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i; 
@@ -40,9 +42,8 @@
 		});
 		
 		$("#search").click(function(){
-			var key = $("#dept").val();
 			
-			window.open("${path}/branch/searchBranch?key="+key, "searchBranch",
+			childWin = window.open("${path}/searchBranch", "searchBranch",
 					"width=400, height=500, top=300, left=800, resizable=no, location=no");
 		})
 		
@@ -65,10 +66,12 @@
 		        	$("#imgPath").val(imgPath);
 		        }
 			});
-			
-		})
-		
-	})
+		});
+	});
+	
+	window.onunload=function(){
+		childWin.close();
+	};
 </script>
 </head>
 <body>
@@ -108,7 +111,8 @@
                                     </div>
                                     <label>소속</label>
                                     <div class="form-group input-group">
-                                        <input name="dept" id="dept" class="form-control" placeholder="Enter Dept" required>
+                                        <input id="deptName" class="form-control" placeholder="Use Search" required readonly>
+                                        <input id="deptSeq" type="hidden" name="dept">
                                         <span class="input-group-btn">
                                             <button id="search" class="btn btn-default" type="button"><i class="fa fa-search"></i>
                                             </button>

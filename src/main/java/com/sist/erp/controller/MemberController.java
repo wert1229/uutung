@@ -3,6 +3,7 @@ package com.sist.erp.controller;
 import java.util.List;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -100,10 +101,10 @@ public class MemberController
 		return ThumbnailedFilePath;
 	}
 	
-	@RequestMapping(value="/searchManager", method=RequestMethod.GET)
-	public String searchBranch()
+	@RequestMapping(value="/searchBranch", method=RequestMethod.GET)
+	public String searchBranch(HttpServletRequest request)
 	{
-		return "branch/searchManager";
+		return "member/searchBranch";
 	}
 	
 	@ResponseBody

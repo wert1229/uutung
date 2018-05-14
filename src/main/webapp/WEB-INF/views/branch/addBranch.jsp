@@ -19,9 +19,8 @@ $(function(){
 	}	
 	
 	$("#search").click(function(){
-		var key = "";
 		
-		childWin = window.open("${path}/searchManager?key="+key, "searchManager",
+		childWin = window.open("${path}/branch/searchManager", "searchManager",
 				"width=400, height=500, top=300, left=800, resizable=no, location=no");
 	});
 });

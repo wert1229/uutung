@@ -6,7 +6,5 @@ import com.sist.erp.vo.TempVO;
 
 public interface TempDAO
 {
-
-	List<TempVO> searchClient(String key);
-
+	List<TempVO> searchProduct(String key);
 }

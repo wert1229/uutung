@@ -9,6 +9,7 @@
 <script>
 	$(function(){
 		$("#search").click();
+		initApprovers();
 	})
 
 	function search(){
@@ -52,12 +53,32 @@
 					ordering : false,
 					lengthChange : false,
 					info : false
-				});
+				}).page.len(5).draw();
 			} 
 		});
 	}
 	
 	var approvers = [];
+	
+	function initApprovers() {
+		
+		var mseqs = $("#approversSeq", opener.document).val().trim().split(" ");
+		var names = $("#approversName", opener.document).val().trim().split(" ");
+		var positions = $("#approversPos", opener.document).val().trim().split(" ");
+
+		if(mseqs != "")
+		{	
+			for(var i in mseqs)
+			{
+				var member = {"mseq" : mseqs[i] , "name" : names[i] , "position" : positions[i]};
+	
+				approvers.push(member);
+			}	
+			
+			draw();
+		}
+	}
+	
 	
 	function select(one){
 		var member =  $(one).children("td");
@@ -65,6 +86,15 @@
 		var mseq = $(member).eq(0).text();
 		var name = $(member).eq(1).text();
 		var position = $(member).eq(2).text();
+		
+		for(var i in approvers)
+		{
+			if(approvers[i].mseq==mseq)
+			{
+				alert("이미 존재합니다.");
+				return;
+			}	
+		}
 		
 		var mem = {"mseq" : mseq , "name" : name, "position" : position};
 		
@@ -83,7 +113,7 @@
 		
 		for(var i in approvers)
 		{
-			content+='<tr onclick="delete(this)">';
+			content+='<tr onclick="deleteAprv(this)">';
 			content+='<td>'+ approvers[i].mseq +'</td>';
 			content+='<td>'+ approvers[i].name +'</td>';
 			content+='<td>'+ approvers[i].position +'</td>';
@@ -96,17 +126,39 @@
 		$("#approversReged").html(content);
 	}
 	
-	function delete(one)
+	function deleteAprv(one)
 	{
-		var mseq = $(one).children("td").eq(0);
+		var mseq = $(one).children("td").eq(0).text();
 		
 		for(var i in approvers)
 		{
 			if(approvers[i].mseq==mseq)
 			{
-				approvers.remove(i);
+				approvers.splice(i,1);
 			}
 		}
+		
+		draw();
+	}
+	
+	function submit()
+	{
+		var names = "";
+		var mseqs = "";
+		var positions = "";
+		
+		for(var i in approvers)
+		{
+			names += approvers[i].name+" ";
+			mseqs += approvers[i].mseq+" ";
+			positions += approvers[i].position+" ";
+		}
+		alert(mseqs);
+		$("#approversName",opener.document).val(names);
+		$("#approversSeq",opener.document).val(mseqs);
+		$("#approversPos",opener.document).val(positions);
+		
+		window.close();
 	}
 	
 </script>
@@ -154,6 +206,11 @@
 				        </div>
 					</div>
 				</div>
+		    </div>
+		    <div class="row">
+				<div class="col-xs-offset-5">
+					<button type="button" class="btn btn-primary" onclick="submit()">등록</button>
+				</div>		    
 		    </div>
         </div>         	
     </div>

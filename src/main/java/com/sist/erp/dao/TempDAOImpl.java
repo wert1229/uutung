@@ -15,11 +15,11 @@ public class TempDAOImpl implements TempDAO
 	SqlSession session;
 
 	@Override
-	public List<TempVO> searchClient(String key)
+	public List<TempVO> searchProduct(String key)
 	{
 		String realKey = "%"+key+"%";
 		
-		return session.getMapper(TempDAO.class).searchClient(realKey);
+		return session.getMapper(TempDAO.class).searchProduct(realKey);
 	}
 
 }
