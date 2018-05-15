@@ -4,5 +4,24 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.sist.erp.dao.MoveDAO">
+	<insert id="addMove">
+		INSERT INTO MOVE VALUES
+			((SELECT NVL(MAX(TO_NUMBER(MSEQ)),0)+1 FROM MOVE), #{title}, #{slaveSQ}, #{estdate}, #{branchSq}, #{state}, SYSDATE, #{expdate}, #{kind}, #{note})
+	</insert>
 	
+	<insert id="addMoveAprv" parameterType="java.util.List">
+	
+	</insert>
+	
+	<insert id="addMoveList" parameterType="java.util.List">
+	
+	</insert>
 </mapper>
+
+<insert id="insert" parametertype="java.util.Map">
+        insert into user(username, age)
+        values
+        <foreach collection="list" item="item" separator=" , ">
+            (#{item.username}, #{item.age})
+        </foreach>
+ </insert>

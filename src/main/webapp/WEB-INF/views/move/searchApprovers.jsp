@@ -153,7 +153,7 @@
 			mseqs += approvers[i].mseq+" ";
 			positions += approvers[i].position+" ";
 		}
-		alert(mseqs);
+
 		$("#approversName",opener.document).val(names);
 		$("#approversSeq",opener.document).val(mseqs);
 		$("#approversPos",opener.document).val(positions);

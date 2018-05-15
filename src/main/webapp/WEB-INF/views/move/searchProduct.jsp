@@ -64,12 +64,15 @@
 		var pseq = $(product).eq(0).text();
 		var name = $(product).eq(1).text();
 		var category = $(product).eq(2).text();;
-		var note = $(product).eq(3).text();;
+		var note = $(product).eq(3).text();
 		
-		$(".productList:eq("+no+") .pseq", opener.document).val(pseq);
-		$(".productList:eq("+no+") .name", opener.document).text(name);
-		$(".productList:eq("+no+") .category", opener.document).text(category);
-		$(".productList:eq("+no+") .note", opener.document).val(note);
+		$("#pno", opener.document).val(no);
+		$("#pseq", opener.document).val(pseq);
+		$("#pname", opener.document).val(name);
+		$("#pcategory", opener.document).val(category);
+		$("#pnote", opener.document).val(note);
+		
+		window.opener.valueInsert();
 		
 		window.close();
 	}
