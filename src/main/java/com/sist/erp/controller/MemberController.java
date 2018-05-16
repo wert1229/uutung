@@ -94,7 +94,7 @@ public class MemberController
 	@RequestMapping("/profilePic")
 	public String upload(@RequestParam("file") MultipartFile file, HttpSession session) {
 		
-		String path = "/resources/uploadImg/";
+		String path = "/resources/uploadImg/member/";
 		
 		String ThumbnailedFilePath = IOUtil.fileUpload(file, session, path);
 		

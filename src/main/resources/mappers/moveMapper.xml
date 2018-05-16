@@ -4,24 +4,26 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.sist.erp.dao.MoveDAO">
+	<select id="getMoves" resultType="com.sist.erp.vo.MoveVO">
+	
+	</select>
+
 	<insert id="addMove">
 		INSERT INTO MOVE VALUES
-			((SELECT NVL(MAX(TO_NUMBER(MSEQ)),0)+1 FROM MOVE), #{title}, #{slaveSQ}, #{estdate}, #{branchSq}, #{state}, SYSDATE, #{expdate}, #{kind}, #{note})
+			(#{mseq}, #{title}, #{slaveSQ}, #{estdate}, #{branchSQ}, '결재대기', SYSDATE, #{expdate}, #{kind}, #{note})
 	</insert>
 	
 	<insert id="addMoveAprv" parameterType="java.util.List">
-	
+		<foreach collection="list" item="item" separator="" open="INSERT ALL" close="SELECT * FROM DUAL">
+		INTO MOVEAPRV VALUES
+			((SELECT NVL(MAX(TO_NUMBER(MASEQ)),0)+1 FROM MOVEAPRV), #{item.moveSQ},#{item.approver},#{item.priority})
+		</foreach>	
 	</insert>
 	
 	<insert id="addMoveList" parameterType="java.util.List">
-	
+		<foreach collection="list" item="item" separator="" open="INSERT ALL" close="SELECT * FROM DUAL">
+		INTO MOVELIST VALUES
+			((SELECT NVL(MAX(TO_NUMBER(MLSEQ)),0)+1 FROM MOVELIST), #{item.productSQ},#{item.quantity},#{item.moveSQ})
+		</foreach>
 	</insert>
 </mapper>
-
-<insert id="insert" parametertype="java.util.Map">
-        insert into user(username, age)
-        values
-        <foreach collection="list" item="item" separator=" , ">
-            (#{item.username}, #{item.age})
-        </foreach>
- </insert>

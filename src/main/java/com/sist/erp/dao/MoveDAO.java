@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.sist.erp.vo.MoveAprvVO;
 import com.sist.erp.vo.MoveListVO;
+import com.sist.erp.vo.MoveToDisplayVO;
 import com.sist.erp.vo.MoveVO;
 
 public interface MoveDAO
@@ -17,4 +18,6 @@ public interface MoveDAO
 	void addMoveAprv(List<MoveAprvVO> ma);
 
 	void addMoveList(List<MoveListVO> ml);
+
+	List<MoveToDisplayVO> getMovesToDisplay();
 }

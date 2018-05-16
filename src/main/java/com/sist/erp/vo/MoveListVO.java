@@ -3,9 +3,9 @@ package com.sist.erp.vo;
 public class MoveListVO
 {
 	private String mlseq;
-	private String productSq;
+	private String productSQ;
 	private int quantity;
-	private String moveSq;
+	private String moveSQ;
 	
 	public String getMlseq()
 	{
@@ -15,13 +15,13 @@ public class MoveListVO
 	{
 		this.mlseq = mlseq;
 	}
-	public String getProductSq()
+	public String getProductSQ()
 	{
-		return productSq;
+		return productSQ;
 	}
-	public void setProductSq(String productSq)
+	public void setProductSQ(String productSQ)
 	{
-		this.productSq = productSq;
+		this.productSQ = productSQ;
 	}
 	public int getQuantity()
 	{
@@ -31,12 +31,12 @@ public class MoveListVO
 	{
 		this.quantity = quantity;
 	}
-	public String getMoveSq()
+	public String getMoveSQ()
 	{
-		return moveSq;
+		return moveSQ;
 	}
-	public void setMoveSq(String moveSq)
+	public void setMoveSQ(String moveSQ)
 	{
-		this.moveSq = moveSq;
+		this.moveSQ = moveSQ;
 	}
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.sist.erp.vo.MoveAprvVO;
 import com.sist.erp.vo.MoveListVO;
+import com.sist.erp.vo.MoveToDisplayVO;
 import com.sist.erp.vo.MoveVO;
 
 @Repository
@@ -19,8 +20,7 @@ public class MoveDAOImpl implements MoveDAO
 	@Override
 	public List<MoveVO> getMoves()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return session.getMapper(MoveDAO.class).getMoves();
 	}
 
 	@Override
@@ -46,5 +46,11 @@ public class MoveDAOImpl implements MoveDAO
 	public void addMoveList(List<MoveListVO> ml)
 	{
 		session.getMapper(MoveDAO.class).addMoveList(ml);
+	}
+
+	@Override
+	public List<MoveToDisplayVO> getMovesToDisplay()
+	{
+		return session.getMapper(MoveDAO.class).getMovesToDisplay();
 	}
 }

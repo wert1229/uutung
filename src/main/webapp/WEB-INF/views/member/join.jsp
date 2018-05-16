@@ -57,7 +57,7 @@
 		        data: formData,
 		        dataType: "text",
 		        processData: false,
-		        contentType: false,
+		        contentType: false, 
 		        success: function(data) {
 		        	var fileName = data.substring(data.indexOf("uploadImg")+10);
 		        	var imgPath = '${path}/uploadImg/'+fileName;

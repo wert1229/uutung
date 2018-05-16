@@ -3,7 +3,7 @@ package com.sist.erp.vo;
 public class MoveAprvVO
 {
 	private String maseq;
-	private String moveSq;
+	private String moveSQ;
 	private String approver;
 	private String priority;
 	
@@ -15,13 +15,13 @@ public class MoveAprvVO
 	{
 		this.maseq = maseq;
 	}
-	public String getMoveSq()
+	public String getMoveSQ()
 	{
-		return moveSq;
+		return moveSQ;
 	}
-	public void setMoveSq(String moveSq)
+	public void setMoveSQ(String moveSQ)
 	{
-		this.moveSq = moveSq;
+		this.moveSQ = moveSQ;
 	}
 	public String getApprover()
 	{

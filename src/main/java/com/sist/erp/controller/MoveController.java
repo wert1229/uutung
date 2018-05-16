@@ -3,14 +3,20 @@ package com.sist.erp.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.View;
 
 import com.google.gson.Gson;
@@ -22,6 +28,7 @@ import com.sist.erp.dao.MoveDAO;
 import com.sist.erp.util.MoveExcelDown;
 import com.sist.erp.vo.MoveAprvVO;
 import com.sist.erp.vo.MoveListVO;
+import com.sist.erp.vo.MoveToDisplayVO;
 import com.sist.erp.vo.MoveVO;
 
 @Controller
@@ -32,18 +39,21 @@ public class MoveController
 	private MoveDAO moveDAO;
 	@Autowired
 	private MemberDAO memberDAO;
+	@Resource(name = "transactionManager")
+	private DataSourceTransactionManager txManager;
+
 	
 	@RequestMapping(value="", method=RequestMethod.GET)
 	public String moveHome(Model model, String page)
 	{
-		List<MoveVO> mlist = moveDAO.getMoves();
+		List<MoveToDisplayVO> mtdlist = moveDAO.getMovesToDisplay();
 		
-		if(page!=null)
+		if(page != null)
 		{
 			model.addAttribute("page", page);
 		}
 		
-		model.addAttribute("mlist", mlist);
+		model.addAttribute("mtdlist", mtdlist);
 		
 		return "move/main";
 	}
@@ -71,9 +81,14 @@ public class MoveController
 		return "move/detailMove";
 	}
 	
+	@ResponseBody
 	@RequestMapping(value="", method=RequestMethod.POST) //TODO 트랜잭션
 	public boolean addMove(@RequestBody String mapJson)
 	{
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition(); 
+		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED); 
+		TransactionStatus txStatus= txManager.getTransaction(def);
+		
 		Gson gson = new Gson();
 		JsonParser parser = new JsonParser();
 		
@@ -87,12 +102,22 @@ public class MoveController
 		List<MoveAprvVO> ma = gson.fromJson(moveAprv, new TypeToken<ArrayList<MoveAprvVO>>() {}.getType());
 		List<MoveListVO> ml = gson.fromJson(moveList, new TypeToken<ArrayList<MoveListVO>>() {}.getType());
 		
-		moveDAO.addMove(m);
-		moveDAO.addMoveAprv(ma);
-		moveDAO.addMoveList(ml);
-		
-		
-		return true;
+		try
+		{
+			moveDAO.addMove(m);
+			moveDAO.addMoveAprv(ma);
+			moveDAO.addMoveList(ml);
+			
+			txManager.commit(txStatus);
+			
+			return true;
+		}
+		catch(Exception e)
+		{
+			txManager.rollback(txStatus);
+			
+			return false;
+		}
 	}
 	
 	@RequestMapping(value="/searchBranch", method=RequestMethod.GET)

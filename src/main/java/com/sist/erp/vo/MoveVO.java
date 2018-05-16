@@ -4,12 +4,12 @@ public class MoveVO
 {
 	private String mseq;
 	private String title;
-	private String slaveSq;
+	private String slaveSQ;
 	private String estdate;
 	private String expdate;
 	private String state;
 	private String regdate;
-	private String branchSq;
+	private String branchSQ;
 	private String note;
 	private String kind;
 	
@@ -29,13 +29,13 @@ public class MoveVO
 	{
 		this.title = title;
 	}
-	public String getSlaveSq()
+	public String getSlaveSQ()
 	{
-		return slaveSq;
+		return slaveSQ;
 	}
-	public void setSlaveSq(String slaveSq)
+	public void setSlaveSQ(String slaveSQ)
 	{
-		this.slaveSq = slaveSq;
+		this.slaveSQ = slaveSQ;
 	}
 	public String getEstdate()
 	{
@@ -69,13 +69,13 @@ public class MoveVO
 	{
 		this.regdate = regdate;
 	}
-	public String getBranchSq()
+	public String getBranchSQ()
 	{
-		return branchSq;
+		return branchSQ;
 	}
-	public void setBranchSq(String branchSq)
+	public void setBranchSQ(String branchSQ)
 	{
-		this.branchSq = branchSq;
+		this.branchSQ = branchSQ;
 	}
 	public String getNote()
 	{

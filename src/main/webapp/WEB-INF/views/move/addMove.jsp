@@ -13,7 +13,7 @@
 	
 	$(function(){
 		
-		products.push({"pno" : 1 , "pseq" : "" , "pname" : "" , "pcategory" : "", "pamount" : "" , "pnote" : ""});
+		products.push({"no" : 1 , "productSQ" : "" , "name" : "" , "category" : "", "quantity" : "" , "note" : ""});
 		draw();
 		
 		var flag = "${flag}";
@@ -51,7 +51,7 @@
 			var no = $(this).parents(".no").text();
 			no= parseInt(no);
 			
-			var blank = {"pno" : no+1 , "pseq" : "" , "pname" : "" , "pcategory" : "", "pamount" : "" , "pnote" : ""};
+			var blank = {"no" : no+1 , "productSQ" : "" , "name" : "" , "category" : "", "quantity" : "" , "note" : ""};
 			
 			products.splice(no, 0, blank);
 			
@@ -65,15 +65,15 @@
 		saveNowAmount();
 		
 		var no = $("#pno").val();
-		var pseq = $("#pseq").val();
-		var pname = $("#pname").val();
-		var pcategory = $("#pcategory").val();
+		var productSQ = $("#pseq").val();
+		var name = $("#pname").val();
+		var category = $("#pcategory").val();
 		var note = $("#pnote").val();
 		
-		products[no].pseq = pseq;
-		products[no].pname = pname;
-		products[no].pcategory = pcategory;
-		products[no].pnote = note;
+		products[no].productSQ = productSQ;
+		products[no].name = name;
+		products[no].category = category;
+		products[no].note = note;
 		
 		draw();
 	}
@@ -88,19 +88,19 @@
 			
 			content += '<tr>';
             content += '<td class="no"><button class="btn btn-default btn-xs addList"><i class="fa fa-caret-down"></i></button>'+j+'</td>';
-            content += '<td>'+products[i].pseq+'</td>';
+            content += '<td>'+products[i].productSQ+'</td>';
             content += '<td>';
             content += '<div class="form-group input-group" style="padding: 0px; margin: 0px;">';
-            content += '<input class="form-control" placeholder="Use Search" value="'+products[i].pname+'" required readonly>';
+            content += '<input class="form-control" placeholder="Use Search" value="'+products[i].name+'" required readonly>';
             content += '<span class="input-group-btn">';
             content += '<button class="btn btn-default searchProduct" type="button"><i class="fa fa-search"></i>';
             content += '</button>';
             content += '</span>';
         	content += '</div>';
             content += '</td>';
-            content += '<td>'+products[i].pcategory+'</td>';
-            content += '<td><input class="form-control amount" type="number" min="1" value="'+products[i].pamount+'" "></td>';
-            content += '<td><input class="form-control note" placeholder="비고" value="'+products[i].pnote+'" readonly></td>';
+            content += '<td>'+products[i].category+'</td>';
+            content += '<td><input class="form-control amount" type="number" min="1" value="'+products[i].quantity+'" "></td>';
+            content += '<td><input class="form-control note" placeholder="비고" value="'+products[i].note+'" readonly></td>';
          	content += '</tr>';
 		}	
 		
@@ -111,12 +111,18 @@
 	{
 		for(var i in products)
 		{
-			products[i].pamount = $(".amount").eq(i).val();
+			products[i].quantity = $(".amount").eq(i).val();
 		}
 	}
 	
 	function submit()
 	{
+		if("${sessionScope.loginSeq}"=="")
+		{
+			alert("로그인 세션이 만료되었습니다.");
+			return;
+		}
+		
 		saveNowAmount();
 		
 		var map ={};
@@ -125,29 +131,68 @@
 		var moveAprv = [];
 		var moveList = [];
 		
+		var mseq = $("#mseq").val();
 		var title = $("#title").val();
-		var slaveSq = "${sessionScope.loginSeq}";
+		var slaveSQ = "${sessionScope.loginSeq}";
 		var estdate = $("#estdate").val();
 		var expdate = $("#expdate").val();
-		var branchSq = $("#bseq").val();
+		var branchSQ = $("#bseq").val();
 		var note = $("#mnote").val();
 		var kind = $("option:selected").text();
 		
+		move.mseq = mseq;
 		move.title = title;
-		move.slaveSq= slaveSq;
+		move.slaveSQ = slaveSQ;
 		move.estdate = estdate;
 		move.expdate = expdate;
-		move.branchSq = branchSq;
+		move.branchSQ = branchSQ;
 		move.note = note;
 		move.kind = kind;
 		
 		var approversSeq = $("#approversSeq").val();
 		
-		moveAprv = approversSeq.trim().split(" ");
+		if(branchSQ=="" || mseq=="" || title=="" || approversSeq=="" || expdate=="" || estdate=="")
+		{
+			alert("빈 항목이 존재합니다!");
+			
+			return false;
+		}
+		
+		var vaildProduct=0;
+		
+		for(var i in products)
+		{
+			if(products[i].productSQ != "" && products[i].quantity != "" && products[i].quantity != "0")
+			{
+				vaildProduct++;
+			}	
+		}
+		
+		if(vaildProduct==0)
+		{
+			alert("최소한 한개의 물품은 등록해야합니다!");
+			
+			return false;
+		}	
+		
+		var approvers = approversSeq.trim().split(" ");
+		
+		for(var i in approvers)
+		{
+			var temp = {};
+			
+			temp.approver = approvers[i];
+			temp.moveSQ = mseq;
+			temp.priority = i;
+			
+			moveAprv.push(temp);
+		}
 		
 		for(var i in products)
 		{	
-			if(products[i].pseq != "" && products[i].pamount != "" && products[i].pamount != "0")
+			products[i].moveSQ = mseq;
+			
+			if(products[i].productSQ != "" && products[i].quantity != "" && products[i].quantity != "0")
 			{
 				moveList.push(products[i]);
 			}
@@ -171,9 +216,13 @@
 					alert("작성되었습니다.");
 					location.href="${path}/move";
 				}
+				else
+				{
+					alert("내부 오류 발생!");
+					return false;
+				}
 			} 
 		});
-		
 	}
 	
 	window.onunload=function(){
@@ -283,6 +332,10 @@
 	                            <div class="table-responsive table-bordered">
 	                                <table class="table">
 	                                    <thead>
+	                                    	<tr>
+	                                            <th>결재번호</th>
+	                                            <td><input id="mseq" class="form-control"></td>
+	                                        </tr>
 	                                        <tr>
 	                                            <th>제목</th>
 	                                            <td><input id="title" class="form-control"></td>
