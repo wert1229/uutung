@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.View;
 
@@ -19,12 +18,13 @@ import com.sist.erp.util.BranchExcelDown;
 import com.sist.erp.vo.BranchVO;
 
 @Controller
+@RequestMapping("/branch")
 public class BranchController 
 {
 	@Autowired
 	private BranchDAO branchDAO;
 	
-	@RequestMapping(value="/branch", method=RequestMethod.GET)
+	@RequestMapping(value="", method=RequestMethod.GET)
 	public String branchHome(Model model, String page)
 	{
 		List<BranchVO> blist = branchDAO.getBranches();
@@ -39,13 +39,13 @@ public class BranchController
 		return "branch/main";
 	}
 	
-	@RequestMapping("/branch/new")
+	@RequestMapping("/new")
 	public String addBranch() {
 		
 		return "branch/addBranch";
 	}
 	
-	@RequestMapping(value="/branch/edit", method=RequestMethod.GET)
+	@RequestMapping(value="/edit", method=RequestMethod.GET)
 	public String editBranch(Model model, String bseq, String page) {
 		 
 		BranchVO b = branchDAO.getBranch(bseq);
@@ -56,7 +56,7 @@ public class BranchController
 		return "branch/editBranch";
 	}
 	
-	@RequestMapping(value="/branch", method=RequestMethod.POST)
+	@RequestMapping(value="", method=RequestMethod.POST)
 	public String addBranch(@ModelAttribute BranchVO b, Model model)
 	{
 		branchDAO.addBranch(b);
@@ -66,7 +66,7 @@ public class BranchController
 		return "branch/addBranch";
 	}
 	
-	@RequestMapping(value="/branch/edit", method=RequestMethod.POST)
+	@RequestMapping(value="/edit", method=RequestMethod.POST)
 	public String editBranch(@ModelAttribute BranchVO b, String page, Model model) {
 		
 		branchDAO.updateBranch(b);
@@ -78,7 +78,7 @@ public class BranchController
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="/delBranch", method=RequestMethod.POST)
+	@RequestMapping(value="/delete", method=RequestMethod.POST)
 	public boolean delBranch(@RequestBody String checkList)
 	{
 		System.out.println(checkList);
@@ -95,16 +95,15 @@ public class BranchController
 		return true;
 	}
 	
-	
-	@RequestMapping(value="/searchBranch", method=RequestMethod.GET)
+	@RequestMapping(value="/searchManager", method=RequestMethod.GET)
 	public String searchBranch()
 	{
-		return "searchBranch";
+		return "branch/searchManager";
 	}
 	
 	@ResponseBody
 	@RequestMapping(value="/searchBranch", method=RequestMethod.POST, produces = "application/text; charset=utf8")
-	public String searchBranch(@RequestParam String key)
+	public String searchBranch(String key)
 	{
 		Gson gson = new Gson();
 		
@@ -115,7 +114,7 @@ public class BranchController
 		return blistJson;
 	}
 	
-	@RequestMapping("/excelDownload")
+	@RequestMapping("/excel")
 	public View excelDownload(Model model)
 	{
 		List<BranchVO> blist = branchDAO.getBranches();

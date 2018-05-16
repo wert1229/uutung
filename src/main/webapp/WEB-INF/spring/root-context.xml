@@ -42,7 +42,7 @@
 	</bean>
 	
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"> 
-		 <property name="dataSource" ref="dataSource" /> 
+		 <property name="dataSource" ref="dataSourceLogged" /> 
 	</bean> 
 	
 	<tx:annotation-driven transaction-manager="transactionManager" /> 

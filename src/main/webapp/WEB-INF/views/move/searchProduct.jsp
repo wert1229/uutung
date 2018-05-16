@@ -9,32 +9,32 @@
 <script>
 	$(function(){
 		$("#search").click();
-	});
+	})
 	
 	function search(){
 		var key = $("#key").val();
-		
+
 		$.ajax({
 			type:"POST",
-			url:"${path}/searchBranch",
+			url:"${path}/searchProduct",
 			dataType : 'json',
 			data: { "key" : key},
-			success: function(blist){
+			success: function(plist){
 				var content="";
 				
-				if(blist.length != 0)
+				if(plist.length != 0)
 				{	
 					content+='<table class="table table-striped table-bordered table-hover" id="testTable">';
-					content+='<thead><tr><th>매장코드</th><th>매장명</th><th>주소</th></tr></thead>';
+					content+='<thead><tr><th>물품코드</th><th>품목명</th><th>분류</th><th>비고</th></tr></thead>';
 					content+='<tbody>';
 					
-					for(var i in blist){
+					for(var i in plist){
 						content+='<tr onclick="select(this)">';
-						content+='<td>'+ blist[i].bseq +'</td>';
-						content+='<td>'+ blist[i].name +'</td>';
-						content+='<td>'+ blist[i].location +'</td>';
+						content+='<td>'+ plist[i].pseq +'</td>';
+						content+='<td>'+ plist[i].name +'</td>';
+						content+='<td>'+ plist[i].category +'</td>';
+						content+='<td>'+ plist[i].note +'</td>';
 						content+='</tr>';
-						
 					}
 					
 					content+='</tbody>';
@@ -52,16 +52,28 @@
 					ordering : false,
 					lengthChange : false,
 					info : false
-				});
+				}).page.len(10).draw();
 			} 
 		});
 	}
 	
 	function select(one){
+		var no = parseInt("${no}")-1;
+		var product = $(one).children("td");
 		
-		var value = $(one).children("td:eq(1)").text();
+		var pseq = $(product).eq(0).text();
+		var name = $(product).eq(1).text();
+		var category = $(product).eq(2).text();;
+		var note = $(product).eq(3).text();
 		
-		$("#dept", opener.document).val(value);
+		$("#pno", opener.document).val(no);
+		$("#pseq", opener.document).val(pseq);
+		$("#pname", opener.document).val(name);
+		$("#pcategory", opener.document).val(category);
+		$("#pnote", opener.document).val(note);
+		
+		window.opener.valueInsert();
+		
 		window.close();
 	}
 </script>
@@ -72,7 +84,7 @@
             <div class="col-md-4 col-md-offset-4">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">매장 검색</h3>
+                        <h3 class="panel-title">품목 검색</h3>
                     </div>
                     <div class="panel-body">
 	                    <div class="form-group input-group">

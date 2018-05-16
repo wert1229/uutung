@@ -3,6 +3,7 @@ package com.sist.erp.controller;
 import java.util.List;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -26,14 +27,14 @@ import com.sist.erp.vo.MemberVO;
 public class MemberController
 {
 	@Autowired
-	MemberDAO memberDAO;
+	private MemberDAO memberDAO;
 	
 	@RequestMapping(value="/login", method=RequestMethod.GET)
 	public String login(@CookieValue(value="remember", defaultValue="0") String email, Model model) {
 
 		model.addAttribute("remember", email);
 		
-		return "login";
+		return "member/login";
 	}
 	
 	@RequestMapping(value="/login", method=RequestMethod.POST)
@@ -78,7 +79,7 @@ public class MemberController
 	@RequestMapping(value="/join", method=RequestMethod.GET)
 	public String join() {
 		
-		return "join";
+		return "member/join";
 	}
 	
 	@RequestMapping(value="/join", method=RequestMethod.POST)
@@ -93,17 +94,17 @@ public class MemberController
 	@RequestMapping("/profilePic")
 	public String upload(@RequestParam("file") MultipartFile file, HttpSession session) {
 		
-		String path = "/resources/uploadImg/";
+		String path = "/resources/uploadImg/member/";
 		
 		String ThumbnailedFilePath = IOUtil.fileUpload(file, session, path);
 		
 		return ThumbnailedFilePath;
 	}
 	
-	@RequestMapping(value="/searchManager", method=RequestMethod.GET)
-	public String searchBranch()
+	@RequestMapping(value="/searchBranch", method=RequestMethod.GET)
+	public String searchBranch(HttpServletRequest request)
 	{
-		return "branch/searchManager";
+		return "member/searchBranch";
 	}
 	
 	@ResponseBody
