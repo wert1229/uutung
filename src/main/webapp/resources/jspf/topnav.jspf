@@ -23,13 +23,13 @@
 
 	<ul class="nav navbar-top-links navbar-left">
 		<li>
-			<a href="#">재고/유통</a>
+			<a href="${path}/jhome">재고/유통</a>
 		</li>
 		<li>
 			<a href="#">인사/급여</a>
 		</li>
 		<li>
-			<a href="#">결재</a>
+			<a href="${path}/ghome">결재</a>
 		</li>
 		<li>
 			<a href="#">그룹웨어</a>
