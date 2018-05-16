@@ -4,8 +4,36 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.sist.erp.dao.MoveDAO">
-	<select id="getMoves" resultType="com.sist.erp.vo.MoveVO">
+	<select id="getMovesToDisplay" resultType="com.sist.erp.vo.MoveToDisplayVO">
+		SELECT
+		    M.MSEQ,
+		    M.TITLE,
+		    M.BRANCH_SQ,
+		    B.NAME AS BRANCH_NAME,
+		    M.KIND,
+		    M.NOTE,
+		    M.ESTDATE,
+		    M.STATE    
+		FROM 
+		    MOVE M, BRANCH B, MEMBER MEM
+		WHERE M.BRANCH_SQ = B.BSEQ AND M.SLAVE_SQ = MEM.MSEQ
+		    AND MEM.DEPT = #{dept}
+		ORDER BY M.REGDATE DESC
+	</select>
 	
+	<select id="getMoveListDetailByMseq" resultType="com.sist.erp.vo.MoveListDetailVO">
+		SELECT
+		   ML.MLSEQ,
+		   ML.PRODUCT_SQ,
+		   P.NAME AS PRODUCT_NAME,
+		   ML.QUANTITY,
+		   P.CATEGORY,
+		   P.NOTE
+		FROM 
+		    MOVELIST ML, PRODUCT P
+		WHERE ML.PRODUCT_SQ = P.PSEQ
+		    AND ML.MOVE_SQ = #{mseq}
+		ORDER BY ML.MLSEQ
 	</select>
 
 	<insert id="addMove">
@@ -16,14 +44,14 @@
 	<insert id="addMoveAprv" parameterType="java.util.List">
 		<foreach collection="list" item="item" separator="" open="INSERT ALL" close="SELECT * FROM DUAL">
 		INTO MOVEAPRV VALUES
-			((SELECT NVL(MAX(TO_NUMBER(MASEQ)),0)+1 FROM MOVEAPRV), #{item.moveSQ},#{item.approver},#{item.priority})
+			(GET_MA_SEQ(), #{item.moveSQ},#{item.approver},#{item.priority},'N')
 		</foreach>	
 	</insert>
 	
 	<insert id="addMoveList" parameterType="java.util.List">
 		<foreach collection="list" item="item" separator="" open="INSERT ALL" close="SELECT * FROM DUAL">
 		INTO MOVELIST VALUES
-			((SELECT NVL(MAX(TO_NUMBER(MLSEQ)),0)+1 FROM MOVELIST), #{item.productSQ},#{item.quantity},#{item.moveSQ})
+			(GET_ML_SEQ(), #{item.productSQ},#{item.quantity},#{item.moveSQ})
 		</foreach>
 	</insert>
 </mapper>

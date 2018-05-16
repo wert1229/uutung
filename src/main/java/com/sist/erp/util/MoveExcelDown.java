@@ -15,7 +15,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.web.servlet.view.document.AbstractXlsView;
 
-import com.sist.erp.vo.BranchVO;
+import com.sist.erp.vo.MoveToDisplayVO;
 
 public class MoveExcelDown extends AbstractXlsView
 {
@@ -32,7 +32,7 @@ public class MoveExcelDown extends AbstractXlsView
 	        Row row = null;
 
 	        @SuppressWarnings("unchecked")
-			List<BranchVO> listExcel = (List<BranchVO>) model.get("blist");
+	        List<MoveToDisplayVO> listExcel = (List<MoveToDisplayVO>) model.get("mtdlist");
 	       
 	        // 새로운 sheet를 생성한다.
 	        worksheet = workbook.createSheet("엑셀 목록");
@@ -41,7 +41,7 @@ public class MoveExcelDown extends AbstractXlsView
 	        row = worksheet.createRow(0);
 
 	        // 칼럼 길이 설정
-	        for (int i = 0; i < 5; i++)
+	        for (int i = 0; i < 7; i++)
 			{
 	        	worksheet.setColumnWidth(i, 4000);
 			}
@@ -49,25 +49,31 @@ public class MoveExcelDown extends AbstractXlsView
 	        // 헤더 설정
 	        row = worksheet.createRow(0);
 
-	        row.createCell(0).setCellValue("매장코드");
+	        row.createCell(0).setCellValue("결재코드");
 
-	        row.createCell(1).setCellValue("이름");
+	        row.createCell(1).setCellValue("제목");
 
-	        row.createCell(2).setCellValue("관리자");
+	        row.createCell(2).setCellValue("대상 매장");
 
-	        row.createCell(3).setCellValue("연락처");
+	        row.createCell(3).setCellValue("물품");
 
-	        row.createCell(4).setCellValue("위치");
+	        row.createCell(4).setCellValue("종류");
+	        
+	        row.createCell(5).setCellValue("물품 납기일");
+	        
+	        row.createCell(6).setCellValue("진행 현황");
 
 	        for (int i = 0; i < listExcel.size(); i++)
 			{
 	        	row = worksheet.createRow(i+1);
 				
-	        	row.createCell(0).setCellValue(listExcel.get(i).getBseq());
-	        	row.createCell(1).setCellValue(listExcel.get(i).getName());
-	        	row.createCell(2).setCellValue(listExcel.get(i).getManager());
-	        	row.createCell(3).setCellValue(listExcel.get(i).getPhone());
-	        	row.createCell(4).setCellValue(listExcel.get(i).getLocation());
+	        	row.createCell(0).setCellValue(listExcel.get(i).getMseq());
+	        	row.createCell(1).setCellValue(listExcel.get(i).getTitle());
+	        	row.createCell(2).setCellValue(listExcel.get(i).getBranchName());
+	        	row.createCell(3).setCellValue(listExcel.get(i).getNote());
+	        	row.createCell(4).setCellValue(listExcel.get(i).getKind());
+	        	row.createCell(5).setCellValue(listExcel.get(i).getEstdate());
+	        	row.createCell(6).setCellValue(listExcel.get(i).getState());
 			}
 	        
 	        try

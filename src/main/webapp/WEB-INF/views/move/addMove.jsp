@@ -11,7 +11,11 @@
 
 	var products = [];
 	
+	var timestamp = + new Date();
+	
 	$(function(){
+		
+		$("#mseq").val("M"+timestamp);
 		
 		products.push({"no" : 1 , "productSQ" : "" , "name" : "" , "category" : "", "quantity" : "" , "note" : ""});
 		draw();
@@ -131,23 +135,42 @@
 		var moveAprv = [];
 		var moveList = [];
 		
+		for(var i in products)
+		{	
+			products[i].moveSQ = mseq;
+			
+			if(products[i].productSQ != "" && products[i].quantity != "" && products[i].quantity != "0")
+			{
+				moveList.push(products[i]);
+			}
+		}
+		
+		if(moveList.length==0)
+		{
+			alert("최소한 한개의 물품은 등록해야합니다!");
+			
+			return false;
+		}	
+		
 		var mseq = $("#mseq").val();
 		var title = $("#title").val();
 		var slaveSQ = "${sessionScope.loginSeq}";
 		var estdate = $("#estdate").val();
 		var expdate = $("#expdate").val();
 		var branchSQ = $("#bseq").val();
-		var note = $("#mnote").val();
 		var kind = $("option:selected").text();
 		
+		var listNum = moveList.length-1;
+		var note = moveList[0].name + " 외 " + listNum + "건";
+			
 		move.mseq = mseq;
 		move.title = title;
 		move.slaveSQ = slaveSQ;
 		move.estdate = estdate;
 		move.expdate = expdate;
 		move.branchSQ = branchSQ;
-		move.note = note;
 		move.kind = kind;
+		move.note = note;
 		
 		var approversSeq = $("#approversSeq").val();
 		
@@ -157,23 +180,6 @@
 			
 			return false;
 		}
-		
-		var vaildProduct=0;
-		
-		for(var i in products)
-		{
-			if(products[i].productSQ != "" && products[i].quantity != "" && products[i].quantity != "0")
-			{
-				vaildProduct++;
-			}	
-		}
-		
-		if(vaildProduct==0)
-		{
-			alert("최소한 한개의 물품은 등록해야합니다!");
-			
-			return false;
-		}	
 		
 		var approvers = approversSeq.trim().split(" ");
 		
@@ -186,16 +192,6 @@
 			temp.priority = i;
 			
 			moveAprv.push(temp);
-		}
-		
-		for(var i in products)
-		{	
-			products[i].moveSQ = mseq;
-			
-			if(products[i].productSQ != "" && products[i].quantity != "" && products[i].quantity != "0")
-			{
-				moveList.push(products[i]);
-			}
 		}
 		
 		map.move = move;
@@ -334,7 +330,7 @@
 	                                    <thead>
 	                                    	<tr>
 	                                            <th>결재번호</th>
-	                                            <td><input id="mseq" class="form-control"></td>
+	                                            <td><input id="mseq" class="form-control" readonly></td>
 	                                        </tr>
 	                                        <tr>
 	                                            <th>제목</th>
@@ -367,10 +363,6 @@
 	                                        <tr>
 	                                            <th>결재 만료 일자</th>
 	                                            <td><input id="expdate" type="date"></td>
-	                                        </tr>
-	                                        <tr>
-	                                            <th>비고</th>
-	                                            <td><input id="mnote" class="form-control"></td>
 	                                        </tr>
 	                                    </tbody>
 	                                </table>

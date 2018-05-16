@@ -27,6 +27,7 @@ import com.sist.erp.dao.MemberDAO;
 import com.sist.erp.dao.MoveDAO;
 import com.sist.erp.util.MoveExcelDown;
 import com.sist.erp.vo.MoveAprvVO;
+import com.sist.erp.vo.MoveListDetailVO;
 import com.sist.erp.vo.MoveListVO;
 import com.sist.erp.vo.MoveToDisplayVO;
 import com.sist.erp.vo.MoveVO;
@@ -44,14 +45,13 @@ public class MoveController
 
 	
 	@RequestMapping(value="", method=RequestMethod.GET)
-	public String moveHome(Model model, String page)
+	public String moveHome(Model model, HttpSession session)
 	{
-		List<MoveToDisplayVO> mtdlist = moveDAO.getMovesToDisplay();
+		String loginSeq = (String)session.getAttribute("loginSeq");
 		
-		if(page != null)
-		{
-			model.addAttribute("page", page);
-		}
+		String dept = memberDAO.getMemberBySeq(loginSeq).getDept();
+		
+		List<MoveToDisplayVO> mtdlist = moveDAO.getMovesToDisplay(dept);
 		
 		model.addAttribute("mtdlist", mtdlist);
 		
@@ -59,7 +59,7 @@ public class MoveController
 	}
 	
 	@RequestMapping("/new")
-	public String addBranch(Model model, HttpSession session) {
+	public String addMoveForm(Model model, HttpSession session) {
 		
 		String mseq = (String)session.getAttribute("loginSeq");
 		
@@ -70,19 +70,8 @@ public class MoveController
 		return "move/addMove";
 	}
 	
-	@RequestMapping(value="/detail", method=RequestMethod.GET)
-	public String editBranch(Model model, String mseq, String page) {
-		 
-		MoveVO m = moveDAO.getMove(mseq);
-		
-		model.addAttribute("page", page);
-		model.addAttribute("branch", m);
-		
-		return "move/detailMove";
-	}
-	
 	@ResponseBody
-	@RequestMapping(value="", method=RequestMethod.POST) //TODO 트랜잭션
+	@RequestMapping(value="", method=RequestMethod.POST)
 	public boolean addMove(@RequestBody String mapJson)
 	{
 		DefaultTransactionDefinition def = new DefaultTransactionDefinition(); 
@@ -107,10 +96,6 @@ public class MoveController
 			moveDAO.addMove(m);
 			moveDAO.addMoveAprv(ma);
 			moveDAO.addMoveList(ml);
-			
-			txManager.commit(txStatus);
-			
-			return true;
 		}
 		catch(Exception e)
 		{
@@ -118,6 +103,10 @@ public class MoveController
 			
 			return false;
 		}
+		
+		txManager.commit(txStatus);
+		
+		return true;
 	}
 	
 	@RequestMapping(value="/searchBranch", method=RequestMethod.GET)
@@ -140,12 +129,26 @@ public class MoveController
 		return "move/searchProduct";
 	}
 	
-	@RequestMapping("/excel")
-	public View excelDownload(Model model)
+	@RequestMapping("/mldetail")
+	public String moveListDetail(Model model, String mseq)
 	{
-		List<MoveVO> mlist = moveDAO.getMoves();
+		List<MoveListDetailVO> mldlist = moveDAO.getMoveListDetailByMseq(mseq);
 		
-		model.addAttribute("mlist", mlist);
+		model.addAttribute("mldlist", mldlist);
+		
+		return "move/mldetail";
+	}
+	
+	@RequestMapping("/excel")
+	public View excelDownload(Model model, HttpSession session)
+	{
+		String loginSeq = (String)session.getAttribute("loginSeq");
+		
+		String dept = memberDAO.getMemberBySeq(loginSeq).getDept();
+		
+		List<MoveToDisplayVO> mtdlist = moveDAO.getMovesToDisplay(dept);
+		
+		model.addAttribute("mtdlist", mtdlist);
 		
 		return new MoveExcelDown();
 	}

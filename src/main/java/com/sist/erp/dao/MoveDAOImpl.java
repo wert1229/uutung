@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.sist.erp.vo.MoveAprvVO;
+import com.sist.erp.vo.MoveListDetailVO;
 import com.sist.erp.vo.MoveListVO;
 import com.sist.erp.vo.MoveToDisplayVO;
 import com.sist.erp.vo.MoveVO;
@@ -49,8 +50,14 @@ public class MoveDAOImpl implements MoveDAO
 	}
 
 	@Override
-	public List<MoveToDisplayVO> getMovesToDisplay()
+	public List<MoveToDisplayVO> getMovesToDisplay(String dept)
 	{
-		return session.getMapper(MoveDAO.class).getMovesToDisplay();
+		return session.getMapper(MoveDAO.class).getMovesToDisplay(dept);
+	}
+
+	@Override
+	public List<MoveListDetailVO> getMoveListDetailByMseq(String mseq)
+	{
+		return session.getMapper(MoveDAO.class).getMoveListDetailByMseq(mseq);
 	}
 }

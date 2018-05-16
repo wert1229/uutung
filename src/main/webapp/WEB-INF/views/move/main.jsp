@@ -6,71 +6,26 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <%@include file="/resources/jspf/links.jspf"%>
 <script>
-	
+var childWin;
+
 $(function(){
 	
-	var page = "${page}";
-	
-	if(page=="") {
-		page = 1;
-	} else {
-		page = parseInt(page);
-	}
-		
- 	$("#testTable").DataTable().page(page-1).draw('page');
+ 	$("#testTable").DataTable();
  	
-	$("#reg").click(function(){
-		
-		location.href="${path}/move/new";
-	});
-	
 	$("#excel").click(function(){
 		
 		location.href="${path}/move/excel";
 	});
-	
-	$("#del").click(function(){
-		
-		var checkedList=[];
-		var page = $(".paginate_button.active a").text();
-		
-		$("input[type='checkbox']:checked").each(function() {
-			
-			var bseq = $(this).parent().text(); 
-
-			checkedList.push(bseq);
-		});
-		
-		if(checkedList.length==0) {
-			alert("선택된 항목이 없습니다!");
-			return;
-		}
-			
-		$.ajax({
-			type:"POST",
-			url:"${path}/delBranch",
-			data: JSON.stringify(checkedList),
-			contentType : 'application/json; charset=utf-8', 
-			success: function(result){
-				
-				if(result==true)
-				{
-					location.href="${path}/branch?page="+page;
-				}	
-			} 
-		});
-	});
-	
 });
 
-function edit(one)
+function detail(mseq)
 {
-	var page = $(".paginate_button.active a").text();
-	
-	var bseq = $(one).parent().prev().text();
-	
-	window.open("${path}/branch/edit?bseq="+bseq+"&page="+page, "addBranch",
-			"width=600, height=600, top=200, left=600, resizable=no, location=no");
+	childWin = window.open("${path}/move/mldetail?mseq="+mseq, "searchThings",
+		"width=600, height=600, top=300, left=800, resizable=no, location=no");
+}
+
+window.onunload=function(){
+	childWin.close();
 }
 </script>
 <title>Insert title here</title>
@@ -86,7 +41,7 @@ function edit(one)
             <div class="col-lg-12">
                 <div class="panel panel-primary" style="margin-top: 30px">
                     <div class="panel-heading">
-                    	매장 관리
+                    	재고 이동 조회
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
@@ -96,20 +51,22 @@ function edit(one)
                                     <th>결재 코드</th>
                                     <th>제목</th>
                                     <th>대상 매장</th>
-                                    <th>종류</th>
                                     <th>물품</th>
+                                    <th>종류</th>
                                     <th>물품 납기일</th>
                                     <th>진행 현황</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            	<c:forEach items="${mlist}" var="m">
+                            	<c:forEach items="${mtdlist}" var="m">
                             		<tr>
 	                                    <td>${m.mseq}</td>
-	                                    <td><a class="edit" onclick="edit(this)" style="cursor: pointer;">${b.name}</a></td>
-	                                    <td>${b.managerName} (${b.manager})</td>
-	                                    <td>${b.phone}</td>
-	                                    <td>${b.location}</td>
+	                                    <td>${m.title}</td>
+	                                    <td>${m.branchName}</td>
+	                                    <td><a onclick="detail('${m.mseq}')" style="cursor: pointer">${m.note}</a></td>
+	                                    <td>${m.kind}</td>
+	                                    <td>${m.estdate}</td>
+	                                    <td><strong class="primary-font">${m.state}</strong></td>
 	                                </tr>
                             	</c:forEach>
                             </tbody>

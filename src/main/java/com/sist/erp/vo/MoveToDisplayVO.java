@@ -7,8 +7,7 @@ public class MoveToDisplayVO
 	private String branchSq;
 	private String branchName;
 	private String kind;
-	private String firstProductName;
-	private String productNum;
+	private String note;
 	private String estdate;
 	private String state;
 	
@@ -52,21 +51,13 @@ public class MoveToDisplayVO
 	{
 		this.kind = kind;
 	}
-	public String getFirstProductName()
+	public String getNote()
 	{
-		return firstProductName;
+		return note;
 	}
-	public void setFirstProductName(String firstProductName)
+	public void setNote(String note)
 	{
-		this.firstProductName = firstProductName;
-	}
-	public String getProductNum()
-	{
-		return productNum;
-	}
-	public void setProductNum(String productNum)
-	{
-		this.productNum = productNum;
+		this.note = note;
 	}
 	public String getEstdate()
 	{
