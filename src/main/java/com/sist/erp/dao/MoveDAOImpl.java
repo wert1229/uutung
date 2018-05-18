@@ -6,7 +6,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.sist.erp.vo.MoveAprvDetailVO;
 import com.sist.erp.vo.MoveAprvVO;
+import com.sist.erp.vo.MoveDetailVO;
 import com.sist.erp.vo.MoveListDetailVO;
 import com.sist.erp.vo.MoveListVO;
 import com.sist.erp.vo.MoveToDisplayVO;
@@ -59,5 +61,35 @@ public class MoveDAOImpl implements MoveDAO
 	public List<MoveListDetailVO> getMoveListDetailByMseq(String mseq)
 	{
 		return session.getMapper(MoveDAO.class).getMoveListDetailByMseq(mseq);
+	}
+
+	@Override
+	public MoveDetailVO getMoveDetailByMseq(String mseq)
+	{
+		return session.getMapper(MoveDAO.class).getMoveDetailByMseq(mseq);
+	}
+
+	@Override
+	public List<MoveAprvDetailVO> getMoveAprvByMseq(String mseq)
+	{
+		return session.getMapper(MoveDAO.class).getMoveAprvByMseq(mseq);
+	}
+
+	@Override
+	public void approveMoveAprv(String mseq, String loginSeq)
+	{
+		session.getMapper(MoveDAO.class).approveMoveAprv(mseq, loginSeq);
+	}
+
+	@Override
+	public String checkAprvFinished(String mseq)
+	{
+		return session.getMapper(MoveDAO.class).checkAprvFinished(mseq);
+	}
+
+	@Override
+	public void finishAprv(String mseq)
+	{
+		session.getMapper(MoveDAO.class).finishAprv(mseq);
 	}
 }

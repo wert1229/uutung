@@ -17,65 +17,54 @@ $(function(){
 		page = parseInt(page);
 	}
 		
- 	$("#testTable").DataTable().page(page-1).draw('page');
- 	
-	$("#reg").click(function(){
-		
-		window.open("${path}/branch/new", "addBranch",
-				"width=600, height=600, top=200, left=600, resizable=no, location=no");
-	});
+ 	$("#testTable").DataTable().page(page-1).order( [ 5, 'desc' ] ).draw();
 	
 	$("#excel").click(function(){
 		
 		location.href="${path}/excel";
 	});
 	
-	$("#del").click(function(){
-		
-		var checkedList=[];
-		var page = $(".paginate_button.active a").text();
-		
-		$("input[type='checkbox']:checked").each(function() {
-			
-			var bseq = $(this).parent().text(); 
-
-			checkedList.push(bseq);
-		});
-		
-		if(checkedList.length==0) {
-			alert("선택된 항목이 없습니다!");
-			return;
-		}
-			
-		$.ajax({
-			type:"POST",
-			url:"${path}/delete",
-			data: JSON.stringify(checkedList),
-			contentType : 'application/json; charset=utf-8', 
-			success: function(result){
-				
-				if(result==true)
-				{
-					location.href="${path}/branch/"+page;
-				}	
-			} 
-		});
-	});
-	
 });
 
 function detail(one)
 {
-	var page = $(".paginate_button.active a").text();
+	var seq = $(one).parent().prev().text();
+	var kind = seq[0];
 	
-	var bseq = $(one).parent().prev().text();
-	
-	window.open("${path}/branch/edit?page="+page+"&bseq="+bseq, "addBranch",
-			"width=600, height=600, top=200, left=600, resizable=no, location=no");
+	if(kind = 'M')
+	{
+		childWin = window.open("${path}/aprv/moveAprvDetail?mseq="+seq, "aprvDetail",
+				"width=1200, height=800, top=100, left=400, resizable=no, location=no");
+	}
 }
 
 function doApprove(one)
 {
+	var seq = $(one).parent().siblings().eq(0).text();
+	var kind = seq[0];
+	var page = $(".paginate_button.active a").text();
+	
+	if(kind = 'M')
+	{
+		$.ajax({
+			type:"POST",
+			url:"${path}/move/doApprove",
+			dataType : 'text',
+			data: { "mseq" : seq },
+			success: function(result){
+				
+				if(result == true)
+				{	
+					alert("결재되었습니다.");
+					locaton.href = "${path}/aprv/tome?page="+page;
+				}
+				else
+				{
+					alert("내부오류 발생!");
+				}
+			} 
+		});
+	}
 	
 }
 </script>

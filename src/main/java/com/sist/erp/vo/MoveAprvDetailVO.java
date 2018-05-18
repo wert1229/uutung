@@ -1,10 +1,12 @@
 package com.sist.erp.vo;
 
-public class MoveAprvVO
+public class MoveAprvDetailVO
 {
 	private String maseq;
 	private String moveSQ;
-	private String approver;
+	private String approverSq;
+	private String approverName;
+	private String approverPosition;
 	private String priority;
 	private String state;
 	
@@ -24,13 +26,29 @@ public class MoveAprvVO
 	{
 		this.moveSQ = moveSQ;
 	}
-	public String getApprover()
+	public String getApproverSq()
 	{
-		return approver;
+		return approverSq;
 	}
-	public void setApprover(String approver)
+	public void setApproverSq(String approverSq)
 	{
-		this.approver = approver;
+		this.approverSq = approverSq;
+	}
+	public String getApproverName()
+	{
+		return approverName;
+	}
+	public void setApproverName(String approverName)
+	{
+		this.approverName = approverName;
+	}
+	public String getApproverPosition()
+	{
+		return approverPosition;
+	}
+	public void setApproverPosition(String approverPosition)
+	{
+		this.approverPosition = approverPosition;
 	}
 	public String getPriority()
 	{

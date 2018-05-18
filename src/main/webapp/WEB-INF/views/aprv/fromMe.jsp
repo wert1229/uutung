@@ -6,73 +6,34 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <%@include file="/resources/jspf/links.jspf"%>
 <script>
-	
+var childWin;
+
 $(function(){
-	
-	var page = "${page}";
-	
-	if(page=="") {
-		page = 1;
-	} else {
-		page = parseInt(page);
-	}
 		
- 	$("#testTable").DataTable().page(page-1).draw('page');
+ 	$("#testTable").DataTable().page(page-1).order( [ 3, 'desc' ] ).draw();
  	
-	$("#reg").click(function(){
-		
-		window.open("${path}/branch/new", "addBranch",
-				"width=600, height=600, top=200, left=600, resizable=no, location=no");
-	});
-	
 	$("#excel").click(function(){
 		
 		location.href="${path}/excel";
-	});
-	
-	$("#del").click(function(){
-		
-		var checkedList=[];
-		var page = $(".paginate_button.active a").text();
-		
-		$("input[type='checkbox']:checked").each(function() {
-			
-			var bseq = $(this).parent().text(); 
-
-			checkedList.push(bseq);
-		});
-		
-		if(checkedList.length==0) {
-			alert("선택된 항목이 없습니다!");
-			return;
-		}
-			
-		$.ajax({
-			type:"POST",
-			url:"${path}/delete",
-			data: JSON.stringify(checkedList),
-			contentType : 'application/json; charset=utf-8', 
-			success: function(result){
-				
-				if(result==true)
-				{
-					location.href="${path}/branch/"+page;
-				}	
-			} 
-		});
 	});
 	
 });
 
 function detail(one)
 {
-	var page = $(".paginate_button.active a").text();
+	var seq = $(one).parent().prev().text();
+	var kind = seq[0];
 	
-	var bseq = $(one).parent().prev().text();
-	
-	window.open("${path}/branch/edit?page="+page+"&bseq="+bseq, "addBranch",
-			"width=600, height=600, top=200, left=600, resizable=no, location=no");
+	if(kind = 'M')
+	{
+		childWin = window.open("${path}/aprv/moveAprvDetail?mseq="+seq, "aprvDetail",
+				"width=1200, height=800, top=100, left=400, resizable=no, location=no");
+	}
 }
+
+window.onunload=function(){
+	childWin.close();
+};
 </script>
 <title>Insert title here</title>
 </head>
@@ -122,8 +83,6 @@ function detail(one)
                             </tbody>
                         </table>
                      <div class="col-md-4">
-                   		<button id="reg" type="button" class="btn btn-primary" style="margin-right:10px;">등록</button>
-               	    	<button id="del" type="button" class="btn btn-default" style="margin-right:10px;">선택 삭제</button>
                	    	<button id="excel" type="button" class="btn btn-default">엑셀 다운</button>
                      </div>
                     </div>

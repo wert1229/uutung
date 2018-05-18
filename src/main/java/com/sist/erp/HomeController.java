@@ -36,16 +36,16 @@ public class HomeController {
 		return "erpHome";
 	}
 	
-	@RequestMapping(value="/ghome", method = RequestMethod.GET)
-	public String ghome()
+	@RequestMapping(value="/ahome", method = RequestMethod.GET)
+	public String arpvHome()
 	{
-		return "ghome";
+		return "aprvHome";
 	}
 	
-	@RequestMapping(value="/jhome", method = RequestMethod.GET)
-	public String jhome()
+	@RequestMapping(value="/shome", method = RequestMethod.GET)
+	public String stockHome()
 	{
-		return "jhome";
+		return "stockHome";
 	}
 	
 }

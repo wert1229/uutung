@@ -42,7 +42,6 @@ public class MoveController
 	private MemberDAO memberDAO;
 	@Resource(name = "transactionManager")
 	private DataSourceTransactionManager txManager;
-
 	
 	@RequestMapping(value="", method=RequestMethod.GET)
 	public String moveHome(Model model, HttpSession session)
@@ -136,7 +135,39 @@ public class MoveController
 		
 		model.addAttribute("mldlist", mldlist);
 		
-		return "move/mldetail";
+		return "move/moveListdetail";
+	}
+	
+	@ResponseBody
+	@RequestMapping("/doApprove")
+	public boolean doApprove(@RequestBody String mseq, HttpSession session)
+	{
+		String loginSeq = (String)session.getAttribute("loginSeq");
+		
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition(); 
+		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED); 
+		TransactionStatus txStatus= txManager.getTransaction(def);
+		
+		try
+		{
+			moveDAO.approveMoveAprv(mseq ,loginSeq);
+			
+			if(moveDAO.checkAprvFinished(mseq)=="Y")
+			{
+				moveDAO.finishAprv(mseq);
+				
+				//히스토리처리
+			}
+		}
+		catch(Exception e)
+		{
+			txManager.rollback(txStatus);
+			
+			return false;
+		}
+		txManager.commit(txStatus);
+		
+		return true;
 	}
 	
 	@RequestMapping("/excel")
