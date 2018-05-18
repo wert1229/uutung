@@ -14,8 +14,6 @@ public interface MoveDAO
 {
 	List<MoveVO> getMoves();
 
-	MoveVO getMove(String mseq);
-
 	void addMove(MoveVO m);
 
 	void addMoveAprv(List<MoveAprvVO> ma);

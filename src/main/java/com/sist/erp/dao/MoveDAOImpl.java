@@ -27,13 +27,6 @@ public class MoveDAOImpl implements MoveDAO
 	}
 
 	@Override
-	public MoveVO getMove(String mseq)
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public void addMove(MoveVO m)
 	{
 		session.getMapper(MoveDAO.class).addMove(m);
