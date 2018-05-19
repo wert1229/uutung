@@ -90,17 +90,59 @@
 	</select>
 	
 	<update id="approveMoveAprv">
-		UPDATE MOVEAPRV SET STATE = 'Y' WHERE MOVE_SQ = #{mseq} AND APPROVER = #{loginSeq};
+		UPDATE MOVEAPRV SET STATE = 'Y' WHERE MOVE_SQ = #{param1} AND APPROVER = #{param2}
 	</update>
 	
-	<update id="checkAprvFinished">
+	<select id="checkAprvFinished" resultType="java.lang.String">
 		SELECT STATE FROM MOVEAPRV 
 		WHERE PRIORITY = (SELECT MAX(PRIORITY) FROM MOVEAPRV GROUP BY MOVE_SQ HAVING MOVE_SQ = #{mseq})
-		    AND MOVE_SQ = #{mseq};
-	</update>
+		    AND MOVE_SQ = #{mseq}
+	</select>
 	
 	<update id="finishAprv">
-		UPDATE MOVE SET STATE = '결재완료' WHERE MSEQ = #{mseq};
+		UPDATE MOVE SET STATE = '결재완료' WHERE MSEQ = #{mseq}
 	</update>
+	
+	<insert id="addInvenHistorysOfBulChul">
+		<selectKey order="BEFORE" keyProperty="MY,TARGET" resultType="hashmap">
+			SELECT MEM.DEPT AS MY, M.BRANCH_SQ AS TARGET  
+			FROM MOVE M, MEMBER MEM 
+			WHERE M.SLAVE_SQ = MEM.MSEQ AND M.MSEQ = #{param1}
+		</selectKey>
+		
+		INSERT ALL
+		INTO INVENTORY 
+		VALUES (GET_INVEN_SEQ(), #{MY}, #{TARGET}, #{param2.productSq}, -#{param2.quantity},
+		        (SELECT NVL(MAX(BALANCE),0) FROM INVENTORY WHERE BRANCH_SQ = #{MY} AND PRODUCT_SQ = #{param2.productSq})-#{param2.quantity},
+		        '불출', 'A', SYSDATE)
+		
+		INTO INVENTORY 
+		VALUES (GET_INVEN_SEQ(), #{TARGET}, #{MY}, #{param2.productSq}, #{param2.quantity}, 
+		        (SELECT NVL(MAX(BALANCE),0) FROM INVENTORY WHERE BRANCH_SQ = #{TARGET} AND PRODUCT_SQ = #{param2.productSq})+#{param2.quantity},
+		        '불출', 'A', SYSDATE)
+		        
+		SELECT * FROM DUAL
+	</insert>
+	
+	<insert id="addInvenHistorysOfYoChung">
+		<selectKey order="BEFORE" keyProperty="MY,TARGET" resultType="hashmap">
+			SELECT MEM.DEPT AS MY, M.BRANCH_SQ AS TARGET  
+			FROM MOVE M, MEMBER MEM 
+			WHERE M.SLAVE_SQ = MEM.MSEQ AND M.MSEQ = #{param1}
+		</selectKey>
+		
+		INSERT ALL
+		INTO INVENTORY 
+		VALUES (GET_INVEN_SEQ(), #{TARGET}, #{MY}, #{param2.productSq}, -#{param2.quantity}, 
+		        (SELECT NVL(MAX(BALANCE),0) FROM INVENTORY WHERE BRANCH_SQ = #{TARGET} AND PRODUCT_SQ = #{param2.productSq})-#{param2.quantity},
+		        '요청', 'A', SYSDATE)
+		        
+		INTO INVENTORY 
+		VALUES (GET_INVEN_SEQ(), #{MY}, #{TARGET}, #{param2.productSq}, #{param2.quantity},
+		        (SELECT NVL(MAX(BALANCE),0) FROM INVENTORY WHERE BRANCH_SQ = #{MY} AND PRODUCT_SQ = #{param2.productSq})+#{param2.quantity},
+		        '요청', 'A', SYSDATE)
+		
+		SELECT * FROM DUAL
+	</insert>
 	
 </mapper>

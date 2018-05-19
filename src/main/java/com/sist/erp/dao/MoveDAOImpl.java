@@ -85,4 +85,16 @@ public class MoveDAOImpl implements MoveDAO
 	{
 		session.getMapper(MoveDAO.class).finishAprv(mseq);
 	}
+
+	@Override
+	public void addInvenHistorysOfBulChul(String mseq, MoveListDetailVO mld)
+	{
+		session.getMapper(MoveDAO.class).addInvenHistorysOfBulChul(mseq, mld);
+	}
+
+	@Override
+	public void addInvenHistorysOfYoChung(String mseq, MoveListDetailVO mld)
+	{
+		session.getMapper(MoveDAO.class).addInvenHistorysOfYoChung(mseq, mld);
+	}
 }

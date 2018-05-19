@@ -50,13 +50,13 @@ function doApprove(one)
 			type:"POST",
 			url:"${path}/move/doApprove",
 			dataType : 'text',
-			data: { "mseq" : seq },
+			data: {"mseq" : seq},
 			success: function(result){
 				
-				if(result == true)
+				if(result)
 				{	
 					alert("결재되었습니다.");
-					locaton.href = "${path}/aprv/tome?page="+page;
+					location.href = "${path}/aprv/tome?page="+page;
 				}
 				else
 				{

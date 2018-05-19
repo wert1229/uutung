@@ -89,7 +89,7 @@ public class MoveController
 		MoveVO m = gson.fromJson(move, MoveVO.class);
 		List<MoveAprvVO> ma = gson.fromJson(moveAprv, new TypeToken<ArrayList<MoveAprvVO>>() {}.getType());
 		List<MoveListVO> ml = gson.fromJson(moveList, new TypeToken<ArrayList<MoveListVO>>() {}.getType());
-		
+
 		try
 		{
 			moveDAO.addMove(m);
@@ -135,32 +135,48 @@ public class MoveController
 		
 		model.addAttribute("mldlist", mldlist);
 		
-		return "move/moveListdetail";
+		return "move/moveListDetail";
 	}
 	
 	@ResponseBody
 	@RequestMapping("/doApprove")
-	public boolean doApprove(@RequestBody String mseq, HttpSession session)
+	public boolean doApprove(String mseq, HttpSession session)
 	{
 		String loginSeq = (String)session.getAttribute("loginSeq");
 		
 		DefaultTransactionDefinition def = new DefaultTransactionDefinition(); 
 		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED); 
 		TransactionStatus txStatus= txManager.getTransaction(def);
-		
+		System.out.println(mseq);
 		try
 		{
 			moveDAO.approveMoveAprv(mseq ,loginSeq);
 			
-			if(moveDAO.checkAprvFinished(mseq)=="Y")
+			if(moveDAO.checkAprvFinished(mseq).equals("Y"))
 			{
 				moveDAO.finishAprv(mseq);
+				String kind = moveDAO.getMoveDetailByMseq(mseq).getKind();
+				List<MoveListDetailVO> mldlist = moveDAO.getMoveListDetailByMseq(mseq);
 				
-				//히스토리처리
+				if(kind.equals("불출"))
+				{
+					for(MoveListDetailVO mld : mldlist)
+					{
+						moveDAO.addInvenHistorysOfBulChul(mseq, mld);
+					}
+				}
+				else
+				{
+					for(MoveListDetailVO mld : mldlist)
+					{
+						moveDAO.addInvenHistorysOfYoChung(mseq,mld);
+					}
+				}
 			}
 		}
 		catch(Exception e)
 		{
+			e.printStackTrace();
 			txManager.rollback(txStatus);
 			
 			return false;

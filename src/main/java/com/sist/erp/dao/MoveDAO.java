@@ -33,4 +33,8 @@ public interface MoveDAO
 	String checkAprvFinished(String mseq);
 
 	void finishAprv(String mseq);
+
+	void addInvenHistorysOfBulChul(String mseq, MoveListDetailVO mld);
+
+	void addInvenHistorysOfYoChung(String mseq, MoveListDetailVO mld);
 }
