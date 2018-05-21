@@ -76,6 +76,14 @@ public class MemberController
 			return false;
 	}
 	
+	@RequestMapping("/logout")
+	public String logout(HttpSession session)
+	{
+		session.removeAttribute("loginSeq");
+		
+		return "redirect:/";
+	}
+	
 	@RequestMapping(value="/join", method=RequestMethod.GET)
 	public String join() {
 		

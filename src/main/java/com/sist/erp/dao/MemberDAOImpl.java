@@ -39,4 +39,10 @@ public class MemberDAOImpl implements MemberDAO
 	{
 		return session.getMapper(MemberDAO.class).getMemberBySeq(mseq);
 	}
+
+	@Override
+	public List<MemberVO> getMembersExceptMe(String loginSeq)
+	{
+		return session.getMapper(MemberDAO.class).getMembersExceptMe(loginSeq);
+	}
 }

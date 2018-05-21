@@ -83,17 +83,23 @@
 	function select(one){
 		var member =  $(one).children("td");
 		
+		var writer = "${sessionScope.loginSeq}";
 		var mseq = $(member).eq(0).text();
 		var name = $(member).eq(1).text();
 		var position = $(member).eq(2).text();
 		
+		if(writer==mseq)
+		{
+			alert("자신은 들어갈 수 없습니다.");
+			return false;
+		}
 		for(var i in approvers)
 		{
 			if(approvers[i].mseq==mseq)
 			{
 				alert("이미 존재합니다.");
-				return;
-			}	
+				return false;
+			}
 		}
 		
 		var mem = {"mseq" : mseq , "name" : name, "position" : position};

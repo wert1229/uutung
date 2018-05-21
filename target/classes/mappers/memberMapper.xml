@@ -21,4 +21,8 @@
 	<select id="searchMembers" resultType="com.sist.erp.vo.MemberVO">
 		SELECT * FROM MEMBER WHERE NAME LIKE #{key} ORDER BY TO_NUMBER(MSEQ)
 	</select>
+	
+	<select id="getMembersExceptMe" resultType="com.sist.erp.vo.MemberVO">
+		SELECT * FROM MEMBER WHERE MSEQ NOT IN(#{loginSeq})
+	</select>
 </mapper>

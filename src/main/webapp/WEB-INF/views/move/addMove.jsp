@@ -135,6 +135,14 @@
 		var moveAprv = [];
 		var moveList = [];
 		
+		var mseq = $("#mseq").val();
+		var title = $("#title").val();
+		var slaveSQ = "${sessionScope.loginSeq}";
+		var estdate = $("#estdate").val();
+		var expdate = $("#expdate").val();
+		var branchSQ = $("#bseq").val();
+		var kind = $("option:selected").text();
+		
 		for(var i in products)
 		{	
 			products[i].moveSQ = mseq;
@@ -152,17 +160,18 @@
 			return false;
 		}	
 		
-		var mseq = $("#mseq").val();
-		var title = $("#title").val();
-		var slaveSQ = "${sessionScope.loginSeq}";
-		var estdate = $("#estdate").val();
-		var expdate = $("#expdate").val();
-		var branchSQ = $("#bseq").val();
-		var kind = $("option:selected").text();
-		
 		var listNum = moveList.length-1;
-		var note = moveList[0].name + " 외 " + listNum + "건";
-			
+		var note;
+		
+		if(moveList.length > 1)
+		{
+			note = moveList[0].name + " 외 " + listNum + "건";
+		}
+		else
+		{
+			note = moveList[0].name;
+		}
+		
 		move.mseq = mseq;
 		move.title = title;
 		move.slaveSQ = slaveSQ;
@@ -263,7 +272,7 @@
 	                        </div>
 	                        <!-- /.panel-heading -->
 	                        <div class="panel-body">
-	                            <div class="table-responsive table-bordered">
+	                            <div class="table-responsive table-bordered" >
 	                                <table class="table">
 	                                    <thead>
 	                                        <tr>
@@ -282,19 +291,19 @@
 	                                    </thead>
 	                                    <tbody>
 	                                        <tr>
-	                                            <th>지점명</th>
+	                                            <th style="padding: 12px">지점명</th>
 	                                            <td id="name"></td>
 	                                        </tr>
 	                                        <tr>
-	                                            <th>지점 관리자</th>
+	                                            <th style="padding: 12px">지점 관리자</th>
 	                                            <td id="manager"></td>
 	                                        </tr>
 	                                        <tr>
-	                                            <th>연락처</th>
+	                                            <th style="padding: 12px">연락처</th>
 	                                            <td id="phone"></td>
 	                                        </tr>
 	                                         <tr>
-	                                            <th>주소</th>
+	                                            <th style="padding: 12px">주소</th>
 	                                            <td id="location"></td>
 	                                        </tr>
 	                                        <tr>

@@ -132,7 +132,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>사진</label>
-                                        <div id="displayImg" style="width:150px; height:180px; border: 1px solid black"></div>
+                                        <div id="displayImg" style="width:140px; height:180px; border: 1px solid black"></div>
                                         <input id="upload" type="file" name="file" required>
                                         <input id="imgPath" type="hidden" name="img">
                                     </div>

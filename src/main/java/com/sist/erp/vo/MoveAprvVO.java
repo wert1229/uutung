@@ -6,6 +6,7 @@ public class MoveAprvVO
 	private String moveSQ;
 	private String approver;
 	private String priority;
+	private String state;
 	
 	public String getMaseq()
 	{
@@ -38,5 +39,13 @@ public class MoveAprvVO
 	public void setPriority(String priority)
 	{
 		this.priority = priority;
+	}
+	public String getState()
+	{
+		return state;
+	}
+	public void setState(String state)
+	{
+		this.state = state;
 	}
 }

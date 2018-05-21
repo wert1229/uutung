@@ -16,6 +16,11 @@ $(function(){
 		
 		location.href="${path}/move/excel";
 	});
+	
+	$("#reg").click(function(){
+		
+		location.href="${path}/move/new";
+	});
 });
 
 function detail(mseq)
