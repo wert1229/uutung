@@ -254,7 +254,7 @@
 <body>
 <div id="wrapper">
 	<%@include file="/resources/jspf/topnav.jspf"%>
-    <%@include file="/resources/jspf/sidenavJaego.jspf"%>
+    <%@include file="/resources/jspf/sidenavGroup.jspf"%>
        
     <div id="page-wrapper">
 
@@ -302,7 +302,7 @@
                     						<c:forEach items="${mlist}" var="m">
 	                    						<a href="#" class="list-group-item">
 				                                    <input type="radio" name="partner" class="partner">
-				                                    <i class="fa fa-user fa-fw"></i> ${m.name} <i class="alarm" style="color:red;"></i>
+				                                    <i class="fa fa-user fa-fw"></i> ${m.name} <i class="alarm" style="color: red; font-weight: bold;"></i>
 				                                    <input type="hidden" class="empNo" value="${m.mseq}">
 				                                    <span class="pull-right text-muted small"><em>${m.position}</em>
 				                                    </span>

@@ -32,7 +32,7 @@
 			<a href="${path}/ahome">결재</a>
 		</li>
 		<li>
-			<a href="#">그룹웨어</a>
+			<a href="${path}/chat">그룹웨어</a>
 		</li>
 	</ul>
 
