@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.sist.erp.dao.ChatDAO">
+	<insert id="addChat">
+		INSERT INTO CHATLOG VALUES(CHAT_SEQ.NEXTVAL, #{sender}, #{receiver}, #{content}, TO_DATE(#{regdate},'YYYY-MM-DD HH24:MI:SS'),'', #{senderName}, #{senderPos})
+		<selectKey resultType="integer" keyProperty="cseq" order="AFTER">
+		    SELECT CHAT_SEQ.CURRVAL FROM DUAL
+		</selectKey>
+	</insert>
+	
+	<select id="getLogs" resultType="com.sist.erp.vo.ChatVO">
+		SELECT * FROM CHATLOG WHERE (SENDER = #{param1} AND RECEIVER = #{param2}) OR (SENDER = #{param2} AND RECEIVER = #{param1}) AND ROWNUM &lt;= 30 ORDER BY REGDATE
+	</select>
+	
+	<update id="updateCheckdate">
+		UPDATE CHATLOG SET CHECKDATE = SYSDATE WHERE SENDER = #{param2} AND RECEIVER = #{param1} AND CHECKDATE IS NULL
+	</update>
+	
+	<update id="updateCheckOneByOne">
+		UPDATE CHATLOG SET CHECKDATE = SYSDATE WHERE CSEQ = #{param1}
+	</update>
+	
+	<select id="getChatUnread" resultType="com.sist.erp.vo.ChatUnreadVO">
+		SELECT SENDER, COUNT(CSEQ) AS UNREAD FROM CHATLOG WHERE RECEIVER = #{param1} AND CHECKDATE IS NULL GROUP BY SENDER
+	</select>
+</mapper>

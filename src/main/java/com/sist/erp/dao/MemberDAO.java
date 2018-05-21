@@ -13,4 +13,6 @@ public interface MemberDAO
 	List<MemberVO> searchMembers(String key);
 	
 	MemberVO getMemberBySeq(String mseq);
+
+	List<MemberVO> getMembersExceptMe(String loginSeq);
 }
