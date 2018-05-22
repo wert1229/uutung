@@ -1,6 +1,53 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<script>
+	$(function(){
+		$.ajax({
+			type:"POST",
+			url:"${path}/chat/getUnreads",
+			dataType : "json",
+			data: { "loginSeq" : "${loginSeq}"},
+			success: function(urlist){
+				
+				var total = 0;
+				var content = "";
+				
+				if(urlist.length != 0)
+				{	
+					for(var i in urlist)
+					{
+						if(i!=0)
+						{
+							content += '<li class="divider"></li>'
+						}
+						content += '<li>';
+						content += '<a href="#">';
+						content += '<div>';
+						content += '<strong>'+urlist[i].sender+'</strong>';
+						content += '<span class="pull-right text-muted">';
+						content += '<em>Yesterday</em>';
+						content += '</span>';
+						content += '</div>';
+						content += '<div>'+urlist[i].unread+'개의 안읽은 메세지가 있습니다.</div>';
+						content += '</a>';
+						content += '</li>';
+						
+						total += urlist[i].unread;
+					}	
+					
+					$("#msgTotal").text(total);
+				}
+				else
+				{
+					content = "도착한 메세지가 없습니다"	
+				}
+				
+				$("#msgAlarm").html(content);
+				
+			}
+		});
+	});
+</script>
 <div class="divider" style="background-image: url(${path}/images/pic.png); width: 100%; top: 500px;">
 	<br>
 	<br>
@@ -38,10 +85,10 @@
 
     <ul class="nav navbar-top-links navbar-right">
         <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><b id="msgTotal" style="color:red;"></b>
                 <i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
             </a>
-            <ul class="dropdown-menu dropdown-messages">
+            <ul id="msgAlarm" class="dropdown-menu dropdown-messages">
                 <li>
                     <a href="#">
                         <div>

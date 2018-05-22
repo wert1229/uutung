@@ -63,11 +63,24 @@ public class ChatController
 	}
 	
 	@ResponseBody
-	@RequestMapping("updateCheck")
+	@RequestMapping("/updateCheck")
 	public boolean update(String cseq)
 	{
 		chatDAO.updateCheckOneByOne(cseq);
 		
 		return true;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/getUnreads")
+	public String getUnreads(String loginSeq)
+	{
+		Gson gson = new Gson();
+		
+		List<ChatUnreadVO> urlist = chatDAO.getChatUnread(loginSeq);
+		
+		String jsonUrlist = gson.toJson(urlist);
+		
+		return jsonUrlist;
 	}
 }
