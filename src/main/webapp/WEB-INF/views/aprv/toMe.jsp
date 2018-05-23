@@ -129,8 +129,6 @@ function doApprove(one)
                             </tbody>
                         </table>
                      <div class="col-md-4">
-                   		<button id="reg" type="button" class="btn btn-primary" style="margin-right:10px;">등록</button>
-               	    	<button id="del" type="button" class="btn btn-default" style="margin-right:10px;">선택 삭제</button>
                	    	<button id="excel" type="button" class="btn btn-default">엑셀 다운</button>
                      </div>
                     </div>

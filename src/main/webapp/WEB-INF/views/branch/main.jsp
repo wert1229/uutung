@@ -39,7 +39,7 @@ $(function(){
 		
 		$("input[type='checkbox']:checked").each(function() {
 			
-			var bseq = $(this).parent().text(); 
+			var bseq = $(this).parent().siblings(".bseq").text(); 
 
 			checkedList.push(bseq);
 		});
@@ -58,6 +58,7 @@ $(function(){
 				
 				if(result==true)
 				{
+					alert("삭제되었습니다.");
 					location.href="${path}/branch?page="+page;
 				}	
 			} 
@@ -99,6 +100,7 @@ function edit(one)
                         <table class="table table-striped table-bordered table-hover" id="testTable">
                             <thead>
                                 <tr>
+                                	<th>선택</th>
                                     <th>매장 코드</th>
                                     <th>매장 이름</th>
                                     <th>매장 관리자</th>
@@ -109,7 +111,8 @@ function edit(one)
                             <tbody>
                             	<c:forEach items="${blist}" var="b">
                             		<tr>
-	                                    <td><input type="checkbox">${b.bseq}</td>
+                            			<td><input type="checkbox"></td>
+	                                    <td class="bseq">${b.bseq}</td>
 	                                    <td><a class="edit" onclick="edit(this)" style="cursor: pointer;">${b.name}</a></td>
 	                                    <td>${b.managerName} (${b.manager})</td>
 	                                    <td>${b.phone}</td>
