@@ -2,6 +2,11 @@
     pageEncoding="UTF-8"%>
 <script>
 	$(function(){
+		loadTopnavMsgAlarm();
+	});
+	
+	function loadTopnavMsgAlarm(){
+		
 		$.ajax({
 			type:"POST",
 			url:"${path}/chat/getUnreads",
@@ -21,14 +26,14 @@
 							content += '<li class="divider"></li>'
 						}
 						content += '<li>';
-						content += '<a href="#">';
+						content += '<a href="${path}/chat?mseq='+urlist[i].sender+'">';
 						content += '<div>';
-						content += '<strong>'+urlist[i].sender+'</strong>';
+						content += '<strong>'+urlist[i].senderName+' '+urlist[i].senderPos+'님으로부터'+'</strong>';
 						content += '<span class="pull-right text-muted">';
 						content += '<em>Yesterday</em>';
 						content += '</span>';
 						content += '</div>';
-						content += '<div>'+urlist[i].unread+'개의 안읽은 메세지가 있습니다.</div>';
+						content += '<div>'+urlist[i].unread+'개의 읽지 않은 메세지가 있습니다.</div>';
 						content += '</a>';
 						content += '</li>';
 						
@@ -39,14 +44,23 @@
 				}
 				else
 				{
-					content = "도착한 메세지가 없습니다"	
+					$("#msgTotal").text("");
+					content = '<li><a class="text-center"><span class="text-muted">새로 도착한 메세지가 없습니다</span></a></li>';
 				}
+				
+				content += '<li class="divider"></li>';
+				content += '<li>';
+				content += '<a class="text-center" href="${path}/chat">';
+				content += '<strong>그룹 메신저로 가기</strong>';
+				content += '<i class="fa fa-angle-right"></i>';
+				content += '</a>';
+				content += '</li>';
 				
 				$("#msgAlarm").html(content);
 				
 			}
 		});
-	});
+	}
 </script>
 <div class="divider" style="background-image: url(${path}/images/pic.png); width: 100%; top: 500px;">
 	<br>
@@ -89,48 +103,7 @@
                 <i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
             </a>
             <ul id="msgAlarm" class="dropdown-menu dropdown-messages">
-                <li>
-                    <a href="#">
-                        <div>
-                            <strong>John Smith</strong>
-                            <span class="pull-right text-muted">
-                                <em>Yesterday</em>
-                            </span>
-                        </div>
-                        <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                    </a>
-                </li>
-                <li class="divider"></li>
-                <li>
-                    <a href="#">
-                        <div>
-                            <strong>John Smith</strong>
-                            <span class="pull-right text-muted">
-                                <em>Yesterday</em>
-                            </span>
-                        </div>
-                        <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                    </a>
-                </li>
-                <li class="divider"></li>
-                <li>
-                    <a href="#">
-                        <div>
-                            <strong>John Smith</strong>
-                            <span class="pull-right text-muted">
-                                <em>Yesterday</em>
-                            </span>
-                        </div>
-                        <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                    </a>
-                </li>
-                <li class="divider"></li>
-                <li>
-                    <a class="text-center" href="#">
-                        <strong>Read All Messages</strong>
-                        <i class="fa fa-angle-right"></i>
-                    </a>
-                </li>
+            
             </ul>
             <!-- /.dropdown-messages -->
       </li>
