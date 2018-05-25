@@ -12,7 +12,7 @@
 	</insert>
 	
 	<select id="getLogs" resultType="com.sist.erp.vo.ChatVO">
-		SELECT * FROM CHATLOG WHERE (SENDER = #{param1} AND RECEIVER = #{param2}) OR (SENDER = #{param2} AND RECEIVER = #{param1}) AND ROWNUM &lt;= 30 ORDER BY REGDATE
+		SELECT * FROM CHATLOG WHERE (SENDER = #{param1} AND RECEIVER = #{param2}) OR (SENDER = #{param2} AND RECEIVER = #{param1}) AND ROWNUM &lt;= 50 ORDER BY REGDATE
 	</select>
 	
 	<update id="updateCheckdate">
@@ -24,6 +24,6 @@
 	</update>
 	
 	<select id="getChatUnread" resultType="com.sist.erp.vo.ChatUnreadVO">
-		SELECT SENDER, COUNT(CSEQ) AS UNREAD FROM CHATLOG WHERE RECEIVER = #{param1} AND CHECKDATE IS NULL GROUP BY SENDER
+		SELECT SENDER, SENDER_NAME, SENDER_POS, COUNT(CSEQ) AS UNREAD FROM CHATLOG WHERE RECEIVER = #{param1} AND CHECKDATE IS NULL GROUP BY SENDER, SENDER_NAME, SENDER_POS
 	</select>
 </mapper>

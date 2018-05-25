@@ -10,6 +10,7 @@
 	var mseq = "${me.mseq}";
 
 	$(function(){
+		
 		$("#btn-chat").click(function(){
 			Send();
 		});
@@ -69,7 +70,6 @@
 							appender+= '    </p>';
 							appender+= '</div>';
 							appender+= '</li>';
-							
 						}
 						else
 						{
@@ -96,10 +96,23 @@
 					$("#scroll").scrollTop($("#scroll")[0].scrollHeight);
 					$(alarm).text("");
 					$("#content").removeAttr("readonly");
+					loadTopnavMsgAlarm();
 				} 
 			});
 		});
+
+		var selectedMseq = "${selectedMseq}";
 		
+		if(selectedMseq != ""){
+			
+			$(".empNo").each(function(){
+				
+				if($(this).val() == selectedMseq){
+					
+					$(this).siblings(".partner").click();
+				}	
+			});
+		}	
 	});
 
 	var sock = new SockJS("${path}/echo");

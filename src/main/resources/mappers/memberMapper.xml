@@ -25,4 +25,8 @@
 	<select id="getMembersExceptMe" resultType="com.sist.erp.vo.MemberVO">
 		SELECT * FROM MEMBER WHERE MSEQ NOT IN(#{loginSeq})
 	</select>
+	
+	<select id="getMembers" resultType="com.sist.erp.vo.MemberVO" >
+		SELECT * FROM MEMBER
+	</select>
 </mapper>

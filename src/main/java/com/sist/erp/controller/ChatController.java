@@ -28,7 +28,7 @@ public class ChatController
 	private ChatDAO chatDAO;
 	
 	@RequestMapping(value="", method=RequestMethod.GET)
-	public String chatPage(Model model, HttpSession session)
+	public String chatPage(Model model, HttpSession session, String mseq)
 	{
 		Gson gson = new Gson();
 		
@@ -41,6 +41,7 @@ public class ChatController
 		model.addAttribute("me", m);
 		model.addAttribute("mlist", mlist);
 		model.addAttribute("culist", gson.toJson(culist));
+		model.addAttribute("selectedMseq", mseq);
 		
 		return "chat/main";
 	}
@@ -63,11 +64,24 @@ public class ChatController
 	}
 	
 	@ResponseBody
-	@RequestMapping("updateCheck")
+	@RequestMapping("/updateCheck")
 	public boolean update(String cseq)
 	{
 		chatDAO.updateCheckOneByOne(cseq);
 		
 		return true;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/getUnreads", method=RequestMethod.POST, produces = "application/text; charset=utf8")
+	public String getUnreads(String loginSeq)
+	{
+		Gson gson = new Gson();
+		
+		List<ChatUnreadVO> urlist = chatDAO.getChatUnread(loginSeq);
+		
+		String jsonUrlist = gson.toJson(urlist);
+		
+		return jsonUrlist;
 	}
 }
