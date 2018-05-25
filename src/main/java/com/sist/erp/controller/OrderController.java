@@ -23,13 +23,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
+import com.sist.erp.dao.EstimateDAO;
 import com.sist.erp.dao.MemberDAO;
 import com.sist.erp.dao.OrderDAO;
-import com.sist.erp.dao.TempDAO;
 import com.sist.erp.vo.EstiProductVO;
-import com.sist.erp.vo.MoveAprvVO;
-import com.sist.erp.vo.MoveListVO;
-import com.sist.erp.vo.MoveVO;
 import com.sist.erp.vo.OrderAprvVO;
 import com.sist.erp.vo.OrderCheckVO;
 import com.sist.erp.vo.OrderDetailVO;
@@ -45,27 +42,24 @@ public class OrderController {
 	@Autowired
 	private MemberDAO memberDAO;
 	@Autowired
-	private TempDAO tempDAO;
+	private EstimateDAO estimateDAO;
 	
 	@Resource(name = "transactionManager")
 	private DataSourceTransactionManager txManager;
 	
-	
 	@RequestMapping(value="/main", method=RequestMethod.GET)
 	public String orders(HttpSession session, Model model) {
 
-	     String loginSeq = (String)session.getAttribute("loginSeq");
+		String loginSeq = (String)session.getAttribute("loginSeq");
 		
 		String dept = memberDAO.getMemberBySeq(loginSeq).getDept();
 		
-		List<OrderCheckVO> olist = orderdao.getOrderChecks();
+		List<OrderCheckVO> olist = orderdao.getOrderChecks(dept);
 		
 		model.addAttribute("olist",olist);
 	
 		return "order/main";
 	}
-	
-	
 	
 	@ResponseBody
 	@RequestMapping(value="/main", method=RequestMethod.POST)
@@ -87,7 +81,7 @@ public class OrderController {
 		OrderVO o = gson.fromJson(order, OrderVO.class);
 		List<OrderAprvVO> oa = gson.fromJson(orderAprv, new TypeToken<ArrayList<OrderAprvVO>>() {}.getType());
 		List<OrderListVO> ol = gson.fromJson(orderList, new TypeToken<ArrayList<OrderListVO>>() {}.getType());
-
+		
 		try
 		{
 			orderdao.addOrder(o);
@@ -97,7 +91,7 @@ public class OrderController {
 		catch(Exception e)
 		{
 			txManager.rollback(txStatus);
-			
+			e.printStackTrace();
 			return false;
 		}
 		
@@ -105,8 +99,6 @@ public class OrderController {
 		
 		return true;
 	}
-	
-	
 	
 	@RequestMapping("/addorder")
 	public String addOrderForm(Model model, HttpSession session) {
@@ -119,7 +111,6 @@ public class OrderController {
 		
 		return "order/addorder";
 	}
-	
 	
 	@RequestMapping(value="/searchClient", method=RequestMethod.GET)
 	public String searchClient()
@@ -150,7 +141,7 @@ public class OrderController {
 		System.out.println(cseq);
 		Gson gson = new Gson();
 		
-		List<EstiProductVO> elist = tempDAO.searchEstProduct(key, cseq);
+		List<EstiProductVO> elist = estimateDAO.searchEstProduct(key, cseq);
 		
 		String elistJson = gson.toJson(elist);
 		
@@ -166,7 +157,5 @@ public class OrderController {
 		
 		return "order/orderdetail";
 	}
-	
-	
 	
 }

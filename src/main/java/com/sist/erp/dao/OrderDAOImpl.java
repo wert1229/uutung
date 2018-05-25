@@ -23,8 +23,8 @@ public class OrderDAOImpl implements OrderDAO{
 	SqlSession session;
 	
 	@Override
-	public List<OrderCheckVO> getOrderChecks() {
-		return session.getMapper(OrderDAO.class).getOrderChecks();
+	public List<OrderCheckVO> getOrderChecks(String dept) {
+		return session.getMapper(OrderDAO.class).getOrderChecks(dept);
 	
 	}
 

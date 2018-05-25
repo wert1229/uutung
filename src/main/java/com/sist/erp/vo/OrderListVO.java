@@ -6,7 +6,7 @@ public class OrderListVO {
 	private String productSq;
 	private int price;
 	private int quantity;
-	private String approvSq;
+	private String orderSq;
 	
 	public String getOlseq() {
 		return olseq;
@@ -32,12 +32,12 @@ public class OrderListVO {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-	public String getApprovSq() {
-		return approvSq;
+	public String getOrderSq()
+	{
+		return orderSq;
 	}
-	public void setApprovSq(String approvSq) {
-		this.approvSq = approvSq;
+	public void setOrderSq(String orderSq)
+	{
+		this.orderSq = orderSq;
 	}
-	
-	
 }

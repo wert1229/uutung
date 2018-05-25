@@ -13,7 +13,7 @@ import com.sist.erp.vo.OrderVO;
 
 public interface OrderDAO { 
 
-	List<OrderCheckVO> getOrderChecks();
+	List<OrderCheckVO> getOrderChecks(String dept);
 	
 	List<OrderDetailVO> getdetailList(String ocseq);
 	
@@ -24,7 +24,6 @@ public interface OrderDAO {
 	void addOrderList(List<OrderListVO> ol);
 	
 	void approveOrderAprv(String oseq, String loginSeq);
-	
 	
 	List<OrderListDetailVO> getOrderDetailListByOseq(String oseq);
 	

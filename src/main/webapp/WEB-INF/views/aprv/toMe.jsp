@@ -17,7 +17,7 @@ $(function(){
 		page = parseInt(page);
 	}
 		
- 	$("#testTable").DataTable().page(page-1).order( [ 5, 'desc' ] ).draw();
+ 	$("#testTable").DataTable().page(page-1).order( [ 6, 'desc' ] ).draw();
 	
 	$("#excel").click(function(){
 		
@@ -40,7 +40,7 @@ function detail(one)
 
 function doApprove(one)
 {
-	var seq = $(one).parent().siblings().eq(0).text();
+	var seq = $(one).parent().siblings().eq(1).text();
 	var kind = seq[0];
 	var page = $(".paginate_button.active a").text();
 	
@@ -65,7 +65,35 @@ function doApprove(one)
 			} 
 		});
 	}
+}
+
+function doReject(one)
+{
+	var seq = $(one).parent().siblings().eq(1).text();
+	var kind = seq[0];
+	var page = $(".paginate_button.active a").text();
 	
+	if(kind = 'M')
+	{
+		$.ajax({
+			type:"POST",
+			url:"${path}/move/doReject",
+			dataType : 'text',
+			data: {"mseq" : seq},
+			success: function(result){
+				
+				if(result)
+				{	
+					alert("반려되었습니다.");
+					location.href = "${path}/aprv/tome?page="+page;
+				}
+				else
+				{
+					alert("내부오류 발생!");
+				}
+			} 
+		});
+	}
 }
 </script>
 <title>Insert title here</title>
@@ -88,6 +116,7 @@ function doApprove(one)
                         <table class="table table-striped table-bordered table-hover" id="testTable">
                             <thead>
                                 <tr>
+                                    <th>종류</th>
                                     <th>결재 번호</th>
                                     <th>제목</th>
                                     <th>기안자</th>
@@ -102,6 +131,7 @@ function doApprove(one)
                             <tbody>
                             	<c:forEach items="${atmlist}" var="a">
                             		<tr>
+	                                    <td>${a.kind}</td>
 	                                    <td>${a.seq}</td>
 	                                    <td><a onclick="detail(this)" style="cursor: pointer;">${a.title}</a></td>
 	                                    <td>${a.slaveName} (${a.slaveSq})</td>
@@ -119,9 +149,13 @@ function doApprove(one)
 	                                    <td>
 	                                    	<c:if test="${a.isApproved == 'N'}">
 	                                    		<button type="button" class="btn btn-xs btn-default" onclick="doApprove(this)">결재</button>
+	                                    		<button type="button" class="btn btn-xs btn-default" onclick="doReject(this)">반려</button>
 	                                    	</c:if>
 	                                    	<c:if test="${a.isApproved == 'Y'}">
 	                                    		<button type="button" class="btn btn-xs btn-default disabled">기결재</button>
+	                                    	</c:if>
+	                                    	<c:if test="${a.isApproved == 'R'}">
+	                                    		<button type="button" class="btn btn-xs btn-danger disabled">반려</button>
 	                                    	</c:if>
 	                                    </td>
 	                                </tr>

@@ -147,7 +147,7 @@ public class MoveController
 		DefaultTransactionDefinition def = new DefaultTransactionDefinition(); 
 		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED); 
 		TransactionStatus txStatus= txManager.getTransaction(def);
-		System.out.println(mseq);
+		
 		try
 		{
 			moveDAO.approveMoveAprv(mseq ,loginSeq);
@@ -173,6 +173,34 @@ public class MoveController
 					}
 				}
 			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			txManager.rollback(txStatus);
+			
+			return false;
+		}
+		txManager.commit(txStatus);
+		
+		return true;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/doReject")
+	public boolean doReject(String mseq, HttpSession session)
+	{
+		String loginSeq = (String)session.getAttribute("loginSeq");
+		
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition(); 
+		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED); 
+		TransactionStatus txStatus= txManager.getTransaction(def);
+
+		try
+		{
+			moveDAO.rejectMoveAprv(mseq ,loginSeq);
+			
+			moveDAO.setAprvRejected(mseq);
 		}
 		catch(Exception e)
 		{

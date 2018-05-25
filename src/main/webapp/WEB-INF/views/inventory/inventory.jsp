@@ -53,7 +53,6 @@ $(function(){
 	<c:forEach items="${balanceList}" var="list">
 		var itemB = {"seq":"${list.iseq}","fseq":"${list.pseq}", "bseq":"${list.bseq}", "balance": ${list.balance} };
 		itemBList.push(itemB);
-		alert(itemB.seq);
 	</c:forEach> 
 
 	

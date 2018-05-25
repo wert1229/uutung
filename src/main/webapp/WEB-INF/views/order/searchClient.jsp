@@ -72,6 +72,10 @@
 		var phone = $(client).eq(3).text();
 		var location = $(client).eq(4).text();
 		
+		if(cseq != $("#cseq", opener.document).val()){
+			window.opener.clearProductList();
+		}
+		
 		$("#cseq", opener.document).val(cseq);
 		$("#name", opener.document).text(name);
 		$("#owner", opener.document).text(owner);

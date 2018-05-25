@@ -1,7 +1,5 @@
 package com.sist.erp.vo;
 
-import java.util.List;
-
 public class OrderCheckVO {
 
 	private String ocseq;

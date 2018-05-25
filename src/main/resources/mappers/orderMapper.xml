@@ -6,36 +6,33 @@
 <mapper namespace="com.sist.erp.dao.OrderDAO">
 
 	<select id="getOrderChecks" resultType="com.sist.erp.vo.OrderCheckVO">
-	
-	SELECT O.OSEQ AS OCSEQ, O.TITLE , C.NAME ,O.NOTE, O.ESTDATE, O.STATE
-    FROM ORDERD O, CLIENT C 
-    WHERE O.CLIENT_SQ = C.CSEQ
+		SELECT O.OSEQ AS OCSEQ, O.TITLE , C.NAME ,O.NOTE, O.ESTDATE, O.STATE
+	    FROM ORDERD O, CLIENT C, MEMBER MEM 
+	    WHERE O.CLIENT_SQ = C.CSEQ AND O.SLAVE_SQ = MEM.MSEQ AND MEM.DEPT = #{dept}
 	</select>
 
 	<select id="getdetailList" resultType ="com.sist.erp.vo.OrderDetailVO">
-	
-	SELECT P.PSEQ , P.NAME , P.CATEGORY, O.QUANTITY AS AMOUNT, O.PRICE, (O.QUANTITY * O.PRICE) AS TOTALPRICE, P.NOTE
-	FROM PRODUCT P, ORDERLIST O
-	WHERE P.PSEQ = O.PRODUCT_SQ AND ORDER_SQ =#{ocseq}
-	
+		SELECT P.PSEQ , P.NAME , P.CATEGORY, O.QUANTITY AS AMOUNT, O.PRICE, (O.QUANTITY * O.PRICE) AS TOTALPRICE, P.NOTE
+		FROM PRODUCT P, ORDERLIST O
+		WHERE P.PSEQ = O.PRODUCT_SQ AND ORDER_SQ =#{ocseq}
 	</select>
 
 	<insert id="addOrder">
 			INSERT INTO ORDERD VALUES
-			(#{oseq}, #{title}, #{slaveSQ}, #{estdate}, #{clientSQ}, '결재대기', SYSDATE, #{expdate}, #{note})
+			(#{ocseq}, #{title}, #{slaveSq}, #{estdate}, #{clientSq}, '결재대기', SYSDATE, #{expdate}, #{note})
 	</insert>
 
 	<insert id="addOrderAprv" parameterType="java.util.List">
 		<foreach collection="list" item="item" separator="" open="INSERT ALL" close="SELECT * FROM DUAL">
 		INTO ORDERAPRV VALUES
-			(GET_OA_SEQ(), #{item.orderSQ},#{item.approver},#{item.priority},'N')
+			(GET_OA_SEQ(), #{item.orderSq},#{item.approver},#{item.priority},'N')
 		</foreach>	
 	</insert>
 	
 	<insert id="addOrderList" parameterType="java.util.List">
 		<foreach collection="list" item="item" separator="" open="INSERT ALL" close="SELECT * FROM DUAL">
 		INTO ORDERLIST VALUES
-			(GET_OL_SEQ(), #{item.productSQ},#{item.quantity},#{item.orderSQ})
+			(GET_OL_SEQ(), #{item.productSq},#{item.price},#{item.quantity},#{item.orderSq})
 		</foreach>
 	</insert>
 
@@ -79,19 +76,19 @@
 		UPDATE ORDERAPRV SET STATE = 'Y' WHERE ORDER_SQ = #{param1} AND APPROVER = #{param2}
 	</update>
 
-		<select id="getOrderDetailListByOseq" resultType="com.sist.erp.vo.OrderListDetailVO">
-		SELECT
-		   OL.OLSEQ,
-		   OL.PRODUCT_SQ,
-		   P.NAME AS PRODUCT_NAME,
-		   OL.QUANTITY,
-		   P.CATEGORY,
-		   P.NOTE
-		FROM 
-		    ORDERLIST OL, PRODUCT P
-		WHERE OL.PRODUCT_SQ = P.PSEQ
-		    AND OL.ORDER_SQ = #{oseq}
-		ORDER BY OL.OLSEQ
+	<select id="getOrderDetailListByOseq" resultType="com.sist.erp.vo.OrderListDetailVO">
+	SELECT
+	   OL.OLSEQ,
+	   OL.PRODUCT_SQ,
+	   P.NAME AS PRODUCT_NAME,
+	   OL.QUANTITY,
+	   P.CATEGORY,
+	   P.NOTE
+	FROM 
+	    ORDERLIST OL, PRODUCT P
+	WHERE OL.PRODUCT_SQ = P.PSEQ
+	    AND OL.ORDER_SQ = #{oseq}
+	ORDER BY OL.OLSEQ
 	</select>
 
 

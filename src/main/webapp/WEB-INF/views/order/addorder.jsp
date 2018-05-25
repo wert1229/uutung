@@ -7,7 +7,7 @@
 <%@include file="/resources/jspf/links.jspf"%>
 <title>Insert title here</title>
 <script>
-
+	var childWin;
 
 	var products = [];
 	
@@ -15,22 +15,27 @@
 
 	$(function(){
 
-		products.push({"no" : 1 , "productSQ" : "" , "name" : "" , "category" : "", "quantity" : "" , "price" : "" , "totalPrice" : "" , "note" : ""});
+		products.push({"no" : 1 , "productSq" : "" , "name" : "" , "category" : "", "quantity" : "" , "price" : "" , "totalPrice" : "" , "note" : ""});
 		draw();
 		
 		$("#oseq").val("O"+timestamp);
 		
 		$("#searchClient").click(function(){
 			
-		childWin = window.open("${path}/order/searchClient", "searchThings",
-		"width=600, height=600, top=300, left=800, resizable=no, location=no");
+			if(products[0].productSq != "" || products.length > 1){
+
+				alert("거래처를 변경하시면 작성된 물품리스트가 갱신됩니다.");
+			}
+			
+			childWin = window.open("${path}/order/searchClient", "searchThings",
+			"width=600, height=600, top=300, left=800, resizable=no, location=no");
 		});
 	 
 		
 		$("#searchApprovers").click(function(){
 		
-		childWin = window.open("${path}/order/searchApprovers", "searchThings",
-				"width=600, height=600, top=300, left=800, resizable=no, location=no");
+			childWin = window.open("${path}/order/searchApprovers", "searchThings",
+					"width=600, height=600, top=300, left=800, resizable=no, location=no");
 		});
 		
 		
@@ -66,7 +71,7 @@
 			var no = $(this).parents(".no").text();
 			no= parseInt(no);
 			
-			var blank = {"no" : no+1 , "productSQ" : "" , "name" : "" , "category" : "", "quantity" : "" , "price" : "" , "totalPrice" : "" , "note" : ""}
+			var blank = {"no" : no+1 , "productSq" : "" , "name" : "" , "category" : "", "quantity" : "" , "price" : "" , "totalPrice" : "" , "note" : ""}
 			
 			products.splice(no, 0, blank);
 			
@@ -88,7 +93,7 @@
 			
 			content += '<tr>';
             content += '<td class="no"><button class="btn btn-default btn-xs addList"><i class="fa fa-caret-down"></i></button>'+j+'</td>';
-            content += '<td>'+products[i].productSQ+'</td>';
+            content += '<td>'+products[i].productSq+'</td>';
             content += '<td>';
             content += '<div class="form-group input-group" style="padding: 0px; margin: 0px;">';
             content += '<input class="form-control" placeholder="Use Search" value="'+products[i].name+'" required readonly>';
@@ -114,13 +119,13 @@
 		saveNowAmount();
 		
 		var no = $("#pno").val();
-		var productSQ = $("#pseq").val();
+		var productSq = $("#pseq").val();
 		var name = $("#pname").val();
 		var category = $("#pcategory").val();
 		var price = $("#price").val();
 		var note = $("#pnote").val();
 		
-		products[no].productSQ = productSQ;
+		products[no].productSq = productSq;
 		products[no].name = name;
 		products[no].category = category;
 	    products[no].price = price;
@@ -141,6 +146,13 @@
 	}
 	
 	
+	function clearProductList()
+	{
+		products = [];
+		products.push({"no" : 1 , "productSq" : "" , "name" : "" , "category" : "", "quantity" : "" , "price" : "" , "totalPrice" : "" , "note" : ""});
+		draw();
+	}
+	
 	function submit()
 	{
 		if("${sessionScope.loginSeq}"=="")
@@ -159,17 +171,17 @@
 		
 		var ocseq = $("#oseq").val();
 		var title = $("#title").val();
-		var slaveSQ = "${sessionScope.loginSeq}";
+		var slaveSq = "${sessionScope.loginSeq}";
 		var estdate = $("#estdate").val();
 		var expdate = $("#expdate").val();
-		var clientSQ = $("#cseq").val();
+		var clientSq = $("#cseq").val();
 		var note = $("#note").val();
 		
 		for(var i in products)
 		{	
-			products[i].orderSQ = ocseq;
+			products[i].orderSq = ocseq;
 			
-			if(products[i].productSQ != "" && products[i].quantity != "" && products[i].quantity != "0")
+			if(products[i].productSq != "" && products[i].quantity != "" && products[i].quantity != "0")
 			{
 				orderList.push(products[i]);
 			}
@@ -196,16 +208,16 @@
 		
 		order.ocseq = ocseq;
 		order.title = title;
-		order.slaveSQ = slaveSQ;
+		order.slaveSq = slaveSq;
 		order.estdate = estdate;
 		order.expdate = expdate;
-		order.clientSQ = clientSQ;
+		order.clientSq = clientSq;
 		order.note = note;
 
 		
 		var approversSeq = $("#approversSeq").val();
 		
-		if(clientSQ=="" || ocseq=="" || title=="" || approversSeq=="" || expdate=="" || estdate=="")
+		if(clientSq=="" || ocseq=="" || title=="" || approversSeq=="" || expdate=="" || estdate=="")
 		{
 			alert("빈 항목이 존재합니다!");
 			
@@ -219,7 +231,7 @@
 			var temp = {};
 			
 			temp.approver = approvers[i];
-			temp.orderSQ = ocseq;
+			temp.orderSq = ocseq;
 			temp.priority = i;
 			
 			orderAprv.push(temp);
@@ -238,8 +250,7 @@
 			data: mapJson ,
 			contentType : 'application/json; charset=utf-8',
 			success: function(result){
-				
-				if(result == true)
+				if(result)
 				{
 					alert("작성되었습니다.");
 					location.href="${path}/order/main";
@@ -253,7 +264,9 @@
 		});
 	}
 	
-
+	window.onunload=function(){
+		childWin.close();
+	};
 
 </script>
 </head>
