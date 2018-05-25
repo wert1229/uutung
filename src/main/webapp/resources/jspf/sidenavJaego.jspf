@@ -4,7 +4,7 @@
    <div class="sidebar-nav">
        <ul class="nav" id="side-menu">
            <li>
-               <a href="index.html"><i class="fa fa-th-list fa-fw"></i> 재고 현황</a>
+               <a href="${path}/inventory"><i class="fa fa-th-list fa-fw"></i> 재고 현황</a>
            </li>
            <li>
                <a href="#"><i class="fa fa-shopping-cart fa-fw"></i> 품목 관리</a>
