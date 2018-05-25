@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.sist.erp.dao.EstimateDAO">
+	<insert id="addEstimate" >
+		INSERT INTO ESTIMATE VALUES ((SELECT NVL(MAX(TO_NUMBER(ESEQ)),0)+1 FROM ESTIMATE), #{price}, #{product_sq}, #{client_sq})
+	</insert>
+	
+	<select id="getEstimate" resultType="com.sist.erp.vo.EstimateVO">
+		SELECT ESTIMATE.ESEQ ESEQ, ESTIMATE.PRICE PRICE, ESTIMATE.PRODUCT_SQ productSq, PRODUCT.NAME PRODUCTNAME, ESTIMATE.CLIENT_SQ clientSq, CLIENT.NAME CLIENTNAME FROM ESTIMATE, PRODUCT, CLIENT WHERE ESTIMATE.PRODUCT_SQ = PRODUCT.PSEQ AND ESTIMATE.CLIENT_SQ = CLIENT.CSEQ AND ESEQ = #{eseq}
+	</select>
+	
+	<select id="getEstimates" resultType="com.sist.erp.vo.EstimateVO">
+		SELECT ESTIMATE.ESEQ ESEQ, ESTIMATE.PRICE PRICE, ESTIMATE.PRODUCT_SQ productSq, PRODUCT.NAME PRODUCTNAME, ESTIMATE.CLIENT_SQ clientSq, CLIENT.NAME CLIENTNAME FROM ESTIMATE, PRODUCT, CLIENT WHERE ESTIMATE.PRODUCT_SQ = PRODUCT.PSEQ AND ESTIMATE.CLIENT_SQ = CLIENT.CSEQ ORDER BY TO_NUMBER(ESEQ) DESC
+	</select>
+	
+	<select id="searchEstimates" resultType="com.sist.erp.vo.EstimateVO">
+		SELECT ESEQ ESEQ, PRICE PRICE, PRODUCT_SQ productSq, CLIENT_SQ clientSq FROM ESTIMATE WHERE NAME LIKE #{key} ORDER BY TO_NUMBER(ESEQ) DESC
+	</select>
+	
+	<update id="updateEstimate">
+		UPDATE ESTIMATE SET PRICE = #{price}, PRODUCT_SQ = #{product_sq}, CLIENT_SQ = #{client_sq} WHERE ESEQ = #{eseq}
+	</update>
+	
+	<delete id="delEstimate">
+		DELETE ESTIMATE WHERE ESEQ=#{eseq}
+	</delete>
+	
+	<update id="okEstimate">
+		<!-- DELETE ESTIMATE WHERE PSEQ=#{product_sq} -->
+		UPDATE PRODUCT SET STATE = 'Y' WHERE PSEQ = #{product_sq}
+	</update>
+	
+	<select id="searchEstProduct" resultType="com.sist.erp.vo.EstiProductVO">
+		SELECT P.PSEQ, P.NAME, P.CATEGORY, E.PRICE, P.NOTE
+		FROM PRODUCT P, ESTIMATE E
+		WHERE E.PRODUCT_SQ = P.PSEQ AND E.CLIENT_SQ=#{param2} AND P.NAME LIKE #{param1}
+	</select>
+	
+</mapper> 

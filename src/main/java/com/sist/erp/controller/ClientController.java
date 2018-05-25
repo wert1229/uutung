@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.sist.erp.dao.ClientDAO;
-import com.sist.erp.vo.BranchVO;
 import com.sist.erp.vo.ClientVO;
 
 @Controller

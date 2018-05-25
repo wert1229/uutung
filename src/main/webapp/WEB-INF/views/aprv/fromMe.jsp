@@ -10,7 +10,7 @@ var childWin;
 
 $(function(){
 		
- 	$("#testTable").DataTable().page(page-1).order( [ 3, 'desc' ] ).draw();
+ 	$("#testTable").DataTable().page(page-1).order( [ 4, 'desc' ] ).draw();
  	
 	$("#excel").click(function(){
 		
@@ -55,6 +55,7 @@ window.onunload=function(){
                         <table class="table table-striped table-bordered table-hover" id="testTable">
                             <thead>
                                 <tr>
+                                    <th>종류</th>
                                     <th>결재 번호</th>
                                     <th>제목</th>
                                     <th>비고</th>
@@ -66,6 +67,7 @@ window.onunload=function(){
                             <tbody>
                             	<c:forEach items="${afmlist}" var="a">
                             		<tr>
+	                                    <td>${a.kind}</td>
 	                                    <td>${a.seq}</td>
 	                                    <td><a onclick="detail(this)" style="cursor: pointer;">${a.title}</a></td>
 	                                    <td>${a.note}</td>

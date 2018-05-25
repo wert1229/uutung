@@ -103,6 +103,14 @@
 		UPDATE MOVE SET STATE = '결재완료' WHERE MSEQ = #{mseq}
 	</update>
 	
+	<update id="rejectMoveAprv">
+		UPDATE MOVEAPRV SET STATE = 'R' WHERE MOVE_SQ = #{param1} AND APPROVER = #{param2}
+	</update>
+	
+	<update id="setAprvRejected">
+		UPDATE MOVE SET STATE = '반려됨' WHERE MSEQ = #{mseq}
+	</update>
+	
 	<insert id="addInvenHistorysOfBulChul">
 		<selectKey order="BEFORE" keyProperty="MY,TARGET" resultType="hashmap">
 			SELECT MEM.DEPT AS MY, M.BRANCH_SQ AS TARGET  

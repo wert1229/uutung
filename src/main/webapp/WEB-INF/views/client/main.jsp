@@ -7,6 +7,7 @@
 <%@include file="/resources/jspf/links.jspf"%>
 <title>Insert title here</title>
 <script>
+var childWin;
 
 var table;
 
@@ -64,6 +65,10 @@ function update(num){
 	
 	window.open("${path}/client/update?num="+num+"&pg="+page,"update","width=600, height=600, top=200, left=600, resizable=no, location=no");
 }
+
+window.onunload=function(){
+	childWin.close();
+};
 </script>
 </head>
 <body>

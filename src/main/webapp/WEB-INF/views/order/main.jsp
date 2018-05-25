@@ -70,7 +70,7 @@ function detailorder(ocseq)
 	                                    <td>${o.name}</td>
 	                                    <td><a onclick="detailorder('${o.ocseq}')" style="cursor: pointer">${o.note}</a></td>
 	                                  	<td>${o.estdate}</td>
-	                                    <td><strong class="primary-font"></strong>${o.state}</td>
+	                                    <td><strong class="primary-font">${o.state}</strong></td>
 	                       
 	                                </tr>
                             	</c:forEach>

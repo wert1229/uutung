@@ -63,6 +63,6 @@ public class InventoryController
 		model.addAttribute("inventoryList", inventoryList);
 		model.addAttribute("balanceList", balanceList);
 		model.addAttribute("memberList", memberList);
-		return "inventory";
+		return "inventory/inventory";
 	}
 }

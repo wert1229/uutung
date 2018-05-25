@@ -3,7 +3,7 @@ package com.sist.erp.vo;
 public class OrderAprvVO {
 
 	private String oaseq;
-	private String orderdSq;
+	private String orderSq;
 	private String approver;
 	private int priority;
 	private String state;
@@ -14,11 +14,13 @@ public class OrderAprvVO {
 	public void setOaseq(String oaseq) {
 		this.oaseq = oaseq;
 	}
-	public String getOrderdSq() {
-		return orderdSq;
+	public String getOrderSq()
+	{
+		return orderSq;
 	}
-	public void setOrderdSq(String orderdSq) {
-		this.orderdSq = orderdSq;
+	public void setOrderSq(String orderSq)
+	{
+		this.orderSq = orderSq;
 	}
 	public String getApprover() {
 		return approver;

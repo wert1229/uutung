@@ -37,4 +37,8 @@ public interface MoveDAO
 	void addInvenHistorysOfBulChul(String mseq, MoveListDetailVO mld);
 
 	void addInvenHistorysOfYoChung(String mseq, MoveListDetailVO mld);
+
+	void rejectMoveAprv(String mseq, String loginSeq);
+
+	void setAprvRejected(String mseq);
 }

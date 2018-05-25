@@ -2,7 +2,7 @@ package com.sist.erp.vo;
 
 public class OrderVO {
 
-	private String oseq;
+	private String ocseq;
 	private String title;
 	private String slaveSq;
 	private String estdate;
@@ -12,11 +12,13 @@ public class OrderVO {
 	private String expdate;
 	private String note;
 	
-	public String getOseq() {
-		return oseq;
+	public String getOcseq()
+	{
+		return ocseq;
 	}
-	public void setOseq(String oseq) {
-		this.oseq = oseq;
+	public void setOcseq(String ocseq)
+	{
+		this.ocseq = ocseq;
 	}
 	public String getTitle() {
 		return title;
