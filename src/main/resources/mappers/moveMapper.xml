@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.sist.erp.dao.MoveDAO">
+	<select id="getMovesToDisplay" resultType="com.sist.erp.vo.MoveToDisplayVO">
+		SELECT
+		    M.MSEQ,
+		    M.TITLE,
+		    M.BRANCH_SQ,
+		    B.NAME AS BRANCH_NAME,
+		    M.KIND,
+		    M.NOTE,
+		    M.ESTDATE,
+		    M.STATE    
+		FROM 
+		    MOVE M, BRANCH B, MEMBER MEM
+		WHERE M.BRANCH_SQ = B.BSEQ AND M.SLAVE_SQ = MEM.MSEQ
+		    AND MEM.DEPT = #{dept}
+		ORDER BY M.REGDATE DESC
+	</select>
+	
+	<select id="getMoveListDetailByMseq" resultType="com.sist.erp.vo.MoveListDetailVO">
+		SELECT
+		   ML.MLSEQ,
+		   ML.PRODUCT_SQ,
+		   P.NAME AS PRODUCT_NAME,
+		   ML.QUANTITY,
+		   P.CATEGORY,
+		   P.NOTE
+		FROM 
+		    MOVELIST ML, PRODUCT P
+		WHERE ML.PRODUCT_SQ = P.PSEQ
+		    AND ML.MOVE_SQ = #{mseq}
+		ORDER BY ML.MLSEQ
+	</select>
+
+	<insert id="addMove">
+		INSERT INTO MOVE VALUES
+			(#{mseq}, #{title}, #{slaveSQ}, #{estdate}, #{branchSQ}, '결재대기', SYSDATE, #{expdate}, #{kind}, #{note})
+	</insert>
+	
+	<insert id="addMoveAprv" parameterType="java.util.List">
+		<foreach collection="list" item="item" separator="" open="INSERT ALL" close="SELECT * FROM DUAL">
+		INTO MOVEAPRV VALUES
+			(GET_MA_SEQ(), #{item.moveSQ},#{item.approver},#{item.priority},'N')
+		</foreach>	
+	</insert>
+	
+	<insert id="addMoveList" parameterType="java.util.List">
+		<foreach collection="list" item="item" separator="" open="INSERT ALL" close="SELECT * FROM DUAL">
+		INTO MOVELIST VALUES
+			(GET_ML_SEQ(), #{item.productSQ},#{item.quantity},#{item.moveSQ})
+		</foreach>
+	</insert>
+	
+	<select id="getMoveDetailByMseq" resultType="com.sist.erp.vo.MoveDetailVO">
+		SELECT  
+		    B.BSEQ AS BRANCH_SQ,
+		    B.NAME AS BRANCH_NAME,
+		    B.MANAGER,
+		    B.PHONE,
+		    B.LOCATION,
+		    M.KIND,
+		    M.MSEQ,
+		    M.TITLE,
+		    M.SLAVE_SQ,
+		    MEM.NAME AS SLAVE_NAME,
+		    MEM.POSITION AS SLAVE_POSITION,
+		    M.ESTDATE,
+		    M.EXPDATE
+		FROM MOVE M, BRANCH B, MEMBER MEM
+		WHERE  M.BRANCH_SQ = B.BSEQ AND M.SLAVE_SQ = MEM.MSEQ
+		    AND M.MSEQ = #{mseq}
+	</select>
+	
+	<select id="getMoveAprvByMseq" resultType="com.sist.erp.vo.MoveAprvDetailVO">
+		SELECT 
+		    MA.MASEQ,
+		    MA.APPROVER AS APPROVER_SQ,
+		    MEM.NAME AS APPROVER_NAME,
+		    MEM.POSITION AS APPROVER_POSITION,
+		    PRIORITY,
+		    STATE
+		FROM MOVEAPRV MA, MEMBER MEM
+		WHERE MA.APPROVER = MEM.MSEQ
+		    AND MOVE_SQ = #{mseq}
+		ORDER BY PRIORITY
+	</select>
+	
+	<update id="approveMoveAprv">
+		UPDATE MOVEAPRV SET STATE = 'Y' WHERE MOVE_SQ = #{param1} AND APPROVER = #{param2}
+	</update>
+	
+	<select id="checkAprvFinished" resultType="java.lang.String">
+		SELECT STATE FROM MOVEAPRV 
+		WHERE PRIORITY = (SELECT MAX(PRIORITY) FROM MOVEAPRV GROUP BY MOVE_SQ HAVING MOVE_SQ = #{mseq})
+		    AND MOVE_SQ = #{mseq}
+	</select>
+	
+	<update id="finishAprv">
+		UPDATE MOVE SET STATE = '결재완료' WHERE MSEQ = #{mseq}
+	</update>
+	
+	<update id="rejectMoveAprv">
+		UPDATE MOVEAPRV SET STATE = 'R' WHERE MOVE_SQ = #{param1} AND APPROVER = #{param2}
+	</update>
+	
+	<update id="setAprvRejected">
+		UPDATE MOVE SET STATE = '반려됨' WHERE MSEQ = #{mseq}
+	</update>
+	
+	<insert id="addInvenHistorysOfBulChul">
+		<selectKey order="BEFORE" keyProperty="MY,TARGET" resultType="hashmap">
+			SELECT MEM.DEPT AS MY, M.BRANCH_SQ AS TARGET  
+			FROM MOVE M, MEMBER MEM 
+			WHERE M.SLAVE_SQ = MEM.MSEQ AND M.MSEQ = #{param1}
+		</selectKey>
+		
+		INSERT ALL
+		INTO INVENTORY 
+		VALUES (GET_INVEN_SEQ(), #{MY}, #{TARGET}, #{param2.productSq}, -#{param2.quantity},
+		        (SELECT NVL(MAX(BALANCE),0) FROM INVENTORY WHERE BRANCH_SQ = #{MY} AND PRODUCT_SQ = #{param2.productSq})-#{param2.quantity},
+		        '불출', 'A', SYSDATE)
+		
+		INTO INVENTORY 
+		VALUES (GET_INVEN_SEQ(), #{TARGET}, #{MY}, #{param2.productSq}, #{param2.quantity}, 
+		        (SELECT NVL(MAX(BALANCE),0) FROM INVENTORY WHERE BRANCH_SQ = #{TARGET} AND PRODUCT_SQ = #{param2.productSq})+#{param2.quantity},
+		        '불출', 'A', SYSDATE)
+		        
+		SELECT * FROM DUAL
+	</insert>
+	
+	<insert id="addInvenHistorysOfYoChung">
+		<selectKey order="BEFORE" keyProperty="MY,TARGET" resultType="hashmap">
+			SELECT MEM.DEPT AS MY, M.BRANCH_SQ AS TARGET  
+			FROM MOVE M, MEMBER MEM 
+			WHERE M.SLAVE_SQ = MEM.MSEQ AND M.MSEQ = #{param1}
+		</selectKey>
+		
+		INSERT ALL
+		INTO INVENTORY 
+		VALUES (GET_INVEN_SEQ(), #{TARGET}, #{MY}, #{param2.productSq}, -#{param2.quantity}, 
+		        (SELECT NVL(MAX(BALANCE),0) FROM INVENTORY WHERE BRANCH_SQ = #{TARGET} AND PRODUCT_SQ = #{param2.productSq})-#{param2.quantity},
+		        '요청', 'A', SYSDATE)
+		        
+		INTO INVENTORY 
+		VALUES (GET_INVEN_SEQ(), #{MY}, #{TARGET}, #{param2.productSq}, #{param2.quantity},
+		        (SELECT NVL(MAX(BALANCE),0) FROM INVENTORY WHERE BRANCH_SQ = #{MY} AND PRODUCT_SQ = #{param2.productSq})+#{param2.quantity},
+		        '요청', 'A', SYSDATE)
+		
+		SELECT * FROM DUAL
+	</insert>
+	
+</mapper>

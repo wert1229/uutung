@@ -1,0 +1,16 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<div class="navbar-default sidebar" role="navigation">
+   <div class="sidebar-nav">
+       <ul class="nav" id="side-menu">
+           <li>
+               <a href="${path}/aprv/fromme"><i class="fa fa-pencil-square-o fa-fw"></i> 올린 결재</a>
+           </li>
+           <li>
+               <a href="${path}/aprv/tome"><i class="fa fa-folder-open fa-fw"></i> 온 결재</a>
+            </li>
+        </ul>
+    </div>
+    <!-- /.sidebar-collapse -->
+</div>
+<!-- /.navbar-static-side -->

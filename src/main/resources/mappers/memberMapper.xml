@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.sist.erp.dao.MemberDAO">
+	<insert id="addMember" >
+		INSERT INTO MEMBER VALUES
+		((SELECT NVL(MAX(TO_NUMBER(MSEQ)), TO_NUMBER(EXTRACT(YEAR FROM SYSDATE)||'000'))+1 FROM MEMBER WHERE SUBSTR(MSEQ,1,4) = EXTRACT(YEAR FROM SYSDATE)),
+		#{email},#{pwd},#{name},#{dept},#{position},#{phone},#{img},SYSDATE)
+	</insert>
+	
+	<select id="getMember" resultType="com.sist.erp.vo.MemberVO">
+		SELECT * FROM MEMBER WHERE EMAIL=#{email}
+	</select>
+	
+	<select id="getMemberBySeq" resultType="com.sist.erp.vo.MemberVO">
+		SELECT * FROM MEMBER WHERE MSEQ=#{mseq}
+	</select>
+	
+	<select id="searchMembers" resultType="com.sist.erp.vo.MemberVO">
+		SELECT * FROM MEMBER WHERE NAME LIKE #{key} ORDER BY TO_NUMBER(MSEQ)
+	</select>
+	
+	<select id="getMembersExceptMe" resultType="com.sist.erp.vo.MemberVO">
+		SELECT * FROM MEMBER WHERE MSEQ NOT IN(#{loginSeq})
+	</select>
+	
+	<select id="getMembers" resultType="com.sist.erp.vo.MemberVO" >
+		SELECT * FROM MEMBER
+	</select>
+</mapper>

@@ -4,91 +4,43 @@
    <div class="sidebar-nav">
        <ul class="nav" id="side-menu">
            <li>
-               <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> 재고현황</a>
+               <a href="${path}/inventory"><i class="fa fa-th-list fa-fw"></i> 재고 현황</a>
            </li>
            <li>
-               <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 품목 관리<span class="fa arrow"></span></a>
+               <a href="${path}/product"><i class="fa fa-shopping-cart fa-fw"></i> 품목 관리</a>
+            </li>
+            <li>
+                <a href="${path}/branch"><i class="fa fa-building-o fa-fw"></i> 매장 관리</a>
+            </li>
+            <li>
+                <a href="${path}/client/main"><i class="fa fa-exchange fa-fw"></i> 거래처 관리</a>
+            </li>
+            <li>
+                <a href="${path}/estimate"><i class="fa fa-file-text-o fa-fw"></i> 견적 관리</a>
+            </li>
+        
+              <li>
+              <a href="#"><i class="fa fa-truck fa-fw"></i> 발주<span class="fa arrow"></span></a>
                <ul class="nav nav-second-level">
-                   <li>
-                       <a href="flot.html">Flot Charts</a>
+                <li>
+                      <a href="${path}/order/main"><i class="fa fa-angle-right fa-fw"></i> 발주 조회</a>
                    </li>
-                   <li>
-                       <a href="morris.html">Morris.js Charts</a>
-                   </li>
-               </ul>
-               <!-- /.nav-second-level -->
-            </li>
-            <li>
-                <a href="${path}/test"><i class="fa fa-table fa-fw"></i> 매장 관리</a>
-            </li>
-            <li>
-                <a href="forms.html"><i class="fa fa-edit fa-fw"></i> 거래처 관리</a>
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-wrench fa-fw"></i> 발주<span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                    <li>
-                        <a href="panels-wells.html">Panels and Wells</a>
-                    </li>
-                    <li>
-                        <a href="buttons.html">Buttons</a>
-                    </li>
-                    <li>
-                        <a href="notifications.html">Notifications</a>
-                    </li>
-                    <li>
-                        <a href="typography.html">Typography</a>
-                    </li>
-                    <li>
-                        <a href="icons.html"> Icons</a>
-                    </li>
-                    <li>
-                        <a href="grid.html">Grid</a>
+                 <li>
+                      <a href="${path}/order/addorder"><i class="fa fa-angle-right fa-fw"></i> 발주 등록</a>
                     </li>
                 </ul>
-                <!-- /.nav-second-level -->
             </li>
+   
             <li>
-                <a href="#"><i class="fa fa-sitemap fa-fw"></i> 재고 이동<span class="fa arrow"></span></a>
+                <a href="#"><i class="fa fa-share-alt fa-fw"></i> 재고 이동<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
-                    <li>
-                        <a href="#">Second Level Item</a>
+                	<li>
+                        <a href="${path}/move"><i class="fa fa-angle-right fa-fw"></i> 재고 이동 조회</a>
                     </li>
                     <li>
-                        <a href="#">Second Level Item</a>
-                    </li>
-                    <li>
-                        <a href="#">Third Level <span class="fa arrow"></span></a>
-                        <ul class="nav nav-third-level">
-                            <li>
-                                <a href="#">Third Level Item</a>
-                            </li>
-                            <li>
-                                <a href="#">Third Level Item</a>
-                            </li>
-                            <li>
-                                <a href="#">Third Level Item</a>
-                            </li>
-                            <li>
-                                <a href="#">Third Level Item</a>
-                            </li>
-                        </ul>
-                        <!-- /.nav-third-level -->
+                        <a href="${path}/move/new"><i class="fa fa-angle-right fa-fw"></i> 재고 이동 등록</a>
                     </li>
                 </ul>
-                <!-- /.nav-second-level -->
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                    <li>
-                        <a href="blank.html">Blank Page</a>
-                    </li>
-                    <li>
-                        <a href="login.html">Login Page</a>
-                    </li>
-                </ul>
-                <!-- /.nav-second-level -->
             </li>
         </ul>
     </div>
