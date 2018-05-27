@@ -16,7 +16,7 @@
 
 		$.ajax({
 			type:"POST",
-			url:"${path}/searchProduct",
+			url:"${path}/product/searchProduct",
 			dataType : 'json',
 			data: { "key" : key},
 			success: function(plist){

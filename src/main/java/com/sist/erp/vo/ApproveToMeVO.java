@@ -3,6 +3,7 @@ package com.sist.erp.vo;
 public class ApproveToMeVO
 {
 	private String seq;
+	private String kind;
 	private String title;
 	private String slaveName;
 	private	String slaveSq;
@@ -20,6 +21,14 @@ public class ApproveToMeVO
 	public void setSeq(String seq)
 	{
 		this.seq = seq;
+	}
+	public String getKind()
+	{
+		return kind;
+	}
+	public void setKind(String kind)
+	{
+		this.kind = kind;
 	}
 	public String getTitle()
 	{

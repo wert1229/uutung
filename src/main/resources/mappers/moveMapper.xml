@@ -103,6 +103,14 @@
 		UPDATE MOVE SET STATE = '결재완료' WHERE MSEQ = #{mseq}
 	</update>
 	
+	<update id="rejectMoveAprv">
+		UPDATE MOVEAPRV SET STATE = 'R' WHERE MOVE_SQ = #{param1} AND APPROVER = #{param2}
+	</update>
+	
+	<update id="setAprvRejected">
+		UPDATE MOVE SET STATE = '반려됨' WHERE MSEQ = #{mseq}
+	</update>
+	
 	<insert id="addInvenHistorysOfBulChul">
 		<selectKey order="BEFORE" keyProperty="MY,TARGET" resultType="hashmap">
 			SELECT MEM.DEPT AS MY, M.BRANCH_SQ AS TARGET  
@@ -113,12 +121,12 @@
 		INSERT ALL
 		INTO INVENTORY 
 		VALUES (GET_INVEN_SEQ(), #{MY}, #{TARGET}, #{param2.productSq}, -#{param2.quantity},
-		        (SELECT NVL(MAX(BALANCE),0) FROM INVENTORY WHERE BRANCH_SQ = #{MY} AND PRODUCT_SQ = #{param2.productSq})-#{param2.quantity},
+		        (SELECT NVL(SUM(QUANTITY),0) FROM INVENTORY WHERE BRANCH_SQ = #{MY} AND PRODUCT_SQ = #{param2.productSq})-#{param2.quantity},
 		        '불출', 'A', SYSDATE)
 		
 		INTO INVENTORY 
 		VALUES (GET_INVEN_SEQ(), #{TARGET}, #{MY}, #{param2.productSq}, #{param2.quantity}, 
-		        (SELECT NVL(MAX(BALANCE),0) FROM INVENTORY WHERE BRANCH_SQ = #{TARGET} AND PRODUCT_SQ = #{param2.productSq})+#{param2.quantity},
+		        (SELECT NVL(SUM(QUANTITY),0) FROM INVENTORY WHERE BRANCH_SQ = #{TARGET} AND PRODUCT_SQ = #{param2.productSq})+#{param2.quantity},
 		        '불출', 'A', SYSDATE)
 		        
 		SELECT * FROM DUAL
@@ -134,12 +142,12 @@
 		INSERT ALL
 		INTO INVENTORY 
 		VALUES (GET_INVEN_SEQ(), #{TARGET}, #{MY}, #{param2.productSq}, -#{param2.quantity}, 
-		        (SELECT NVL(MAX(BALANCE),0) FROM INVENTORY WHERE BRANCH_SQ = #{TARGET} AND PRODUCT_SQ = #{param2.productSq})-#{param2.quantity},
+		        (SELECT NVL(SUM(QUANTITY),0) FROM INVENTORY WHERE BRANCH_SQ = #{TARGET} AND PRODUCT_SQ = #{param2.productSq})-#{param2.quantity},
 		        '요청', 'A', SYSDATE)
 		        
 		INTO INVENTORY 
 		VALUES (GET_INVEN_SEQ(), #{MY}, #{TARGET}, #{param2.productSq}, #{param2.quantity},
-		        (SELECT NVL(MAX(BALANCE),0) FROM INVENTORY WHERE BRANCH_SQ = #{MY} AND PRODUCT_SQ = #{param2.productSq})+#{param2.quantity},
+		        (SELECT NVL(SUM(QUANTITY),0) FROM INVENTORY WHERE BRANCH_SQ = #{MY} AND PRODUCT_SQ = #{param2.productSq})+#{param2.quantity},
 		        '요청', 'A', SYSDATE)
 		
 		SELECT * FROM DUAL

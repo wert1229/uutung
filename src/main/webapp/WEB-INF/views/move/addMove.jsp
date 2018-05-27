@@ -216,7 +216,7 @@
 			contentType : 'application/json; charset=utf-8',
 			success: function(result){
 				
-				if(result == true)
+				if(result)
 				{
 					alert("작성되었습니다.");
 					location.href="${path}/move";

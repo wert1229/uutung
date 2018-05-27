@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.sist.erp.dao.ProductDAO">
+	<insert id="addProduct" >
+		INSERT INTO PRODUCT VALUES ((SELECT NVL(MAX(TO_NUMBER(PSEQ)),0)+1 FROM PRODUCT), #{name}, #{img, jdbcType=VARCHAR}, #{category}, #{note}, #{state})
+	</insert>
+	
+	<select id="getProduct" resultType="com.sist.erp.vo.ProductVO">
+		SELECT * FROM PRODUCT WHERE PSEQ = #{pseq}
+	</select>
+	
+	<select id="getProducts" resultType="com.sist.erp.vo.ProductVO">
+		SELECT * FROM PRODUCT ORDER BY TO_NUMBER(PSEQ) DESC
+	</select>
+	
+	<select id="searchProduct" resultType="com.sist.erp.vo.ProductVO">
+		SELECT * FROM PRODUCT WHERE NAME LIKE #{key} AND STATE = 'Y' ORDER BY TO_NUMBER(PSEQ) DESC
+	</select>
+	
+	<update id="updateProduct">
+		UPDATE PRODUCT SET NAME = #{name}, IMG = #{img, jdbcType=VARCHAR}, CATEGORY = #{category}, NOTE = #{note}, STATE = #{state} WHERE PSEQ = #{pseq}
+	</update>
+	
+	<delete id="delProduct">
+		DELETE PRODUCT WHERE PSEQ=#{pseq}
+	</delete>
+</mapper> 

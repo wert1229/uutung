@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.sist.erp.dao.ClientDAO">
+	<insert id="addClient" >
+		INSERT INTO CLIENT VALUES((SELECT MAX(TO_NUMBER(CSEQ))+1 FROM CLIENT), #{name}, #{owner}, #{phone}, #{location},#{note})
+	</insert>
+	
+	<select id="getClient" resultType="com.sist.erp.vo.ClientVO">
+		SELECT * FROM CLIENT WHERE CSEQ = #{cesq}
+	</select>
+
+	<update id="updateClient">
+		UPDATE CLIENT SET NAME=#{name}, OWNER=#{owner}, PHONE=#{phone}, LOCATION=#{location}, NOTE=#{note} WHERE CSEQ=#{cseq}
+	</update>
+	
+	<delete id="deleteClient">
+		DELETE CLIENT WHERE CSEQ=#{cseq}
+	</delete>
+	
+	<select id="getClients" resultType="com.sist.erp.vo.ClientVO">
+		SELECT * FROM CLIENT
+	</select>
+	
+	<select id="searchClients" resultType="com.sist.erp.vo.ClientVO">
+		SELECT * FROM CLIENT WHERE NAME LIKE #{key} ORDER BY TO_NUMBER(CSEQ) DESC
+	</select>
+	
+	
+</mapper>

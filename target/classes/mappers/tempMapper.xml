@@ -4,7 +4,32 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.sist.erp.dao.TempDAO">
-	<select id="searchProduct" resultType="com.sist.erp.vo.TempVO">
-		SELECT * FROM PRODUCT WHERE NAME LIKE #{key} AND STATE='Y' ORDER BY TO_NUMBER(PSEQ) DESC
+	<select id="getBalances" resultType="com.sist.erp.vo.temp.BalanceVO">
+		SELECT
+		    A.PSEQ,
+		    A.PNAME,
+		    A.BSEQ,
+		    A.BNAME,
+		    B.BALANCE
+		FROM (SELECT P.PSEQ, P.NAME AS PNAME, B.BSEQ, B.NAME AS BNAME FROM PRODUCT P, BRANCH B) A ,
+		     (SELECT PRODUCT_SQ, BRANCH_SQ, SUM(QUANTITY) AS BALANCE FROM INVENTORY GROUP BY PRODUCT_SQ, BRANCH_SQ) B
+		WHERE A.PSEQ = B.PRODUCT_SQ(+) AND A.BSEQ = B.BRANCH_SQ(+)
+		ORDER BY TO_NUMBER(A.PSEQ), TO_NUMBER(A.BSEQ)
 	</select>
-</mapper>
+	
+	<select id="getHistory" resultType="com.sist.erp.vo.temp.HistoryVO">
+		SELECT
+		    CASE
+		        WHEN I.KIND = '발주' THEN C.NAME
+		        ELSE B.NAME
+		    END AS TARGET,
+		    P.NAME AS PNAME,
+		    I.QUANTITY,
+		    I.BALANCE,
+		    I.KIND,
+		    I.REGDATE        
+		FROM INVENTORY I, BRANCH B, PRODUCT P, CLIENT C
+		WHERE I.CLIENT_SQ = B.BSEQ AND I.CLIENT_SQ = C.CSEQ(+) AND I.PRODUCT_SQ = P.PSEQ
+		    AND I.PRODUCT_SQ = #{param2} AND I.BRANCH_SQ = #{param1}
+	</select>
+</mapper> 

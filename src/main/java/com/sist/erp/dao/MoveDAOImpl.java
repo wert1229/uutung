@@ -97,4 +97,16 @@ public class MoveDAOImpl implements MoveDAO
 	{
 		session.getMapper(MoveDAO.class).addInvenHistorysOfYoChung(mseq, mld);
 	}
+
+	@Override
+	public void rejectMoveAprv(String mseq, String loginSeq)
+	{
+		session.getMapper(MoveDAO.class).rejectMoveAprv(mseq, loginSeq);
+	}
+
+	@Override
+	public void setAprvRejected(String mseq)
+	{
+		session.getMapper(MoveDAO.class).setAprvRejected(mseq);
+	}
 }

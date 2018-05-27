@@ -119,6 +119,9 @@
 	                                            		${ma.approverName}[
 	                                            		<c:if test="${ma.state == 'Y'}">
 	                                            			<i class="fa fa-check fa-fw"></i>
+	                                            		</c:if>
+	                                            		<c:if test="${ma.state == 'R'}">
+	                                            			<i class="fa fa-times fa-fw"></i>
 	                                            		</c:if>]
 	                                            	</c:forEach>
 	                                        	</td>

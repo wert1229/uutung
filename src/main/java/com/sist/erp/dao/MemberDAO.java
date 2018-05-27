@@ -15,4 +15,6 @@ public interface MemberDAO
 	MemberVO getMemberBySeq(String mseq);
 
 	List<MemberVO> getMembersExceptMe(String loginSeq);
+	
+	List<MemberVO> getMembers();
 }
