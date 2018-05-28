@@ -31,10 +31,17 @@ function detail(one)
 	var seq = $(one).parent().prev().text();
 	var kind = seq[0];
 	
-	if(kind = 'M')
+	if(kind == 'M')
 	{
 		childWin = window.open("${path}/aprv/moveAprvDetail?mseq="+seq, "aprvDetail",
 				"width=1200, height=800, top=100, left=400, resizable=no, location=no");
+	}
+	else{
+		
+		childWin = window.open("${path}/aprv/orderAprvDetail?oseq="+seq, "aprvDetail",
+		"width=1200, height=800, top=100, left=400, resizable=no, location=no");
+		
+		
 	}
 }
 
@@ -44,13 +51,34 @@ function doApprove(one)
 	var kind = seq[0];
 	var page = $(".paginate_button.active a").text();
 	
-	if(kind = 'M')
+	if(kind == 'M')
 	{
 		$.ajax({
 			type:"POST",
 			url:"${path}/move/doApprove",
 			dataType : 'text',
 			data: {"mseq" : seq},
+			success: function(result){
+				
+				if(result)
+				{	
+					alert("결재되었습니다.");
+					location.href = "${path}/aprv/tome?page="+page;
+				}
+				else
+				{
+					alert("내부오류 발생!");
+				}
+			} 
+		});
+	}
+	else
+	{
+		$.ajax({
+			type:"POST",
+			url:"${path}/order/doApprove",
+			dataType : 'text',
+			data: {"oseq" : seq},
 			success: function(result){
 				
 				if(result)
@@ -73,7 +101,7 @@ function doReject(one)
 	var kind = seq[0];
 	var page = $(".paginate_button.active a").text();
 	
-	if(kind = 'M')
+	if(kind == 'M')
 	{
 		$.ajax({
 			type:"POST",
@@ -94,6 +122,27 @@ function doReject(one)
 			} 
 		});
 	}
+	else
+	{
+		$.ajax({
+			type:"POST",
+			url:"${path}/order/doReject",
+			dataType : 'text',
+			data: {"oseq" : seq},
+			success: function(result){
+				
+				if(result)
+				{	
+					alert("반려되었습니다.");
+					location.href = "${path}/aprv/tome?page="+page;
+				}
+				else
+				{
+					alert("내부오류 발생!");
+				}
+			} 
+		});
+	}	
 }
 </script>
 <title>Insert title here</title>

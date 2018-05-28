@@ -73,7 +73,7 @@
 	</select>
 
 	<update id="approveOrderAprv">
-		UPDATE ORDERAPRV SET STATE = 'Y' WHERE ORDER_SQ = #{param1} AND APPROVER = #{param2}
+		UPDATE ORDERAPRV SET STATE = 'Y' WHERE ORDERD_SQ = #{param1} AND APPROVER = #{param2}
 	</update>
 
 	<select id="getOrderDetailListByOseq" resultType="com.sist.erp.vo.OrderListDetailVO">
@@ -92,6 +92,37 @@
 	</select>
 
 
+	<select id="checkAprvFinished" resultType="java.lang.String">
+		SELECT STATE FROM ORDERAPRV 
+		WHERE PRIORITY = (SELECT MAX(PRIORITY) FROM ORDERAPRV GROUP BY ORDERD_SQ HAVING ORDERD_SQ = #{oseq})
+		    AND ORDERD_SQ = #{oseq}
+	</select>
+	
+	<update id="finishAprv">
+		UPDATE ORDERD SET STATE = '결재완료' WHERE OSEQ = #{oseq}
+	</update>
 
+	<insert id="addHistoryofOrder">
+		<selectKey order="BEFORE" keyProperty="MY,TARGET" resultType="hashmap">
+			SELECT MEM.DEPT AS MY, O.CLIENT_SQ AS TARGET  
+			FROM ORDERD O, MEMBER MEM 
+			WHERE O.SLAVE_SQ = MEM.MSEQ AND O.OSEQ = #{param1}
+		</selectKey>
+		
+		INSERT
+		INTO INVENTORY 
+		VALUES (GET_INVEN_SEQ(), #{MY}, #{TARGET}, #{param2.productSq}, #{param2.quantity},
+		        (SELECT NVL(SUM(QUANTITY),0) FROM INVENTORY WHERE BRANCH_SQ = #{MY} AND PRODUCT_SQ = #{param2.productSq})+#{param2.quantity},
+		        '발주', 'A', SYSDATE)
+	</insert>
+	
+
+	<update id="rejectOrderAprv">
+		UPDATE ORDERAPRV SET STATE = 'R' WHERE ORDERD_SQ = #{param1} AND APPROVER = #{param2}
+	</update>
+	
+	<update id="setAprvRejected">
+		UPDATE ORDERD SET STATE = '반려됨' WHERE OSEQ = #{oseq}
+	</update>
 
 </mapper>

@@ -30,6 +30,7 @@ import com.sist.erp.vo.EstiProductVO;
 import com.sist.erp.vo.OrderAprvVO;
 import com.sist.erp.vo.OrderCheckVO;
 import com.sist.erp.vo.OrderDetailVO;
+import com.sist.erp.vo.OrderListDetailVO;
 import com.sist.erp.vo.OrderListVO;
 import com.sist.erp.vo.OrderVO;
 
@@ -156,6 +157,76 @@ public class OrderController {
 		model.addAttribute("olist", olist);
 		
 		return "order/orderdetail";
+	}
+	
+	@ResponseBody
+	@RequestMapping("/doApprove")
+	public boolean orderAprv(String oseq, HttpSession session) {
+		
+		String loginSeq = (String)session.getAttribute("loginSeq");
+		
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition(); 
+		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED); 
+		TransactionStatus txStatus= txManager.getTransaction(def);
+		
+		try {
+			orderdao.approveOrderAprv(oseq, loginSeq);
+			
+			if(orderdao.checkAprvFinished(oseq).equals("Y")) {
+				
+				orderdao.finishAprv(oseq);
+				
+				List<OrderListDetailVO> olist = orderdao.getOrderDetailListByOseq(oseq);
+					
+				//실제로 인벤에 추가하는 과정
+				
+				for(OrderListDetailVO o : olist) {
+					
+					orderdao.addHistoryofOrder(oseq, o);
+				}
+				
+			}
+			
+		} catch(Exception e) {
+			
+			e.printStackTrace();
+			txManager.rollback(txStatus);
+			
+			return false;
+		}
+		txManager.commit(txStatus);
+		
+		return true;
+		
+	}
+	
+	@ResponseBody
+	@RequestMapping("/doReject")
+	public boolean doReject(String oseq, HttpSession session) {
+		
+		String loginSeq = (String)session.getAttribute("loginSeq");
+		
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition(); 
+		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED); 
+		TransactionStatus txStatus= txManager.getTransaction(def);
+
+		try
+		{
+			
+			orderdao.rejectOrderAprv(oseq, loginSeq);
+			orderdao.setAprvRejected(oseq);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			txManager.rollback(txStatus);
+			
+			return false;
+		}
+		txManager.commit(txStatus);
+		
+		return true;
+		
 	}
 	
 }

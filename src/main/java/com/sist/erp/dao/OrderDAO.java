@@ -31,5 +31,13 @@ public interface OrderDAO {
 	
 	List<OrderAprvDetailVO> getOrderAprvByOseq(String oseq);
 	
+	void finishAprv(String oseq);
+
+	String checkAprvFinished(String oseq);
 	
+	void addHistoryofOrder(String oseq, OrderListDetailVO o);
+	
+	void rejectOrderAprv(String oseq, String loginSeq);
+
+	void setAprvRejected(String oseq);
 }
