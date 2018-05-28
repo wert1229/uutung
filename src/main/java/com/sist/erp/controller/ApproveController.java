@@ -21,7 +21,6 @@ import com.sist.erp.vo.MoveDetailVO;
 import com.sist.erp.vo.MoveListDetailVO;
 import com.sist.erp.vo.OrderAprvDetailVO;
 import com.sist.erp.vo.OrderDetailOseqVO;
-import com.sist.erp.vo.OrderDetailVO;
 import com.sist.erp.vo.OrderListDetailVO;
 
 @Controller
