@@ -71,7 +71,7 @@ $(function(){
 			var pname = $(this).text();
 			
 			if(pname.search(key) != -1) {
-				
+				//고정리스트에 있는애들은 검색결과리스트에 포함시키지않는다.
 				checkFixedList($(this));
 			}
 		});
