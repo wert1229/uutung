@@ -242,7 +242,7 @@
 		map.orderList = orderList;
 		
 		var mapJson = JSON.stringify(map); 
-		alert(mapJson);
+		
 		
 		$.ajax({
 			type:"POST",
