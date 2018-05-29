@@ -36,16 +36,4 @@ public class HomeController {
 		return "erpHome";
 	}
 	
-	@RequestMapping(value="/ahome", method = RequestMethod.GET)
-	public String arpvHome()
-	{
-		return "aprvHome";
-	}
-	
-	@RequestMapping(value="/shome", method = RequestMethod.GET)
-	public String stockHome()
-	{
-		return "stockHome";
-	}
-	
 }
