@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <script>
 	$(function(){
 		loadTopnavMsgAlarm();
@@ -62,7 +63,8 @@
 		});
 	}
 </script>
-<div class="divider" style="background-image: url(${path}/images/pic.png); width: 100%; top: 500px;">
+<div class="divider" style="background-image: url(${path}/images/uutunglogo.JPG); background-repeat:no-repeat; background-position: center; overflow: hidden; 
+                                              background-color: rgb(0, 112, 192); width: 100%; top: 500px;">
 	<br>
 	<br>
 	<br>
@@ -84,13 +86,13 @@
 
 	<ul class="nav navbar-top-links navbar-left">
 		<li>
-			<a href="${path}/shome">재고/유통</a>
+			<a href="${path}/inventory">재고/유통</a>
 		</li>
 		<li>
 			<a href="#">인사/급여</a>
 		</li>
 		<li>
-			<a href="${path}/ahome">결재</a>
+			<a href="${path}/aprv/fromme">결재</a>
 		</li>
 		<li>
 			<a href="${path}/chat">그룹웨어</a>
