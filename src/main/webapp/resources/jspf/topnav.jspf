@@ -101,7 +101,7 @@
 
     <ul class="nav navbar-top-links navbar-right">
         <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><b id="msgTotal" style="color:red;"></b>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span id="msgTotal" class="label label-danger"></span>
                 <i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
             </a>
             <ul id="msgAlarm" class="dropdown-menu dropdown-messages">
