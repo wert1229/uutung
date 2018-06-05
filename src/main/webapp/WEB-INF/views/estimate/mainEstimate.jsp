@@ -21,13 +21,13 @@ $(function(){
 	
 	$("#mainEstimateTable").DataTable().page(page-1).draw('page');
 	
-	$("#reg").click(function(){
+	/* $("#reg").click(function(){
 		
 		childWin = window.open("${path}/estimate/new", "addEstimate",
 				"width=600, height=600, top=200, left=600, resizable=no, location=no");
-	});
+	}); */
 	
-	$("#excel").click(function(){
+	/* $("#excel").click(function(){
 		
 		location.href="${path}/estimate/eExcelDownload";
 	});
@@ -94,15 +94,14 @@ $(function(){
 				}	
 			} 
 		});
-	});
+	}); */
 });
 
-/* window.onunload=function(){
+window.onunload=function(){
 	childWin.close();
-}; */
+};
 
-function edit(one)
-{
+/* function edit(one) {
 	var page = $(".paginate_button.active a").text();
 	
 	var eseq = $(one).parent().prev().text();
@@ -111,30 +110,15 @@ function edit(one)
 	
 	window.open("${path}/estimate/edit?page="+page+"&eseq="+eseq, "addEstimate",
 			"width=600, height=600, top=200, left=600, resizable=no, location=no");
-}
+} */
 
-function detailProduct(one)
-{
+function detailEstimate(one) {
 	var page = $(".paginate_button.active a").text();
 	
-	var pseq = $(one).text(); // () 안의 코드만 빼올 수 있는지 
-	
-	alert(pseq);
-	
-	window.open("${path}/product/edit?page="+page+"&pseq="+pseq, "addEstimate",
-			"width=600, height=600, top=200, left=600, resizable=no, location=no");
-}
-
-function detailClient(one)
-{
-	var page = $(".paginate_button.active a").text();
-	
-	var cseq = $(one).text(); // () 안의 코드만 빼올 수 있는지
-	
-	alert(cseq);
-	
-	window.open("${path}/client/edit?page="+page+"&cseq="+cseq, "addEstimate",
-			"width=600, height=600, top=200, left=600, resizable=no, location=no");
+	var pseq = $(one).parent().prev().text(); 
+	alert(pseq)
+	window.open("${path}/estimate/detail?page="+page+"&pseq="+pseq, "addEstimate",
+			"width=auto, height=800, top=100, left=300, resizable=no, location=no");
 }
 </script>
 <title>견적 관리</title>
@@ -156,36 +140,26 @@ function detailClient(one)
                         <table class="table table-striped table-bordered table-hover" id="mainEstimateTable">
                             <thead>
                                 <tr>
-                                    <th>선택</th>
-                                    <th>견적코드</th>
-                                    <th>가격</th>
-                                    <th>품명(품목코드)</th>
-                                    <th>거래처명(거래처코드)</th>
+                                    <th>품목코드</th>
+                                    <th>품명</th>
+                                    <th>상태</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            	<c:forEach items="${elist}" var="e">
+                            	<c:forEach items="${plist}" var="p">
 									<tr>
-										<td><input type="checkbox"></td>
-										<td class="eseq">${e.eseq}</td>
-										<td class="price"><a class="edit" onclick="edit(this)" style="cursor: pointer;">${e.price}</a></td>
-										<%-- <td class="productSq">${e.productSq}</td>
-										<td class="clientSq">${e.clientSq}</td> --%>
-										<td class="productSq">
-											<%-- <p type="hidden" value="${e.productSq}">${e.productSq}</p> --%>
-											<a class="detailProduct" onclick="detailProduct(this)" style="cursor: pointer;">${e.productName} (${e.productSq})</a>
+										<td class="productSq">${p.pseq}</td>
+										<td class="productName">
+											<a class="detailEstimate" onclick="detailEstimate(this)" style="cursor: pointer;">${p.name}</a>
 										</td>
-										<td class="clientSq"><a class="detailClient" onclick="detailClient(this)" style="cursor: pointer;">${e.clientName} (${e.clientSq})</a></td>
+										<td class="productState">${p.state}</td>
 									</tr>							
 								</c:forEach>
                             </tbody>
                         </table>
-                     <div class="col-md-4">
-                    		<button id="reg" type="button" class="btn btn-primary" style="margin-right:10px;">등록</button>
-                    		<button id="del" type="button" class="btn btn-default" style="margin-right:10px;">선택 삭제</button>
-               	    		<button id="excel" type="button" class="btn btn-default" style="margin-right:10px;">엑셀 다운</button>
-               	    		<button id="ok" type="button" class="btn btn-success">견적 승인</button>
-                     </div>
+                     <!-- <div class="col-md-4">
+                    	<button id="reg" type="button" class="btn btn-primary" style="margin-right:10px;">견적품목등록</button>
+                     </div> -->
                     </div>
                 </div>
             </div>

@@ -2,7 +2,7 @@ package com.sist.erp.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.View;
 
 import com.google.gson.Gson;
 import com.sist.erp.dao.ProductDAO;
+import com.sist.erp.util.IOUtil;
 import com.sist.erp.util.ProductExcelDown;
 import com.sist.erp.vo.ProductVO;
 
@@ -56,29 +58,26 @@ public class ProductController {
 	}
 		
 	@RequestMapping(value="", method=RequestMethod.POST)
-	public String addProduct(@ModelAttribute ProductVO p, Model model, HttpServletRequest request) {
-		
-		/*String path = "/image";
-		String realPath = request.getServletContext().getRealPath(path);
-		System.out.println("path: " + path);
-		System.out.println("realPath: " + realPath);
-		
-		MultipartRequest mulReq;
-		try {
-			mulReq = new MultipartRequest(request, realPath, 10*1024*1024, "UTF-8", new DefaultFileRenamePolicy());
-			String fileName = mulReq.getFilesystemName("file");
-			String orifileName = mulReq.getOriginalFileName("file");
-			System.out.println("fileName: " + fileName);
-			System.out.println("orifileName: " + orifileName);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
+	public String addProduct(@ModelAttribute ProductVO p, Model model) {
 		
 		pdao.addProduct(p);
 
 		model.addAttribute("flag", "1");
 
 		return "product/addProduct";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/productImg", method=RequestMethod.POST)
+	public String upload(@RequestParam("file") MultipartFile file, HttpSession session) {
+		
+		System.out.println("이미지업로드테스트");
+		
+		String path = "/resources/uploadImg/product/";
+		
+		String ThumbnailedFilePath = IOUtil.fileUpload(file, session, path);
+		
+		return ThumbnailedFilePath;
 	}
 	
 	@RequestMapping(value="/edit", method=RequestMethod.POST)

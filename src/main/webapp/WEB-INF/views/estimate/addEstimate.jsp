@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <%@include file="/resources/jspf/links.jspf"%>
-<title>Insert title here</title>
+<title>견적등록</title>
 <script>
 var childWin;
 $(function(){

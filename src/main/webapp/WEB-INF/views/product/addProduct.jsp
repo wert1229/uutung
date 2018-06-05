@@ -22,6 +22,27 @@ $(function(){
 		childWin = window.open("${path}/product/searchProduct", "searchProduct",
 				"width=400, height=500, top=300, left=800, resizable=no, location=no");
 	});
+	
+	$("#upload").change(function(){
+		var formData = new FormData();
+		formData.append("file",$("#upload")[0].files[0]);
+		
+		$.ajax({
+			type: "POST",
+	        url: "${path}/product/productImg",
+	        data: formData,
+	        dataType: "text",
+	        processData: false,
+	        contentType: false, 
+	        success: function(data) {
+	        	var fileName = data.substring(data.indexOf("uploadImg")+10);
+	        	var imgPath = '${path}/uploadImg/'+fileName;
+	        	var content = '<img src="'+imgPath+'">';
+	        	$("#displayImg").html(content);
+	        	$("#imgPath").val(imgPath);
+	        }
+		});
+	});
 });
 window.onunload=function(){
 	childWin.close();
@@ -52,7 +73,11 @@ window.onunload=function(){
                                     </div>
                                     <label>품목 이미지</label>
                                     <div class="form-group">
-                                        <input name="img" class="form-control" placeholder="Use Submit" type="file" required>
+                                    	<div id="displayImg" style="width:150px; height:180px; border: 1px solid black; text-align:center">
+                                    		<img src="${product.img}"/>
+                                    	</div>
+                                        <input id="upload" name="file" class="form-control" placeholder="Use Submit" type="file" required>
+                                        <input id="imgPath" type="hidden" name="img">
                                     </div>
                                     <div class="form-group">
                                         <label>분류</label>

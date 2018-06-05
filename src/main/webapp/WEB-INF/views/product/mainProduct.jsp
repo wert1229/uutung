@@ -21,10 +21,16 @@ $(function(){
 	
 	$("#mainProductTable").DataTable().page(page-1).draw('page');
 	
+	/* $("#popupImg").click(function(){
+		
+		childWin = window.open("${product.img}", "width=600, height=600, top=200, left=600, resizable=no, location=no");
+		
+	}); */
+	
 	$("#reg").click(function(){
 		
 		childWin = window.open("${path}/product/new", "addProduct",
-				"width=600, height=600, top=200, left=600, resizable=no, location=no");
+				"width=600, height=800, top=100, left=600, resizable=no, location=no");
 	});
 	
 	$("#excel").click(function(){
@@ -65,9 +71,9 @@ $(function(){
 	});
 });
 
-/* window.onunload=function(){
+window.onunload=function(){
 	childWin.close();
-}; */
+};
 
 function edit(one)
 {
@@ -76,7 +82,22 @@ function edit(one)
 	var pseq = $(one).parent().prev().text();
 	
 	window.open("${path}/product/edit?page="+page+"&pseq="+pseq, "addProduct",
-			"width=600, height=600, top=200, left=600, resizable=no, location=no");
+			"width=600, height=800, top=100, left=600, resizable=no, location=no");
+}
+
+function popupImg(one)
+{
+	var page = $(".paginate_button.active a").text();
+	
+	var img = $(one).prev().val();
+	
+	alert(img);
+	
+	img = img.substr(5);
+	
+	alert(img);
+	
+	window.open("${path}"+img, "addProduct", "width=600, height=800, top=100, left=600, resizable=no, location=no");
 }
 </script>
 <title>Product Main</title>
@@ -113,7 +134,16 @@ function edit(one)
 										<td><input type="checkbox"></td>
 										<td class="pseq">${p.pseq}</td>
 										<td class="name"><a class="edit" onclick="edit(this)" style="cursor: pointer;">${p.name}</a></td>
-										<td class="img"><img src="../image/${p.img}"></td>
+										<td class="img">
+											<c:if test="${!empty p.img}">
+												<%-- <a href="${p.img}" target="new">Y</a> --%>
+												<input id="popup" type="hidden" value="${p.img}">
+												<a onclick="popupImg(this)" style="cursor:pointer;">Y</a>
+											</c:if>
+											<c:if test="${empty p.img}">
+												N
+											</c:if>
+										</td>
 										<td class="category">${p.category}</td>
 										<td class="note">${p.note}</td>
 										<td class="state">${p.state}</td>

@@ -15,20 +15,35 @@ import org.springframework.web.servlet.View;
 
 import com.google.gson.Gson;
 import com.sist.erp.dao.EstimateDAO;
+import com.sist.erp.dao.ProductDAO;
 import com.sist.erp.util.EstimateExcelDown;
 import com.sist.erp.vo.EstimateVO;
+import com.sist.erp.vo.ProductVO;
 
 @Controller
 @RequestMapping("/estimate")
 public class EstimateController {
 	@Autowired
 	private EstimateDAO edao;
+	@Autowired
+	private ProductDAO pdao;
 	
 	@RequestMapping(value="", method=RequestMethod.GET)
 	public String EstimateHome(Model model, String page) {
-		List<EstimateVO> elist = edao.getEstimates();
+		List<ProductVO> plist = pdao.getProducts();
 		
-		System.out.println(elist.get(0).getProductSq());
+		if(page!=null) {
+			model.addAttribute("page", page);
+		}
+		
+		model.addAttribute("plist",plist);
+		
+		return "estimate/mainEstimate";
+	}
+	
+	/*@RequestMapping(value="", method=RequestMethod.GET)
+	public String EstimateHome(Model model, String page) {
+		List<EstimateVO> elist = edao.getEstimates();
 		
 		if(page!=null) {
 			model.addAttribute("page", page);
@@ -37,7 +52,7 @@ public class EstimateController {
 		model.addAttribute("elist",elist);
 		
 		return "estimate/mainEstimate";
-	}
+	}*/
 	
 	@RequestMapping("/new")
 	public String addEstimate() {
@@ -73,7 +88,19 @@ public class EstimateController {
 	
 		return "estimate/editEstimate";
 	}
+	
+	@RequestMapping(value="/detail", method=RequestMethod.GET)
+	public String detailEstimate(Model model, String page, String pseq) {
+		List<EstimateVO> elist = edao.getEstimates();
 		
+		if(page!=null) {
+			model.addAttribute("page", page);
+		}
+		model.addAttribute("pseq", pseq);
+		model.addAttribute("elist",elist);
+		return "estimate/detailEstimate";
+	}
+
 	@ResponseBody
 	@RequestMapping(value="/delEstimate", method=RequestMethod.POST)
 	public boolean delEstimate(@RequestBody String checkList) {
