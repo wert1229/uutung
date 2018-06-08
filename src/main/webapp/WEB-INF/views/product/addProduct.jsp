@@ -82,9 +82,9 @@ window.onunload=function(){
                                     <div class="form-group">
                                         <label>분류</label>
                                         <select name="category" class="form-control" required>
-											<option value="fashion">패션의류/잡화</option>
-											<option value="beauty">뷰티</option>
-											<option value="food">식품</option>
+											<option value="1">패션의류/잡화</option>
+											<option value="2">뷰티</option>
+											<option value="3">식품</option>
 										</select>
                                     </div>
                                     <div class="form-group">

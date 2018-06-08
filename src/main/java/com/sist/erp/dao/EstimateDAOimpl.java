@@ -59,4 +59,9 @@ public class EstimateDAOimpl implements EstimateDAO {
 		return session.getMapper(EstimateDAO.class).searchEstProduct(realKey, cseq);
 	}
 
+	@Override
+	public List<EstimateVO> getDetailEstimates(String pseq) {
+		return session.getMapper(EstimateDAO.class).getDetailEstimates(pseq);
+	}
+
 }

@@ -60,6 +60,19 @@ public class ProductController {
 	@RequestMapping(value="", method=RequestMethod.POST)
 	public String addProduct(@ModelAttribute ProductVO p, Model model) {
 		
+		String category=p.getCategory();
+		
+		switch(category) {
+			case("1"):
+				p.setCategory("패션의류/잡화");
+				break;
+			case("2"):
+				p.setCategory("뷰티");
+				break;
+			case("3"):
+				p.setCategory("식품");
+				break;
+		}
 		pdao.addProduct(p);
 
 		model.addAttribute("flag", "1");

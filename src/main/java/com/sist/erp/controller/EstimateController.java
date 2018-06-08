@@ -2,8 +2,14 @@ package com.sist.erp.controller;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,6 +33,8 @@ public class EstimateController {
 	private EstimateDAO edao;
 	@Autowired
 	private ProductDAO pdao;
+	@Resource(name = "transactionManager")
+	private DataSourceTransactionManager txManager;
 	
 	@RequestMapping(value="", method=RequestMethod.GET)
 	public String EstimateHome(Model model, String page) {
@@ -41,21 +49,28 @@ public class EstimateController {
 		return "estimate/mainEstimate";
 	}
 	
-	/*@RequestMapping(value="", method=RequestMethod.GET)
-	public String EstimateHome(Model model, String page) {
-		List<EstimateVO> elist = edao.getEstimates();
+	@RequestMapping(value="", method=RequestMethod.POST)
+	public String addProduct(@ModelAttribute EstimateVO e, Model model) {
+/*List<EstimateVO> elist = edao.getDetailEstimates(pseq);
 		
 		if(page!=null) {
 			model.addAttribute("page", page);
 		}
+		model.addAttribute("pseq", pseq);
+		model.addAttribute("elist",elist);*/
+		String pseq=e.getProductSq();
 		
-		model.addAttribute("elist",elist);
+		edao.addEstimate(e);
+
+		model.addAttribute("flag", "1");
+		model.addAttribute("pseq", pseq);
 		
-		return "estimate/mainEstimate";
-	}*/
+		return "estimate/detailEstimate";
+	}
 	
 	@RequestMapping("/new")
-	public String addEstimate() {
+	public String addEstimate(Model model, String pseq) {
+		model.addAttribute("pseq", pseq);
 		return "estimate/addEstimate";
 	}
 
@@ -69,15 +84,6 @@ public class EstimateController {
 		return "estimate/editEstimate";
 	}
 		
-	@RequestMapping(value="", method=RequestMethod.POST)
-	public String addEstimate(@ModelAttribute EstimateVO e, Model model) {
-		edao.addEstimate(e);
-
-		model.addAttribute("flag", "1");
-
-		return "estimate/addEstimate";
-	}
-	
 	@RequestMapping(value="/edit", method=RequestMethod.POST)
 	public String editEstimate(@ModelAttribute EstimateVO e, String page, Model model) {
 	
@@ -91,7 +97,7 @@ public class EstimateController {
 	
 	@RequestMapping(value="/detail", method=RequestMethod.GET)
 	public String detailEstimate(Model model, String page, String pseq) {
-		List<EstimateVO> elist = edao.getEstimates();
+		List<EstimateVO> elist = edao.getDetailEstimates(pseq);
 		
 		if(page!=null) {
 			model.addAttribute("page", page);
@@ -100,7 +106,16 @@ public class EstimateController {
 		model.addAttribute("elist",elist);
 		return "estimate/detailEstimate";
 	}
+	
+	@RequestMapping(value="detail", method=RequestMethod.POST)
+	public String addEstimate(@ModelAttribute EstimateVO e, Model model) {
+		edao.addEstimate(e);
 
+		model.addAttribute("flag", "1");
+
+		return "estimate/addEstimate";
+	}
+	
 	@ResponseBody
 	@RequestMapping(value="/delEstimate", method=RequestMethod.POST)
 	public boolean delEstimate(@RequestBody String checkList) {
@@ -120,22 +135,34 @@ public class EstimateController {
 	@ResponseBody
 	@RequestMapping(value="/okEstimate", method=RequestMethod.POST)
 	public boolean okEstimate(@RequestBody String checkList) {
-		System.out.println(checkList);
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition(); 
+		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED); 
+		TransactionStatus txStatus= txManager.getTransaction(def);
 		
 		Gson gson = new Gson();
-	
+		
 		String[] list = gson.fromJson(checkList, String[].class);
-	
-		for(String eseq : list) {
-			edao.okEstimate(eseq);
+		
+		String pseq = edao.getEstimate(list[0]).getProductSq();
+		
+		try	{
+			for(String eseq : list) {
+				edao.okEstimate(eseq);
+			}
+			pdao.okProduct(pseq);
 		}
-	
+		catch(Exception e) {
+			txManager.rollback(txStatus);
+			
+			return false;
+		}
+		txManager.commit(txStatus);
 		return true;
 	}
 	
 	@RequestMapping(value="/searchEstimate", method=RequestMethod.GET)
 	public String searchEstimate() {
-		return "searchEstimate";
+		return "estimate/searchEstimate";
 	}
 		
 	@ResponseBody

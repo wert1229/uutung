@@ -7,33 +7,40 @@
 <%@include file="/resources/jspf/links.jspf"%>
 <title>Insert title here</title>
 <script>
+
+    
 	$(function(){
+		
 		$("#search").click();
-	})
+	});
 	
 	function search(){
 		var key = $("#key").val();
+		
 		$.ajax({
 			type:"POST",
-			url:"${path}/searchEstimate",
+			url:"${path}/client/searchClient",
 			dataType : 'json',
 			data: { "key" : key},
-			success: function(elist){
+			success: function(clist){
 				var content="";
 				
-				if(mlist.length != 0)
+				if(clist.length != 0)
 				{	
-					content+='<table class="table table-striped table-bordered table-hover" id="searchEstimateTable">';
-					content+='<thead><tr><th>견적코드</th><th>가격</th><th>품목코드</th><th>거래처코드</th></tr></thead>';
+					content+='<table class="table table-striped table-bordered table-hover" id="testTable">';
+					content+='<thead><tr><th>거래처번호</th><th>거래처명</th><th>거래처대표</th><th>거래처번호</th><th>거래처주소</th></tr></thead>';
 					content+='<tbody>';
 					
-					for(var i in elist){
-						content+='<tr onclick="select(this)">';
-						content+='<td>'+ elist[i].eseq +'</td>';
-						content+='<td>'+ elist[i].price +'</td>';
-						content+='<td>'+ elist[i].productSq +'</td>';
-						content+='<td>'+ elist[i].clientSq +'</td>';
+					for(var i in clist){
+						/* content+='<tr onclick="select(this)">'; */
+						content+='<tr>';
+						content+='<td><a onclick=insertClient(this) style="cursor: pointer;>'+ clist[i].cseq +'</a></td>';
+						content+='<td>'+ clist[i].name +'</td>';
+						content+='<td>'+ clist[i].owner +'</td>';
+						content+='<td>'+ clist[i].phone +'</td>';
+						content+='<td>'+ clist[i].location +'</td>';
 						content+='</tr>';
+						
 					}
 					
 					content+='</tbody>';
@@ -46,7 +53,7 @@
 				
 				$("#content").html(content);
 				
-				$("#searchEstimateTable").DataTable({
+				$("#testTable").DataTable({
 					searching : false,
 					ordering : false,
 					lengthChange : false,
@@ -56,17 +63,38 @@
 		});
 	}
 	
-	function select(one){
-		var eseq = $(one).children("td:eq(0)").text();
-		var price = $(one).children("td:eq(2)").text();
+	function insertClient(one){
+		var cseq = $(one).text();
 		
-		var value = eseq +" ("+price+")";
-		
-		$("#productSq", opener.document).val(value);
-		$("#estimate", opener.document).val(eseq);
-		
+		alert(cseq);
+		$("#cseq", opener.document).val(cseq);
 		window.close();
 	}
+	
+	/* function select(one){
+		
+		var client = $(one).children("td");
+		
+		var cseq = $(client).eq(0).text();
+		var name = $(client).eq(1).text();
+		var owner = $(client).eq(2).text();
+		var phone = $(client).eq(3).text();
+		var location = $(client).eq(4).text();
+		
+		if(cseq != $("#cseq", opener.document).val()){
+			window.opener.clearProductList();
+		}
+		
+		$("#cseq", opener.document).val(cseq);
+		$("#name", opener.document).text(name);
+		$("#owner", opener.document).text(owner);
+		$("#phone", opener.document).text(phone);
+		$("#location", opener.document).text(location);
+		
+		alert(cseq);
+		
+		window.close();
+	} */
 </script>
 </head>
 <body>
@@ -75,7 +103,7 @@
             <div class="col-md-4 col-md-offset-4">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">견적 검색</h3>
+                        <h3 class="panel-title">거래처 검색</h3>
                     </div>
                     <div class="panel-body">
 	                    <div class="form-group input-group">

@@ -21,104 +21,18 @@ $(function(){
 	
 	$("#mainEstimateTable").DataTable().page(page-1).draw('page');
 	
-	/* $("#reg").click(function(){
-		
-		childWin = window.open("${path}/estimate/new", "addEstimate",
-				"width=600, height=600, top=200, left=600, resizable=no, location=no");
-	}); */
-	
-	/* $("#excel").click(function(){
-		
-		location.href="${path}/estimate/eExcelDownload";
-	});
-	
-	$("#del").click(function(){
-		
-		var checkedList=[];
-		var page = $(".paginate_button.active a").text();
-		
-		$("input[type='checkbox']:checked").each(function() {
-			
-			var eseq = $(this).parent().siblings(".eseq").text(); 
-			checkedList.push(eseq);
-		});
-		
-		if(checkedList.length==0) {
-			alert("선택된 항목이 없습니다!");
-			return;
-		}
-			
-		$.ajax({
-			type:"POST",
-			url:"${path}/estimate/delEstimate",
-			data: JSON.stringify(checkedList),
-			contentType : 'application/json; charset=utf-8', 
-			success: function(result){
-				
-				if(result==true)
-				{
-					alert("삭제되었습니다.");
-					location.href="${path}/estimate?page="+page;
-				}	
-			} 
-		});
-	});
-	
-	$("#ok").click(function(){
-		
-		var checkedList=[];
-		var page = $(".paginate_button.active a").text();
-		
-		$("input[type='checkbox']:checked").each(function() {
-			
-			var eseq = $(this).parent().siblings(".eseq").text(); 
-			checkedList.push(eseq);
-		});
-		
-		if(checkedList.length==0) {
-			alert("선택된 항목이 없습니다!");
-			return;
-		}
-			
-		$.ajax({
-			type:"POST",
-			url:"${path}/estimate/okEstimate",
-			data: JSON.stringify(checkedList),
-			contentType : 'application/json; charset=utf-8', 
-			success: function(result){
-				
-				if(result==true)
-				{
-					alert("승인되었습니다.");
-					location.href="${path}/estimate?page="+page;
-				}	
-			} 
-		});
-	}); */
 });
 
 window.onunload=function(){
 	childWin.close();
 };
 
-/* function edit(one) {
-	var page = $(".paginate_button.active a").text();
-	
-	var eseq = $(one).parent().prev().text();
-	
-	alert(eseq);
-	
-	window.open("${path}/estimate/edit?page="+page+"&eseq="+eseq, "addEstimate",
-			"width=600, height=600, top=200, left=600, resizable=no, location=no");
-} */
-
 function detailEstimate(one) {
-	var page = $(".paginate_button.active a").text();
+	/* var page = $(".paginate_button.active a").text(); */
 	
 	var pseq = $(one).parent().prev().text(); 
-	alert(pseq)
-	window.open("${path}/estimate/detail?page="+page+"&pseq="+pseq, "addEstimate",
-			"width=auto, height=800, top=100, left=300, resizable=no, location=no");
+	window.open("${path}/estimate/detail?pseq="+pseq, "detailEstimate",
+			"width=800px, height=600px, top=100, left=300, resizable=no, location=no");
 }
 </script>
 <title>견적 관리</title>

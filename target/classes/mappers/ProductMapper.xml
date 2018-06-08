@@ -27,4 +27,8 @@
 	<update id="delProduct">
 		UPDATE PRODUCT SET STATE = 'N' WHERE PSEQ=#{pseq}
 	</update>
+	
+	<update id="okProduct">
+		UPDATE PRODUCT SET STATE = 'Y' WHERE PSEQ=#{pseq}
+	</update>
 </mapper> 
