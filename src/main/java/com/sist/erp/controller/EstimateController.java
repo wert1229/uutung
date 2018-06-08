@@ -21,16 +21,17 @@ import com.sist.erp.vo.EstimateVO;
 @Controller
 @RequestMapping("/estimate")
 public class EstimateController {
+	
 	@Autowired
 	private EstimateDAO edao;
 	
 	@RequestMapping(value="", method=RequestMethod.GET)
 	public String EstimateHome(Model model, String page) {
+		
 		List<EstimateVO> elist = edao.getEstimates();
 		
-		System.out.println(elist.get(0).getProductSq());
-		
 		if(page!=null) {
+			
 			model.addAttribute("page", page);
 		}
 		
@@ -41,11 +42,13 @@ public class EstimateController {
 	
 	@RequestMapping("/new")
 	public String addEstimate() {
+		
 		return "estimate/addEstimate";
 	}
 
 	@RequestMapping(value="/edit", method=RequestMethod.GET)
 	public String editEstimate(Model model, String eseq, String page) {
+		
 		EstimateVO e = edao.getEstimate(eseq);
 		
 		model.addAttribute("page", page);
@@ -56,6 +59,7 @@ public class EstimateController {
 		
 	@RequestMapping(value="", method=RequestMethod.POST)
 	public String addEstimate(@ModelAttribute EstimateVO e, Model model) {
+		
 		edao.addEstimate(e);
 
 		model.addAttribute("flag", "1");
@@ -77,13 +81,13 @@ public class EstimateController {
 	@ResponseBody
 	@RequestMapping(value="/delEstimate", method=RequestMethod.POST)
 	public boolean delEstimate(@RequestBody String checkList) {
-		System.out.println(checkList);
 		
 		Gson gson = new Gson();
 	
 		String[] list = gson.fromJson(checkList, String[].class);
 	
 		for(String eseq : list) {
+			
 			edao.delEstimate(eseq);
 		}
 	
@@ -93,13 +97,13 @@ public class EstimateController {
 	@ResponseBody
 	@RequestMapping(value="/okEstimate", method=RequestMethod.POST)
 	public boolean okEstimate(@RequestBody String checkList) {
-		System.out.println(checkList);
 		
 		Gson gson = new Gson();
 	
 		String[] list = gson.fromJson(checkList, String[].class);
 	
 		for(String eseq : list) {
+			
 			edao.okEstimate(eseq);
 		}
 	
@@ -108,12 +112,14 @@ public class EstimateController {
 	
 	@RequestMapping(value="/searchEstimate", method=RequestMethod.GET)
 	public String searchEstimate() {
+		
 		return "searchEstimate";
 	}
 		
 	@ResponseBody
 	@RequestMapping(value="/searchEstimate", method=RequestMethod.POST, produces = "application/text; charset=utf8")
 	public String searchEstimate(@RequestParam String key) {
+		
 		Gson gson = new Gson();
 	
 		List<EstimateVO> elist = edao.searchEstimate(key);
@@ -125,6 +131,7 @@ public class EstimateController {
 		
 	@RequestMapping("/eExcelDownload")
 	public View eExcelDownload(Model model) {
+		
 		List<EstimateVO> elist = edao.getEstimates();
 	
 		model.addAttribute("elist", elist);

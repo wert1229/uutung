@@ -25,21 +25,21 @@ public class EchoHandler extends TextWebSocketHandler
 	private ChatDAO chatDAO;
 	
 	@Override
-	public void afterConnectionEstablished(WebSocketSession session) throws Exception
-	{
+	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+		
 		logger.info("{} 입장", session.getId());
 	}
 	
 	@Override
-	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception
-	{
+	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+		
 		Gson gson = new Gson();
 		
 		String[] m = message.getPayload().split(":");
 		
-		if(m[0].equals("first"))
-		{
-			sessionMap.put(m[1], session);
+		if(m[0].equals("first")) {
+			
+			sessionMap.put(m[1], session);    //첫 입장일 때 MSEQ를 키로 session을 세션맵에 넣음
 			
 			return;
 		}
@@ -49,22 +49,22 @@ public class EchoHandler extends TextWebSocketHandler
 		
 		String chatmsg = gson.toJson(chat);
 		
-		if(sessionMap.containsKey(chat.getReceiver()))
-		{
+		if(sessionMap.containsKey(chat.getReceiver())) { // 세션맵에서 특정 MSEQ를 찾아 대상에게 매세지 전송
+			
 			sessionMap.get(chat.getReceiver()).sendMessage(new TextMessage(chatmsg));
 		}
 	}
 	
 	@Override
-	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception
-	{
-		for(String s : sessionMap.keySet())
-		{
-			if(sessionMap.get(s)==session)
-			{
+	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+		
+		for(String s : sessionMap.keySet()) {
+			
+			if(sessionMap.get(s)==session) {
 				sessionMap.remove(s);
 			}
 		}
+		
 		logger.info("{} 퇴장", session.getId());
 	}
 }

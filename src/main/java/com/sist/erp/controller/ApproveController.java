@@ -25,8 +25,8 @@ import com.sist.erp.vo.OrderListDetailVO;
 
 @Controller
 @RequestMapping("/aprv")
-public class ApproveController
-{
+public class ApproveController {
+	
 	@Autowired
 	MemberDAO memberDAO;
 	@Autowired
@@ -37,8 +37,8 @@ public class ApproveController
 	OrderDAO orderDAO;
 	
 	@RequestMapping(value="/fromme", method=RequestMethod.GET)
-	public String fromMe(Model model, HttpSession session, String page)
-	{
+	public String fromMe(Model model, HttpSession session, String page) {
+		
 		String loginSeq = (String) session.getAttribute("loginSeq");
 		
 		List<ApproveFromMeVO> afmlist = approveDAO.getApprovesFromMe(loginSeq);
@@ -50,8 +50,8 @@ public class ApproveController
 	}
 	
 	@RequestMapping(value="/tome", method=RequestMethod.GET)
-	public String toMe(Model model, HttpSession session)
-	{
+	public String toMe(Model model, HttpSession session) {
+		
 		String loginSeq = (String) session.getAttribute("loginSeq");
 		
 		List<ApproveToMeVO> atmlist = approveDAO.getApprovesToMe(loginSeq);
@@ -62,18 +62,15 @@ public class ApproveController
 	}
 	
 	@RequestMapping("/moveAprvDetail")
-	public String moveDetail(Model model, String mseq)
-	{
+	public String moveDetail(Model model, String mseq) {
+		
 		MoveDetailVO m = moveDAO.getMoveDetailByMseq(mseq);
 		
 		List<MoveListDetailVO> mldlist = moveDAO.getMoveListDetailByMseq(mseq);
-		
 		List<MoveAprvDetailVO> madlist = moveDAO.getMoveAprvByMseq(mseq);
 		
 		model.addAttribute("m", m);
-		
 		model.addAttribute("mldlist", mldlist);
-		
 		model.addAttribute("madlist", madlist);
 		
 		return "aprv/moveAprvDetail";
@@ -85,7 +82,6 @@ public class ApproveController
 		OrderDetailOseqVO o = orderDAO.getOrderDetailByOseq(oseq);
 		
 		List<OrderListDetailVO> oldlist = orderDAO.getOrderDetailListByOseq(oseq);
-		
 		List<OrderAprvDetailVO> oadlist = orderDAO.getOrderAprvByOseq(oseq);
 		
 		model.addAttribute("o", o);
@@ -93,7 +89,5 @@ public class ApproveController
 		model.addAttribute("oadlist",oadlist);
 		
 		return "aprv/orderAprvDetail";
-		
 	}
-	
 }

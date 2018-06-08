@@ -8,10 +8,10 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 	
 	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception
-	{
-		if(request.getSession().getAttribute("loginSeq")==null)
-		{
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+		
+		if(request.getSession().getAttribute("loginSeq")==null) {
+			
 			String prev=request.getRequestURI();
 			prev=prev.substring(prev.indexOf(request.getContextPath())+request.getContextPath().length());
 			request.getSession().setAttribute("prevPage", prev);
@@ -23,6 +23,4 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		
 		return true;
 	}
-	
-	
 }

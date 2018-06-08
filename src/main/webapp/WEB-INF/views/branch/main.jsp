@@ -56,8 +56,8 @@ $(function(){
 			contentType : 'application/json; charset=utf-8', 
 			success: function(result){
 				
-				if(result==true)
-				{
+				if(result==true) {
+					
 					alert("삭제되었습니다.");
 					location.href="${path}/branch?page="+page;
 				}	
@@ -70,8 +70,8 @@ window.onunload=function(){
 	childWin.close();
 };
 
-function edit(one)
-{
+function edit(one) {
+	
 	var page = $(".paginate_button.active a").text();
 	
 	var bseq = $(one).parent().prev().text();

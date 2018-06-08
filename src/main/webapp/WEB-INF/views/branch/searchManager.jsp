@@ -9,9 +9,10 @@
 <script>
 	$(function(){
 		$("#search").click();
-	})
+	});
 	
 	function search(){
+		
 		var key = $("#key").val();
 
 		$.ajax({
@@ -22,13 +23,14 @@
 			success: function(mlist){
 				var content="";
 				
-				if(mlist.length != 0)
-				{	
+				if(mlist.length != 0) {	
+					
 					content+='<table class="table table-striped table-bordered table-hover" id="testTable">';
 					content+='<thead><tr><th>사번</th><th>이름</th><th>직급</th></tr></thead>';
 					content+='<tbody>';
 					
 					for(var i in mlist){
+						
 						content+='<tr onclick="select(this)">';
 						content+='<td>'+ mlist[i].mseq +'</td>';
 						content+='<td>'+ mlist[i].name +'</td>';
@@ -40,8 +42,8 @@
 					content+='</tbody>';
 					content+='</table>';
 				}
-				else
-				{
+				else {
+					
 					content="검색 결과가 없습니다!"	;
 				}
 				
@@ -58,6 +60,7 @@
 	}
 	
 	function select(one){
+		
 		var mseq = $(one).children("td:eq(0)").text();
 		var name = $(one).children("td:eq(1)").text();
 		

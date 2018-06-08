@@ -32,6 +32,7 @@ public class ProductController {
 		List<ProductVO> plist = pdao.getProducts();
 		
 		if(page!=null) {
+			
 			model.addAttribute("page", page);
 		}
 		
@@ -42,11 +43,13 @@ public class ProductController {
 	
 	@RequestMapping("/new")
 	public String addProduct() {
+		
 		return "product/addProduct";
 	}
 
 	@RequestMapping(value="/edit", method=RequestMethod.GET)
 	public String editProduct(Model model, String pseq, String page) {
+		
 		ProductVO p = pdao.getProduct(pseq);
 		
 		model.addAttribute("page", page);
@@ -95,13 +98,13 @@ public class ProductController {
 	@ResponseBody
 	@RequestMapping(value="/delProduct", method=RequestMethod.POST)
 	public boolean delProduct(@RequestBody String checkList) {
-		System.out.println(checkList);
 		
 		Gson gson = new Gson();
 	
 		String[] list = gson.fromJson(checkList, String[].class);
 	
 		for(String pseq : list) {
+			
 			pdao.delProduct(pseq);
 		}
 	
@@ -110,12 +113,14 @@ public class ProductController {
 	
 	@RequestMapping(value="/searchProduct", method=RequestMethod.GET)
 	public String searchProduct() {
+		
 		return "searchProduct";
 	}
 		
 	@ResponseBody
 	@RequestMapping(value="/searchProduct", method=RequestMethod.POST, produces = "application/text; charset=utf8")
 	public String searchProduct(@RequestParam String key) {
+		
 		Gson gson = new Gson();
 	
 		List<ProductVO> plist = pdao.searchProduct(key);
@@ -127,6 +132,7 @@ public class ProductController {
 		
 	@RequestMapping("/pExcelDownload")
 	public View pExcelDownload(Model model) {
+		
 		List<ProductVO> plist = pdao.getProducts();
 	
 		model.addAttribute("plist", plist);

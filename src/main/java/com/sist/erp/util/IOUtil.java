@@ -19,19 +19,19 @@ public class IOUtil{
 		String originFileName = file.getOriginalFilename();
 		String saveFileName = uuid.toString()+"_"+originFileName;
 		
-		String uploadPath = session.getServletContext().getRealPath(path);
-		String fullPath = uploadPath +saveFileName;
+		String uploadPath = session.getServletContext().getRealPath(path);  
+		String fullPath = uploadPath +saveFileName;		 //배포 경로를 얻어와서 경로+파일명으로 최종경로설정
 		
 		String ThumbnailedFilePath = uploadPath+"s_"+saveFileName;
 		String formatName = originFileName.substring(originFileName.indexOf(".")+1);
 		
-		try
-		{
-			file.transferTo(new File(fullPath));
+		try {
+			
+			file.transferTo(new File(fullPath));						//원본사진을 저장하고 썸네일을 만듬
 			makeThumbnail(fullPath, ThumbnailedFilePath, formatName);
 		}
-		catch (IllegalStateException | IOException e)
-		{
+		catch (IllegalStateException | IOException e) {
+			
 			e.printStackTrace();
 		}
 		
@@ -39,6 +39,7 @@ public class IOUtil{
 	}
 	
 	public static void makeThumbnail(String filePath, String targetFilePath, String format) throws IOException {
+		
 		BufferedImage originImg = ImageIO.read(new File(filePath));
 		
 		int width = 150;

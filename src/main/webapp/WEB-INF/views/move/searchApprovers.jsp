@@ -10,9 +10,10 @@
 	$(function(){
 		$("#search").click();
 		initApprovers();
-	})
+	});
 
 	function search(){
+		
 		var key = $("#key").val();
 
 		$.ajax({
@@ -23,13 +24,14 @@
 			success: function(mlist){
 				var content="";
 				
-				if(mlist.length != 0)
-				{	
+				if(mlist.length != 0) {	
+					
 					content+='<table class="table table-striped table-bordered table-hover" id="testTable">';
 					content+='<thead><tr><th>사번</th><th>이름</th><th>직급</th></tr></thead>';
 					content+='<tbody>';
 					
 					for(var i in mlist){
+						
 						content+='<tr onclick="select(this)">';
 						content+='<td>'+ mlist[i].mseq +'</td>';
 						content+='<td>'+ mlist[i].name +'</td>';
@@ -41,8 +43,8 @@
 					content+='</tbody>';
 					content+='</table>';
 				}
-				else
-				{
+				else {
+					
 					content="검색 결과가 없습니다!"	;
 				}
 				
@@ -66,10 +68,10 @@
 		var names = $("#approversName", opener.document).val().trim().split(" ");
 		var positions = $("#approversPos", opener.document).val().trim().split(" ");
 
-		if(mseqs != "")
-		{	
-			for(var i in mseqs)
-			{
+		if(mseqs != "") {	
+			
+			for(var i in mseqs) {
+				
 				var member = {"mseq" : mseqs[i] , "name" : names[i] , "position" : positions[i]};
 	
 				approvers.push(member);
@@ -79,8 +81,8 @@
 		}
 	}
 	
-	
 	function select(one){
+		
 		var member =  $(one).children("td");
 		
 		var writer = "${sessionScope.loginSeq}";
@@ -88,15 +90,15 @@
 		var name = $(member).eq(1).text();
 		var position = $(member).eq(2).text();
 		
-		if(writer==mseq)
-		{
+		if(writer==mseq) {
+			
 			alert("자신은 들어갈 수 없습니다.");
 			return false;
 		}
-		for(var i in approvers)
-		{
-			if(approvers[i].mseq==mseq)
-			{
+		for(var i in approvers) {
+			
+			if(approvers[i].mseq==mseq) {
+				
 				alert("이미 존재합니다.");
 				return false;
 			}
@@ -109,16 +111,16 @@
 		draw();
 	}
 	
-	function draw()
-	{
+	function draw() {
+		
 		var content = "";
 		
 		content+='<table class="table table-striped table-bordered table-hover">';
 		content+='<thead><tr><th>사번</th><th>이름</th><th>직급</th></tr></thead>';
 		content+='<tbody>';
 		
-		for(var i in approvers)
-		{
+		for(var i in approvers) {
+			
 			content+='<tr onclick="deleteAprv(this)">';
 			content+='<td>'+ approvers[i].mseq +'</td>';
 			content+='<td>'+ approvers[i].name +'</td>';
@@ -132,14 +134,14 @@
 		$("#approversReged").html(content);
 	}
 	
-	function deleteAprv(one)
-	{
+	function deleteAprv(one) {
+		
 		var mseq = $(one).children("td").eq(0).text();
 		
-		for(var i in approvers)
-		{
-			if(approvers[i].mseq==mseq)
-			{
+		for(var i in approvers) {
+			
+			if(approvers[i].mseq==mseq) {
+				
 				approvers.splice(i,1);
 			}
 		}
@@ -147,14 +149,14 @@
 		draw();
 	}
 	
-	function submit()
-	{
+	function submit() {
+		
 		var names = "";
 		var mseqs = "";
 		var positions = "";
 		
-		for(var i in approvers)
-		{
+		for(var i in approvers) {
+			
 			names += approvers[i].name+" ";
 			mseqs += approvers[i].mseq+" ";
 			positions += approvers[i].position+" ";
@@ -166,7 +168,6 @@
 		
 		window.close();
 	}
-	
 </script>
 </head>
 <body>

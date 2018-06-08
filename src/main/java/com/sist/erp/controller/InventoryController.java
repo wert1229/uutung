@@ -24,19 +24,16 @@ public class InventoryController
 {
 	@Autowired
 	InventoryDAO inventoryDAO;
-
 	@Autowired
 	BranchDAO branchDAO;
-
 	@Autowired
 	ProductDAO productDAO;
-	
 	@Autowired
 	MemberDAO memberDAO;
 
 	@RequestMapping(value = "/inventory", method = RequestMethod.GET)
-	public String inventory(Model model)
-	{
+	public String inventory(Model model) {
+		
 		List<BranchVO> branchList = branchDAO.getBranches();
 
 		List<ProductVO> productList = productDAO.getProducts();
@@ -63,6 +60,7 @@ public class InventoryController
 		model.addAttribute("inventoryList", inventoryList);
 		model.addAttribute("balanceList", balanceList);
 		model.addAttribute("memberList", memberList);
+		
 		return "inventory/inventory";
 	}
 }

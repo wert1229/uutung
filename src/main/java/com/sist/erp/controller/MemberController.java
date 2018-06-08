@@ -43,31 +43,36 @@ public class MemberController
 		session.setAttribute("loginSeq", memberDAO.getMember(email).getMseq());
 
 		if(remember != null) {
+			
 			Cookie cookie = new Cookie("remember", email);
 			cookie.setMaxAge(60*60*24*7);
 			
 			response.addCookie(cookie);
-		}else{
+		}
+		else{
+			
 			Cookie cookie = new Cookie("remember", email);
 			cookie.setMaxAge(0);
 			
 			response.addCookie(cookie);
 		}
 		
-		
 		if(session.getAttribute("prevPage")!=null) {
+			
 			String prev = (String)session.getAttribute("prevPage");
 			
 			return "redirect:"+prev;
-		}else{
+		}
+		else{
+			
 			return "redirect:/";
 		}
 	}
 	
 	@ResponseBody
 	@RequestMapping("/login/valid")
-	public boolean loginValidate(String email, String pwd)
-	{
+	public boolean loginValidate(String email, String pwd) {
+		
 		MemberVO m = memberDAO.getMember(email);
 
 		if(m!=null && m.getPwd().equals(pwd))
@@ -77,8 +82,8 @@ public class MemberController
 	}
 	
 	@RequestMapping("/logout")
-	public String logout(HttpSession session)
-	{
+	public String logout(HttpSession session) {
+		
 		session.removeAttribute("loginSeq");
 		
 		return "redirect:/";
@@ -110,15 +115,15 @@ public class MemberController
 	}
 	
 	@RequestMapping(value="/searchBranch", method=RequestMethod.GET)
-	public String searchBranch(HttpServletRequest request)
-	{
+	public String searchBranch(HttpServletRequest request) {
+		
 		return "member/searchBranch";
 	}
 	
 	@ResponseBody
 	@RequestMapping(value="/searchManager", method=RequestMethod.POST, produces = "application/text; charset=utf8")
-	public String searchBranch(@RequestParam String key)
-	{
+	public String searchBranch(@RequestParam String key) {
+		
 		Gson gson = new Gson();
 		
 		List<MemberVO> mlist = memberDAO.searchMembers(key);

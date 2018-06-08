@@ -16,23 +16,23 @@
 		});
 		
 		$("#content").keydown(function(evt){
-			if(evt.keyCode==13)
-			{
+			
+			if(evt.keyCode==13) {
 				Send();
 			}	
 		});
 		
-		var culist = JSON.parse('${culist}');
+		var culist = JSON.parse('${culist}');		//ChatUnread 안읽은 채팅 리스트
 		
-		for(var i in culist)
-		{
+		for(var i in culist) {
+			
 			$(".empNo").each(function(){
 				
-				if($(this).val()==culist[i].sender)
-				{
+				if($(this).val()==culist[i].sender) {
+					
 					$(this).siblings(".alarm").text(culist[i].unread);
 				}
-			})
+			});
 		}	
 		
 		$(".partner").click(function(){
@@ -50,10 +50,10 @@
 				success: function(logs){
 					var appender = "";
 					
-					for(var i in logs)
-					{
-						if(logs[i].sender == mseq) //내꺼면
-						{
+					for(var i in logs) {
+						
+						if(logs[i].sender == mseq) { //내꺼면
+						
 							appender+= '<li class="right clearfix">';
 							appender+= '<span class="chat-img pull-right">';
 							appender+= '    <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" />';
@@ -71,8 +71,8 @@
 							appender+= '</div>';
 							appender+= '</li>';
 						}
-						else
-						{
+						else {
+							
 							appender+= '<li class="left clearfix">';
 							appender+= '<span class="chat-img pull-left">';
 							appender+= '    <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" />';
@@ -129,18 +129,20 @@
 	}
 	
 	function onClose(evt){
+		
 		sock.close();
 	}
 	
 	function onMessage(evt){
+		
 		var chat = JSON.parse(evt.data);
 
 		var appender = "";
 
 		var partner = $("input[type='radio']:checked").siblings(".empNo").val();
 		
-		if(chat.sender == partner)
-		{
+		if(chat.sender == partner) {
+			
 			appender+= '<li class="left clearfix">';
 			appender+= '<span class="chat-img pull-left">';
 			appender+= '    <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" />';
@@ -171,20 +173,20 @@
 				}
 			})
 		}
-		else
-		{
+		else {
+			
 			$(".empNo").each(function(){
 				
-				if($(this).val()==chat.sender)
-				{
+				if($(this).val()==chat.sender) {
+					
 					var alarm = $(this).siblings(".alarm");
 					
-					if($(alarm).text()=="")
-					{
+					if($(alarm).text()=="") {
+						
 						$(alarm).text("1");
 					}
-					else
-					{
+					else {
+						
 						$(alarm).text(parseInt($(alarm).text())+1);
 					}
 				}
@@ -193,6 +195,7 @@
 	}
 	
 	function Send(){
+		
 		var content = $("#content").val();
 		
 		if(content==""){
@@ -237,6 +240,7 @@
 	}
 	
 	function getTimeStamp() {
+		
 		var d = new Date();
 		var s =
 		  leadingZeros(d.getFullYear(), 4) + '-' +
@@ -255,12 +259,13 @@
 		n = n.toString();
 		
 		if (n.length < digits) {
-		  for (i = 0; i < digits - n.length; i++)
-		    zero += '0';
+			
+			for (i = 0; i < digits - n.length; i++) {
+		    	zero += '0';
+			}	
 		}
 		return zero + n;
 	}
-
 </script>
 <title>Insert title here</title>
 </head>

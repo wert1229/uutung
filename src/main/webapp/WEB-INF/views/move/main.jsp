@@ -23,8 +23,8 @@ $(function(){
 	});
 });
 
-function detail(mseq)
-{
+function detail(mseq) {
+	
 	childWin = window.open("${path}/move/mldetail?mseq="+mseq, "searchThings",
 		"width=600, height=600, top=300, left=800, resizable=no, location=no");
 }

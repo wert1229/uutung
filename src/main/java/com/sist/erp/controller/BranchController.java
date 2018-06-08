@@ -19,18 +19,18 @@ import com.sist.erp.vo.BranchVO;
 
 @Controller
 @RequestMapping("/branch")
-public class BranchController 
-{
+public class BranchController {
+	
 	@Autowired
 	private BranchDAO branchDAO;
 	
 	@RequestMapping(value="", method=RequestMethod.GET)
-	public String branchHome(Model model, String page)
-	{
+	public String branchHome(Model model, String page) {
+		
 		List<BranchVO> blist = branchDAO.getBranches();
 		
-		if(page!=null)
-		{
+		if(page!=null) {
+			
 			model.addAttribute("page", page);
 		}
 		
@@ -57,8 +57,8 @@ public class BranchController
 	}
 	
 	@RequestMapping(value="", method=RequestMethod.POST)
-	public String addBranch(@ModelAttribute BranchVO b, Model model)
-	{
+	public String addBranch(@ModelAttribute BranchVO b, Model model) {
+		
 		branchDAO.addBranch(b);
 		
 		model.addAttribute("flag", "1");
@@ -79,16 +79,14 @@ public class BranchController
 	
 	@ResponseBody
 	@RequestMapping(value="/delete", method=RequestMethod.POST)
-	public boolean delBranch(@RequestBody String checkList)
-	{
-		System.out.println(checkList);
+	public boolean delBranch(@RequestBody String checkList) {
 		
 		Gson gson = new Gson();
 		
 		String[] list = gson.fromJson(checkList, String[].class);
 		
-		for(String bseq : list)
-		{
+		for(String bseq : list) {
+			
 			branchDAO.delBranch(bseq);
 		}
 		
@@ -96,15 +94,15 @@ public class BranchController
 	}
 	
 	@RequestMapping(value="/searchManager", method=RequestMethod.GET)
-	public String searchBranch()
-	{
+	public String searchBranch() {
+		
 		return "branch/searchManager";
 	}
 	
 	@ResponseBody
 	@RequestMapping(value="/searchBranch", method=RequestMethod.POST, produces = "application/text; charset=utf8")
-	public String searchBranch(String key)
-	{
+	public String searchBranch(String key) {
+		
 		Gson gson = new Gson();
 		
 		List<BranchVO> blist = branchDAO.searchBranches(key);
@@ -115,8 +113,8 @@ public class BranchController
 	}
 	
 	@RequestMapping("/excel")
-	public View excelDownload(Model model)
-	{
+	public View excelDownload(Model model) {
+		
 		List<BranchVO> blist = branchDAO.getBranches();
 		
 		model.addAttribute("blist", blist);

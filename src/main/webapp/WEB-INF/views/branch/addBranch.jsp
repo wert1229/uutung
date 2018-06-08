@@ -10,10 +10,11 @@
 var childWin;
 
 $(function(){
+	
 	var flag = "${flag}";
 	
-	if(flag =="1")
-	{
+	if(flag =="1") {
+		
 		$(opener.location).attr("href", "${path}/branch");
 		window.close();			
 	}	

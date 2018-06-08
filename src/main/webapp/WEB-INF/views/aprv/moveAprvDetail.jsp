@@ -14,7 +14,7 @@
 			lengthChange : false,
 			info : false
 		}).page.len(10).draw();
-	})
+	});
 </script>
 </head>
 <body>

@@ -14,15 +14,8 @@
     <%@include file="/resources/jspf/sidenavJaego.jspf"%>
 
 	<div id="page-wrapper" align="center">
-	
-		
 		<img src ="${path}/images/main.png" style="width: 1200px; height: 1000px; margin:0 auto;"  />
-	
-		
-	
-	
 	</div>
-
 </div>
 <!-- /#wrapper -->
 </body>

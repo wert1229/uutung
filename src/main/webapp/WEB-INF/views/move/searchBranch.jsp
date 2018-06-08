@@ -12,6 +12,7 @@
 	});
 	
 	function search(){
+		
 		var key = $("#key").val();
 		
 		$.ajax({
@@ -22,13 +23,14 @@
 			success: function(blist){
 				var content="";
 				
-				if(blist.length != 0)
-				{	
+				if(blist.length != 0) {	
+					
 					content+='<table class="table table-striped table-bordered table-hover" id="testTable">';
 					content+='<thead><tr><th>매장코드</th><th>매장명</th><th>관리자</th><th>연락처</th><th>주소</th></tr></thead>';
 					content+='<tbody>';
 					
 					for(var i in blist){
+						
 						content+='<tr onclick="select(this)">';
 						content+='<td>'+ blist[i].bseq +'</td>';
 						content+='<td>'+ blist[i].name +'</td>';
@@ -42,8 +44,8 @@
 					content+='</tbody>';
 					content+='</table>';
 				}
-				else
-				{
+				else {
+					
 					content="검색 결과가 없습니다!"	;
 				}
 				
@@ -59,7 +61,7 @@
 		});
 	}
 	
-	function select(one){
+	function select(one) {
 		
 		var branch = $(one).children("td");
 		

@@ -44,8 +44,8 @@ public class MoveController
 	private DataSourceTransactionManager txManager;
 	
 	@RequestMapping(value="", method=RequestMethod.GET)
-	public String moveHome(Model model, HttpSession session)
-	{
+	public String moveHome(Model model, HttpSession session) {
+		
 		String loginSeq = (String)session.getAttribute("loginSeq");
 		
 		String dept = memberDAO.getMemberBySeq(loginSeq).getDept();
@@ -71,8 +71,8 @@ public class MoveController
 	
 	@ResponseBody
 	@RequestMapping(value="", method=RequestMethod.POST)
-	public boolean addMove(@RequestBody String mapJson)
-	{
+	public boolean addMove(@RequestBody String mapJson) {
+		
 		DefaultTransactionDefinition def = new DefaultTransactionDefinition(); 
 		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED); 
 		TransactionStatus txStatus= txManager.getTransaction(def);
@@ -90,14 +90,14 @@ public class MoveController
 		List<MoveAprvVO> ma = gson.fromJson(moveAprv, new TypeToken<ArrayList<MoveAprvVO>>() {}.getType());
 		List<MoveListVO> ml = gson.fromJson(moveList, new TypeToken<ArrayList<MoveListVO>>() {}.getType());
 
-		try
-		{
+		try {
+			
 			moveDAO.addMove(m);
 			moveDAO.addMoveAprv(ma);
 			moveDAO.addMoveList(ml);
-		}
-		catch(Exception e)
-		{
+		} 
+		catch(Exception e) {
+			
 			txManager.rollback(txStatus);
 			
 			return false;
@@ -109,28 +109,28 @@ public class MoveController
 	}
 	
 	@RequestMapping(value="/searchBranch", method=RequestMethod.GET)
-	public String searchBranch()
-	{
+	public String searchBranch() {
+		
 		return "move/searchBranch";
 	}
 	
 	@RequestMapping(value="/searchApprovers", method=RequestMethod.GET)
-	public String searchApprovers()
-	{
+	public String searchApprovers() {
+		
 		return "move/searchApprovers";
 	}
 	
 	@RequestMapping(value="/searchProduct", method=RequestMethod.GET)
-	public String searchProduct(String no, Model model)
-	{
+	public String searchProduct(String no, Model model) {
+		
 		model.addAttribute("no", no);
 		
 		return "move/searchProduct";
 	}
 	
 	@RequestMapping("/mldetail")
-	public String moveListDetail(Model model, String mseq)
-	{
+	public String moveListDetail(Model model, String mseq) {
+		
 		List<MoveListDetailVO> mldlist = moveDAO.getMoveListDetailByMseq(mseq);
 		
 		model.addAttribute("mldlist", mldlist);
@@ -140,47 +140,48 @@ public class MoveController
 	
 	@ResponseBody
 	@RequestMapping("/doApprove")
-	public boolean doApprove(String mseq, HttpSession session)
-	{
+	public boolean doApprove(String mseq, HttpSession session) {
+		
 		String loginSeq = (String)session.getAttribute("loginSeq");
 		
 		DefaultTransactionDefinition def = new DefaultTransactionDefinition(); 
 		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED); 
 		TransactionStatus txStatus= txManager.getTransaction(def);
 		
-		try
-		{
+		try {
+			
 			moveDAO.approveMoveAprv(mseq ,loginSeq);
 			
-			if(moveDAO.checkAprvFinished(mseq).equals("Y"))
-			{
+			if(moveDAO.checkAprvFinished(mseq).equals("Y")) {
+				
 				moveDAO.finishAprv(mseq);
 				String kind = moveDAO.getMoveDetailByMseq(mseq).getKind();
 				List<MoveListDetailVO> mldlist = moveDAO.getMoveListDetailByMseq(mseq);
 				
-				if(kind.equals("불출"))
-				{
-					for(MoveListDetailVO mld : mldlist)
-					{
+				if(kind.equals("불출")) {
+					
+					for(MoveListDetailVO mld : mldlist) {
+						
 						moveDAO.addInvenHistorysOfBulChul(mseq, mld);
 					}
 				}
-				else
-				{
-					for(MoveListDetailVO mld : mldlist)
-					{
+				else {
+					
+					for(MoveListDetailVO mld : mldlist) {
+						
 						moveDAO.addInvenHistorysOfYoChung(mseq,mld);
 					}
 				}
 			}
 		}
-		catch(Exception e)
-		{
+		catch(Exception e) {
+			
 			e.printStackTrace();
 			txManager.rollback(txStatus);
 			
 			return false;
 		}
+		
 		txManager.commit(txStatus);
 		
 		return true;
@@ -188,35 +189,35 @@ public class MoveController
 	
 	@ResponseBody
 	@RequestMapping("/doReject")
-	public boolean doReject(String mseq, HttpSession session)
-	{
+	public boolean doReject(String mseq, HttpSession session) {
+		
 		String loginSeq = (String)session.getAttribute("loginSeq");
 		
 		DefaultTransactionDefinition def = new DefaultTransactionDefinition(); 
 		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED); 
 		TransactionStatus txStatus= txManager.getTransaction(def);
 
-		try
-		{
-			moveDAO.rejectMoveAprv(mseq ,loginSeq);
+		try {
 			
+			moveDAO.rejectMoveAprv(mseq ,loginSeq);
 			moveDAO.setAprvRejected(mseq);
 		}
-		catch(Exception e)
-		{
+		catch(Exception e) {
+			
 			e.printStackTrace();
 			txManager.rollback(txStatus);
 			
 			return false;
 		}
+		
 		txManager.commit(txStatus);
 		
 		return true;
 	}
 	
 	@RequestMapping("/excel")
-	public View excelDownload(Model model, HttpSession session)
-	{
+	public View excelDownload(Model model, HttpSession session) {
+		
 		String loginSeq = (String)session.getAttribute("loginSeq");
 		
 		String dept = memberDAO.getMemberBySeq(loginSeq).getDept();

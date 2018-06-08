@@ -22,8 +22,8 @@
 		
 		var flag = "${flag}";
 		
-		if(flag =="1")
-		{
+		if(flag =="1") {
+			
 			$(opener.location).attr("href", "${path}/branch");
 			window.close();
 		}	
@@ -64,8 +64,8 @@
 		
 	});
 	
-	function valueInsert()
-	{
+	function valueInsert() {
+		
 		saveNowAmount();
 		
 		var no = $("#pno").val();
@@ -82,12 +82,12 @@
 		draw();
 	}
 	
-	function draw()
-	{
+	function draw() {
+		
 		var content ="";
 		
-		for(var i in products)
-		{
+		for(var i in products) {
+			
 			var j = parseInt(i)+1;
 			
 			content += '<tr>';
@@ -111,18 +111,18 @@
 		$("#productList").html(content);
 	}
 	
-	function saveNowAmount()
-	{
-		for(var i in products)
-		{
+	function saveNowAmount() {
+		
+		for(var i in products) {
+			
 			products[i].quantity = $(".amount").eq(i).val();
 		}
 	}
 	
-	function submit()
-	{
-		if("${sessionScope.loginSeq}"=="")
-		{
+	function submit() {
+		
+		if("${sessionScope.loginSeq}"=="") {
+			
 			alert("로그인 세션이 만료되었습니다.");
 			return;
 		}
@@ -143,18 +143,18 @@
 		var branchSQ = $("#bseq").val();
 		var kind = $("option:selected").text();
 		
-		for(var i in products)
-		{	
+		for(var i in products) {	
+			
 			products[i].moveSQ = mseq;
 			
-			if(products[i].productSQ != "" && products[i].quantity != "" && products[i].quantity != "0")
-			{
+			if(products[i].productSQ != "" && products[i].quantity != "" && products[i].quantity != "0") {
+				
 				moveList.push(products[i]);
 			}
 		}
 		
-		if(moveList.length==0)
-		{
+		if(moveList.length==0) {
+			
 			alert("최소한 한개의 물품은 등록해야합니다!");
 			
 			return false;
@@ -163,12 +163,12 @@
 		var listNum = moveList.length-1;
 		var note;
 		
-		if(moveList.length > 1)
-		{
+		if(moveList.length > 1) {
+			
 			note = moveList[0].name + " 외 " + listNum + "건";
 		}
-		else
-		{
+		else {
+			
 			note = moveList[0].name;
 		}
 		
@@ -183,8 +183,8 @@
 		
 		var approversSeq = $("#approversSeq").val();
 		
-		if(branchSQ=="" || mseq=="" || title=="" || approversSeq=="" || expdate=="" || estdate=="")
-		{
+		if(branchSQ=="" || mseq=="" || title=="" || approversSeq=="" || expdate=="" || estdate=="") {
+			
 			alert("빈 항목이 존재합니다!");
 			
 			return false;
@@ -192,8 +192,8 @@
 		
 		var approvers = approversSeq.trim().split(" ");
 		
-		for(var i in approvers)
-		{
+		for(var i in approvers) {
+			
 			var temp = {};
 			
 			temp.approver = approvers[i];
@@ -216,13 +216,13 @@
 			contentType : 'application/json; charset=utf-8',
 			success: function(result){
 				
-				if(result)
-				{
+				if(result) {
+					
 					alert("작성되었습니다.");
 					location.href="${path}/move";
 				}
-				else
-				{
+				else {
+					
 					alert("내부 오류 발생!");
 					return false;
 				}
@@ -233,7 +233,6 @@
 	window.onunload=function(){
 		childWin.close();
 	};
-	
 </script>
 </head>
 <body>

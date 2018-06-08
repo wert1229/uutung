@@ -64,8 +64,8 @@ public class OrderController {
 	
 	@ResponseBody
 	@RequestMapping(value="/main", method=RequestMethod.POST)
-	public boolean addOrder(@RequestBody String mapJson)
-	{
+	public boolean addOrder(@RequestBody String mapJson) {
+		
 		DefaultTransactionDefinition def = new DefaultTransactionDefinition(); 
 		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED); 
 		TransactionStatus txStatus= txManager.getTransaction(def);
@@ -83,14 +83,14 @@ public class OrderController {
 		List<OrderAprvVO> oa = gson.fromJson(orderAprv, new TypeToken<ArrayList<OrderAprvVO>>() {}.getType());
 		List<OrderListVO> ol = gson.fromJson(orderList, new TypeToken<ArrayList<OrderListVO>>() {}.getType());
 		
-		try
-		{
+		try {
+			
 			orderdao.addOrder(o);
 			orderdao.addOrderAprv(oa);
 			orderdao.addOrderList(ol);
 		}
-		catch(Exception e)
-		{
+		catch(Exception e) {
+			
 			txManager.rollback(txStatus);
 			e.printStackTrace();
 			return false;
@@ -114,8 +114,8 @@ public class OrderController {
 	}
 	
 	@RequestMapping(value="/searchClient", method=RequestMethod.GET)
-	public String searchClient()
-	{
+	public String searchClient() {
+		
 		return "order/searchClient";
 	}
 	
@@ -123,7 +123,6 @@ public class OrderController {
 	public String searchApprovers() {
 		
 		return "order/searchApprovers";
-		
 	}
 	
 	@RequestMapping(value="/searchProduct", method=RequestMethod.GET)
@@ -132,14 +131,12 @@ public class OrderController {
 		model.addAttribute("no", no);
 		
 		return "order/searchProduct";
-		
 	}
 	
 	@ResponseBody
 	@RequestMapping(value="/searchProduct", method=RequestMethod.POST, produces = "application/text; charset=utf8")
-	public String searchProduct(String key, String cseq)
-	{
-		System.out.println(cseq);
+	public String searchProduct(String key, String cseq) {
+		
 		Gson gson = new Gson();
 		
 		List<EstiProductVO> elist = estimateDAO.searchEstProduct(key, cseq);
@@ -150,8 +147,7 @@ public class OrderController {
 	}
 	
 	@RequestMapping("/orderdetail")
-	public String orderDetail(String ocseq, Model model)
-	{
+	public String orderDetail(String ocseq, Model model) {
 		
 		List<OrderDetailVO> olist = orderdao.getdetailList(ocseq);
 		model.addAttribute("olist", olist);
@@ -194,10 +190,10 @@ public class OrderController {
 			
 			return false;
 		}
+		
 		txManager.commit(txStatus);
 		
 		return true;
-		
 	}
 	
 	@ResponseBody
@@ -210,23 +206,21 @@ public class OrderController {
 		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED); 
 		TransactionStatus txStatus= txManager.getTransaction(def);
 
-		try
-		{
+		try {
 			
 			orderdao.rejectOrderAprv(oseq, loginSeq);
 			orderdao.setAprvRejected(oseq);
 		}
-		catch(Exception e)
-		{
+		catch(Exception e) {
+			
 			e.printStackTrace();
 			txManager.rollback(txStatus);
 			
 			return false;
 		}
+		
 		txManager.commit(txStatus);
 		
 		return true;
-		
 	}
-	
 }

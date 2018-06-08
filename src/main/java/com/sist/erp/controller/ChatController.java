@@ -20,16 +20,16 @@ import com.sist.erp.vo.MemberVO;
 
 @Controller
 @RequestMapping("/chat")
-public class ChatController
-{
+public class ChatController {
+	
 	@Autowired
 	private MemberDAO memberDAO;
 	@Autowired
 	private ChatDAO chatDAO;
 	
 	@RequestMapping(value="", method=RequestMethod.GET)
-	public String chatPage(Model model, HttpSession session, String mseq)
-	{
+	public String chatPage(Model model, HttpSession session, String mseq) {
+		
 		Gson gson = new Gson();
 		
 		String loginSeq = (String)session.getAttribute("loginSeq");
@@ -48,15 +48,15 @@ public class ChatController
 	
 	@ResponseBody
 	@RequestMapping(value="/getlog", method=RequestMethod.POST, produces = "application/text; charset=utf8")
-	public String getlog(String receiverMseq, HttpSession session)
-	{
+	public String getlog(String receiverMseq, HttpSession session) {
+		
 		Gson gson = new Gson();
 		
 		String loginSeq = (String)session.getAttribute("loginSeq");
 		
-		List<ChatVO> clist = chatDAO.getLogs(loginSeq, receiverMseq);
+		chatDAO.updateCheckdate(loginSeq, receiverMseq); //읽음 처리하고
 		
-		chatDAO.updateCheckdate(loginSeq, receiverMseq);
+		List<ChatVO> clist = chatDAO.getLogs(loginSeq, receiverMseq); //채팅 로그를 가져옴
 		
 		String logs = gson.toJson(clist);
 		
@@ -65,8 +65,8 @@ public class ChatController
 	
 	@ResponseBody
 	@RequestMapping("/updateCheck")
-	public boolean update(String cseq)
-	{
+	public boolean update(String cseq) {
+		
 		chatDAO.updateCheckOneByOne(cseq);
 		
 		return true;
@@ -74,8 +74,8 @@ public class ChatController
 	
 	@ResponseBody
 	@RequestMapping(value="/getUnreads", method=RequestMethod.POST, produces = "application/text; charset=utf8")
-	public String getUnreads(String loginSeq)
-	{
+	public String getUnreads(String loginSeq) {
+		
 		Gson gson = new Gson();
 		
 		List<ChatUnreadVO> urlist = chatDAO.getChatUnread(loginSeq);

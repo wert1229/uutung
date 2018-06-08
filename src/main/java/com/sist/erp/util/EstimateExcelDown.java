@@ -39,6 +39,7 @@ public class EstimateExcelDown extends AbstractXlsView {
 		row = worksheet.createRow(0);
 		
 		for (int i = 0; i < 5; i++) {
+			
 			worksheet.setColumnWidth(i, 4000);
 		}
 			        
@@ -53,6 +54,7 @@ public class EstimateExcelDown extends AbstractXlsView {
 		row.createCell(3).setCellValue("거래처코드");
 		
 		for (int i = 0; i < listExcel.size(); i++) {
+			
 			row = worksheet.createRow(i+1);
 					
 			row.createCell(0).setCellValue(listExcel.get(i).getEseq());
@@ -62,8 +64,10 @@ public class EstimateExcelDown extends AbstractXlsView {
 		}
 			        
 		try {
+			
 			response.setHeader("Content-Disposition", "attachement; filename=\"" + java.net.URLEncoder.encode(excelName, "UTF-8") + "\";charset=\"UTF-8\"");
 		} catch(UnsupportedEncodingException e) {
+			
 			e.printStackTrace();
 		}
 	}

@@ -33,8 +33,8 @@ $(function(){
 			$(this).removeClass("glyphicon-star-empty").addClass("glyphicon-star");
 			$(this).prev().prev().prop("checked", true).attr("disabled","disabled");
 			$(this).prev().prev().trigger("change");
-			
-		}else{
+		}
+		else{
 			
 			$(this).removeClass("glyphicon-star").addClass("glyphicon-star-empty");
 			$(this).prev().prev().removeAttr("disabled");
@@ -47,8 +47,8 @@ $(function(){
 			//색 변하고 고정리스트에 추가시킨다.
 			$(this).parent().parent().css("background-color", "#B7F0B1");
 			fixedProductList.push($(this).parent().parent());
-			
-		}else{
+		}
+		else{
 			//색 풀고 고정리스트에서 뺀다.
 			$(this).parent().parent().css("background-color", "white");
 			
@@ -82,7 +82,6 @@ $(function(){
 	$("#fake").html($("#base").html());
 	$("#base").hide();
 	$("#fake").show();
-	
 });
 
 function checkFixedList(one) {
@@ -97,7 +96,6 @@ function checkFixedList(one) {
 	
 	searchList.push($(one).parent());
 }
-
 
 function showSearch() {
 	
@@ -126,21 +124,21 @@ function showSearch() {
 }
 
 //모달로
-function history(bseq, pseq)
-{
+function history(bseq, pseq) {
+	
 	$.ajax({
 		type:"POST",
 		url:"${path}/history",
 		data: {"bseq" : bseq, "pseq" : pseq},
 		dataType: "json",
-		success: function(result){
+		success: function(result) {
 			
 			var history = result.hlist;
 			var branchName = result.bname;
 			var content ="";
 			
-			if(history.length > 0)
-			{
+			if(history.length > 0) {
+				
 				content += '<div class="container">';
 				content += '<div class="row">';
 				content += '    <div class="col-md-9">';
@@ -162,8 +160,8 @@ function history(bseq, pseq)
 				content += '					</thead>';
 				content += '					<tbody>';
 				
-				for(var i in history)
-				{
+				for(var i in history) {
+					
 					content += '<tr>';
 					content += '<td>'+history[i].target+'</td>';
 					content += '<td>'+history[i].pname+'</td>';
@@ -174,6 +172,7 @@ function history(bseq, pseq)
 					content += '</tr>';
 					
 				}	
+				
 				content += '					</tbody>';
 				content += '				</table>';
 				content += '            </div>';
@@ -182,8 +181,8 @@ function history(bseq, pseq)
 				content += '</div>';
 				content += '</div>';
 			}
-			else
-			{
+			else {
+				
 				content = "<span><strong>재고 내역이 존재하지 않습니다</strong></span>";
 			}
 			

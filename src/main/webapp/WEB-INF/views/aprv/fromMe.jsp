@@ -16,23 +16,22 @@ $(function(){
 		
 		location.href="${path}/excel";
 	});
-	
 });
 
-function detail(one)
-{
+function detail(one) {
+	
 	var seq = $(one).parent().prev().text();
 	var kind = seq[0];
 	
-	if(kind == 'M')
-	{
+	if(kind == 'M') {
+		
 		childWin = window.open("${path}/aprv/moveAprvDetail?mseq="+seq, "aprvDetail",
 				"width=1200, height=800, top=100, left=400, resizable=no, location=no");
 	}
-	else
-	{
+	else {
+		
 		childWin = window.open("${path}/aprv/orderAprvDetail?oseq="+seq, "aprvDetail",
-		"width=1200, height=800, top=100, left=400, resizable=no, location=no");
+				"width=1200, height=800, top=100, left=400, resizable=no, location=no");
 	}
 }
 
