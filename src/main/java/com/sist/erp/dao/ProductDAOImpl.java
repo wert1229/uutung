@@ -18,6 +18,11 @@ public class ProductDAOImpl implements ProductDAO {
 	public List<ProductVO> getProducts() {
 		return session.getMapper(ProductDAO.class).getProducts();
 	}
+	
+	@Override
+	public List<ProductVO> getProductsAsc() {
+		return session.getMapper(ProductDAO.class).getProductsAsc();
+	}
 
 	@Override
 	public ProductVO getProduct(String pseq) {
