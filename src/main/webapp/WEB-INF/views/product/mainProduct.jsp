@@ -24,7 +24,7 @@ $(function(){
 	$("#reg").click(function(){
 		
 		childWin = window.open("${path}/product/new", "addProduct",
-				"width=600, height=600, top=200, left=600, resizable=no, location=no");
+				"width=600, height=800, top=100, left=600, resizable=no, location=no");
 	});
 	
 	$("#excel").click(function(){
@@ -65,9 +65,9 @@ $(function(){
 	});
 });
 
-/* window.onunload=function(){
+window.onunload=function(){
 	childWin.close();
-}; */
+};
 
 function edit(one)
 {
@@ -75,8 +75,25 @@ function edit(one)
 	
 	var pseq = $(one).parent().prev().text();
 	
+	alert(pseq);
+	
 	window.open("${path}/product/edit?page="+page+"&pseq="+pseq, "addProduct",
-			"width=600, height=600, top=200, left=600, resizable=no, location=no");
+			"width=600, height=800, top=100, left=600, resizable=no, location=no");
+}
+
+function popupImg(one)
+{
+	var page = $(".paginate_button.active a").text();
+	
+	var img = $(one).prev().val();
+	
+	alert(img);
+	
+	img = img.substring(img.indexOf(",")+1);
+	
+	alert(img);
+	
+	window.open("${path}"+img, "detailImg", "width=600, height=800, top=100, left=600, resizable=no, location=no");
 }
 </script>
 <title>Product Main</title>
@@ -113,7 +130,15 @@ function edit(one)
 										<td><input type="checkbox"></td>
 										<td class="pseq">${p.pseq}</td>
 										<td class="name"><a class="edit" onclick="edit(this)" style="cursor: pointer;">${p.name}</a></td>
-										<td class="img"><img src="../image/${p.img}"></td>
+										<td class="img">
+											<c:if test="${!empty p.img}">
+												<input id="popup" type="hidden" value="${p.img}">
+													<a onclick="popupImg(this)" style="cursor:pointer;">Y</a>
+											</c:if>
+											<c:if test="${empty p.img}">
+												N
+											</c:if>
+										</td>
 										<td class="category">${p.category}</td>
 										<td class="note">${p.note}</td>
 										<td class="state">${p.state}</td>
@@ -122,9 +147,9 @@ function edit(one)
                             </tbody>
                         </table>
                      <div class="col-md-4">
-                    		<button id="reg" type="button" class="btn btn-primary" style="margin-right:10px;">등록</button>
-                    		<button id="del" type="button" class="btn btn-default" style="margin-right:10px;">선택 삭제</button>
-               	    		<button id="excel" type="button" class="btn btn-default">엑셀 다운</button>
+                    	<button id="reg" type="button" class="btn btn-primary" style="margin-right:10px;">등록</button>
+                    	<button id="del" type="button" class="btn btn-default" style="margin-right:10px;">선택 삭제</button>
+               	    	<button id="excel" type="button" class="btn btn-default">엑셀 다운</button>
                      </div>
                     </div>
                 </div>

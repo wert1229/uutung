@@ -7,18 +7,20 @@ public class EstimateVO {
 	private String productName;
 	private String clientSq;
 	private String clientName;
+	private String state;
 	
 	public EstimateVO() {
-		this(null, 0, null, null, null, null);
+		this(null, 0, null, null, null, null, null);
 	}
 	
-	public EstimateVO(String eseq, int price, String productSq, String productName, String clientSq, String clientName) {
+	public EstimateVO(String eseq, int price, String productSq, String productName, String clientSq, String clientName, String state) {
 		this.eseq = eseq;
 		this.price = price;
 		this.productSq = productSq;
 		this.productName = productName;
 		this.clientSq = clientSq;
 		this.clientName = clientName;
+		this.state = state;
 	}
 
 	public String getProductName() {
@@ -67,5 +69,13 @@ public class EstimateVO {
 
 	public void setClientSq(String clientSq) {
 		this.clientSq = clientSq;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
 	}
 }

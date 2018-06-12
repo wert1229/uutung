@@ -19,4 +19,6 @@ public interface ProductDAO {
 	void delProduct(String pseq);
 
 	List<ProductVO> searchProduct(String key);
+
+	void okProduct(String pseq);
 }

@@ -49,4 +49,9 @@ public class ProductDAOImpl implements ProductDAO {
 		String realKey = "%" + key + "%";
 		return session.getMapper(ProductDAO.class).searchProduct(realKey);
 	}
+
+	@Override
+	public void okProduct(String pseq) {
+		session.getMapper(ProductDAO.class).okProduct(pseq);
+	}
 }

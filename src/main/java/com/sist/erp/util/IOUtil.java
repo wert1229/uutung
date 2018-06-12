@@ -30,7 +30,7 @@ public class IOUtil{
 			file.transferTo(new File(fullPath));
 			makeThumbnail(fullPath, ThumbnailedFilePath, formatName);
 		}
-		catch (IllegalStateException | IOException e)
+		catch (Exception e)
 		{
 			e.printStackTrace();
 		}

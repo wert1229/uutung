@@ -23,6 +23,25 @@ $(function(){
 		childWin = window.open("${path}/product/searchProduct", "searchProduct",
 				"width=400, height=500, top=300, left=800, resizable=no, location=no");
 	});
+	
+	$("#editImg").change(function(){
+		var formData = new FormData();
+		formData.append("file",$("#editImg")[0].files[0]);
+		
+		$.ajax({
+			type: "POST",
+	        url: "${path}/product/productImg",
+	        data: formData,
+	        dataType: "text",
+	        processData: false,
+	        contentType: false, 
+	        success: function(data) {
+	        	var fileName = data.substring(data.indexOf("uploadImg")+10);
+	        	var imgPath = '/uploadImg/'+fileName;
+	        	$("#imgName").val(imgPath);
+	        }
+		});
+	});
 });
 window.onunload=function(){
 	childWin.close();
@@ -55,14 +74,15 @@ window.onunload=function(){
                                     </div>
                                     <label>품목 이미지</label>
                                     <div class="form-group">
-                                        <input name="img" class="form-control" placeholder="${product.img}" type="file" required>
+                                    	<input type="hidden" name="img" id="imgName" value="${product.img}">
+                                        <input id="editImg" name="file" class="form-control" type="file">
                                     </div>
                                     <div class="form-group">
                                         <label>분류</label>
                                         <select name="category" class="form-control" required>
-											<option value="fashion">패션의류/잡화</option>
-											<option value="beauty">뷰티</option>
-											<option value="food">식품</option>
+											<option value="1">패션의류/잡화</option>
+											<option value="2">뷰티</option>
+											<option value="3">식품</option>
 										</select>
                                     </div>
                                     <div class="form-group">
@@ -71,7 +91,10 @@ window.onunload=function(){
                                     </div>
                                     <div class="form-group">
                                         <label>상태</label>
-                                        <input name="state" class="form-control" placeholder="${product.state}" value="${product.state}" required readonly>
+                                        <select name="state" class="form-control" placeholder="${product.state}" value="${product.state}" required>
+                                        	<option value="Y">Y</option>
+                                        	<option value="N">N</option>
+                                        </select>
                                     </div>
                                     <button type="submit" class="btn btn-lg btn-info btn-outline col-lg-offset-5">수정</button>
                                 </form>
