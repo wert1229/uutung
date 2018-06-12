@@ -49,4 +49,9 @@ public class ProductDAOImpl implements ProductDAO {
 	public void okProduct(String pseq) {
 		session.getMapper(ProductDAO.class).okProduct(pseq);
 	}
+
+	@Override
+	public List<ProductVO> getProductsAsc() {
+		return session.getMapper(ProductDAO.class).getProductsAsc();
+	}
 }

@@ -16,6 +16,10 @@
 		SELECT * FROM PRODUCT ORDER BY TO_NUMBER(PSEQ) DESC
 	</select>
 	
+	<select id="getProductsAsc" resultType="com.sist.erp.vo.ProductVO"> 
+ 		SELECT * FROM PRODUCT ORDER BY TO_NUMBER(PSEQ) 
+ 	</select> 
+	
 	<select id="searchProduct" resultType="com.sist.erp.vo.ProductVO">
 		SELECT * FROM PRODUCT WHERE NAME LIKE #{key} AND STATE = 'Y' ORDER BY TO_NUMBER(PSEQ) DESC
 	</select>
