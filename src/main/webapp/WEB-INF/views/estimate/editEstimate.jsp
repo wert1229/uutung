@@ -13,8 +13,6 @@ $(function(){
 	var page = "${page}";
 	var pseq = "${pseq}";
 	
-	alert(pseq);
-	
 	if(flag =="1")
 	{
 		$(opener.location).attr("href", "${path}/estimate/detail?page="+page+"&pseq="+pseq);

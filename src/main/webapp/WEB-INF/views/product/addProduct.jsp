@@ -11,8 +11,6 @@ var childWin;
 $(function(){
 	var flag = "${flag}";
 	
-	alert(flag);
-	
 	if(flag =="1")
 	{
 		$(opener.location).attr("href", "${path}/product");

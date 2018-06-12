@@ -75,8 +75,6 @@ function edit(one)
 	
 	var pseq = $(one).parent().prev().text();
 	
-	alert(pseq);
-	
 	window.open("${path}/product/edit?page="+page+"&pseq="+pseq, "addProduct",
 			"width=600, height=800, top=100, left=600, resizable=no, location=no");
 }
@@ -87,11 +85,7 @@ function popupImg(one)
 	
 	var img = $(one).prev().val();
 	
-	alert(img);
-	
 	img = img.substring(img.indexOf(",")+1);
-	
-	alert(img);
 	
 	window.open("${path}"+img, "detailImg", "width=600, height=800, top=100, left=600, resizable=no, location=no");
 }

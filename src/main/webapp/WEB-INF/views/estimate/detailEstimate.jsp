@@ -99,7 +99,6 @@ $(function(){
 	});
 	
 	$("#cancle").click(function(){
-		alert(page);
 		$(opener.location).attr("href", "${path}/estimate?page="+page);
 		window.close();
 	});
@@ -114,8 +113,6 @@ function edit(one)
 	var page = $(".paginate_button.active a").text();
 	
 	var eseq = $(one).parent().prev().text();
-	
-	alert(eseq);
 	
 	window.open("${path}/estimate/edit?page="+page+"&eseq="+eseq, "editEstimate",
 			"width=600, height=600, top=200, left=600, resizable=no, location=no");
@@ -139,7 +136,6 @@ function detailClient(one)
 	
 	var ocseq = $(one).text(); 
 	var cseq = ocseq.substring(ocseq.indexOf("(")+1, ocseq.length-1);
-	alert(cseq);
 	
 	window.open("${path}/client/edit?page="+page+"&cseq="+cseq, "detailClient",
 			"width=1500, height=auto, top=200, left=600, resizable=no, location=no");

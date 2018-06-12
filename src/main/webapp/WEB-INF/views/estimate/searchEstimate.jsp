@@ -23,7 +23,6 @@
 			success: function(clist){
 				var content="";
 				
-				alert(clist.length);
 				
 				if(clist.length != 0)
 				{	
@@ -32,7 +31,6 @@
 					content+='<tbody>';
 					
 					for(var i in clist){
-						alert(clist[i].name);
 						content+='<tr>';
 						content+='<td><a onclick=insertClient(this) style="cursor: pointer;">'+ clist[i].cseq +'</a></td>';
 						content+='<td>'+ clist[i].name +'</td>';
@@ -66,7 +64,6 @@
 	function insertClient(one){
 		var cseq = $(one).text();
 		
-		alert(cseq);
 		$("#cseq", opener.document).val(cseq);
 		window.close();
 	}
