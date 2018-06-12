@@ -10,45 +10,12 @@
 var childWin;
 $(function(){
 	var flag = "${flag}";
+	var pseq = "${pseq}";
 	
-	if(flag =="1")
-	{
-		$(opener.location).attr("href", "${path}/estimate");
+	if(flag =="1") {
+		$(opener.location).attr("href", "${path}/estimate/detail?pseq="+pseq);
 		window.close();			
 	}	
-	
-	/* $("#regEstimate").click(function(){
-		$(opener.location).attr("href", "${path}/estimate/detail");
-		window.close();		
-	}); */
-	
-	$("#regEstimate").click(function(){
-		/* var pseq = $("#pseq").val();
-		var cseq = $("#cseq").val(); */
-		var price = ${price};
-		var state = ${state};
-		
-		/* alert(pseq);
-		alert(cseq); */
-		alert(price);
-		alert(state);
-		
-		/* $.ajax({
-			type: "POST",
-	        url: "${path}/estimate/",
-	        data: formData,
-	        dataType: "text",
-	        processData: false,
-	        contentType: false, 
-	        success: function(data) {
-	        	var fileName = data.substring(data.indexOf("uploadImg")+10);
-	        	var imgPath = '${path}/uploadImg/'+fileName;
-	        	var content = '<img src="'+imgPath+'">';
-	        	$("#displayImg").html(content);
-	        	$("#imgPath").val(imgPath);
-	        }
-		}); */
-	});
 	
 	$("#searchClient").click(function(){
 		
@@ -78,7 +45,7 @@ window.onunload=function(){
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-12">
-                                <%-- <form role="form" action="${path}/estimate" method="POST"> --%>
+                                <form role="form" action="${path}/estimate" method="POST">
                                     <label>거래처</label>
                                     <div class="form-group input-group">
 				                        <input id="cseq" class="form-control" name="clientSq" placeholder="Use Search" required readonly>
@@ -91,20 +58,18 @@ window.onunload=function(){
 				                    </div>
                                     <label>가격</label>
                                 	<div class="form-group">
-                                        <input name="price" class="form-control" placeholder="Enter Price" required>
+                                        <input id="price" name="price" class="form-control" placeholder="Enter Price" required>
                                     </div>
                                     <div class="form-group">
 	                                    <label>품목 일련번호</label>
                                         <input name="productSq" class="form-control" placeholder="${pseq}" value="${pseq}" required readonly>
-                                        <input name="pseq" type="hidden" value="${pseq}">
                                     </div>
                                     <div class="form-group">
 	                                    <label>상태</label>
-                                        <input name="state" class="form-control" placeholder="N" value="N" required readonly>
+                                        <input id="state" name="state" class="form-control" placeholder="N" value="N" required readonly>
                                     </div>
-                                    <!-- <button type="submit" id="regEstimate" class="btn btn-lg btn-info btn-outline col-lg-offset-5">등록</button> -->
-                                    <a type="button" id="regEstimate" class="btn btn-lg btn-info btn-outline col-lg-offset-5">등록</a>
-                                <!-- </form> -->
+                                    <button type="submit" id="regEstimate" class="btn btn-lg btn-info btn-outline col-lg-offset-5">등록</button>
+                                </form>
                     		</div>
                     	</div>
                 	</div>

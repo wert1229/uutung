@@ -37,9 +37,7 @@ $(function(){
 	        contentType: false, 
 	        success: function(data) {
 	        	var fileName = data.substring(data.indexOf("uploadImg")+10);
-	        	var imgPath = '${path}/uploadImg/'+fileName;
-	        	var content = '<img src="'+imgPath+'">';
-	        	$("#displayImg").html(content);
+	        	var imgPath = '/uploadImg/'+fileName;
 	        	$("#imgName").val(imgPath);
 	        }
 		});
@@ -76,18 +74,15 @@ window.onunload=function(){
                                     </div>
                                     <label>품목 이미지</label>
                                     <div class="form-group">
-                                    	<div id="displayImg" style="width:150px; height:180px; border: 1px solid black; text-align:center">
-                                    		<img src="${product.img}"/>
-                                    	</div>
                                     	<input type="hidden" name="img" id="imgName" value="${product.img}">
                                         <input id="editImg" name="file" class="form-control" type="file">
                                     </div>
                                     <div class="form-group">
                                         <label>분류</label>
                                         <select name="category" class="form-control" required>
-											<option value="fashion">패션의류/잡화</option>
-											<option value="beauty">뷰티</option>
-											<option value="food">식품</option>
+											<option value="1">패션의류/잡화</option>
+											<option value="2">뷰티</option>
+											<option value="3">식품</option>
 										</select>
                                     </div>
                                     <div class="form-group">
@@ -96,7 +91,10 @@ window.onunload=function(){
                                     </div>
                                     <div class="form-group">
                                         <label>상태</label>
-                                        <input name="state" class="form-control" placeholder="${product.state}" value="${product.state}" required readonly>
+                                        <select name="state" class="form-control" placeholder="${product.state}" value="${product.state}" required>
+                                        	<option value="Y">Y</option>
+                                        	<option value="N">N</option>
+                                        </select>
                                     </div>
                                     <button type="submit" class="btn btn-lg btn-info btn-outline col-lg-offset-5">수정</button>
                                 </form>

@@ -7,9 +7,6 @@ import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.TransactionDefinition;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,9 +17,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.View;
 
 import com.google.gson.Gson;
+import com.sist.erp.dao.ClientDAO;
 import com.sist.erp.dao.EstimateDAO;
 import com.sist.erp.dao.ProductDAO;
 import com.sist.erp.util.EstimateExcelDown;
+import com.sist.erp.vo.ClientVO;
 import com.sist.erp.vo.EstimateVO;
 import com.sist.erp.vo.ProductVO;
 
@@ -33,6 +32,8 @@ public class EstimateController {
 	private EstimateDAO edao;
 	@Autowired
 	private ProductDAO pdao;
+	@Autowired
+	private ClientDAO cdao;
 	@Resource(name = "transactionManager")
 	private DataSourceTransactionManager txManager;
 	
@@ -51,13 +52,7 @@ public class EstimateController {
 	
 	@RequestMapping(value="", method=RequestMethod.POST)
 	public String addProduct(@ModelAttribute EstimateVO e, Model model) {
-/*List<EstimateVO> elist = edao.getDetailEstimates(pseq);
-		
-		if(page!=null) {
-			model.addAttribute("page", page);
-		}
-		model.addAttribute("pseq", pseq);
-		model.addAttribute("elist",elist);*/
+
 		String pseq=e.getProductSq();
 		
 		edao.addEstimate(e);
@@ -65,7 +60,7 @@ public class EstimateController {
 		model.addAttribute("flag", "1");
 		model.addAttribute("pseq", pseq);
 		
-		return "estimate/detailEstimate";
+		return "estimate/addEstimate";
 	}
 	
 	@RequestMapping("/new")
@@ -88,9 +83,12 @@ public class EstimateController {
 	public String editEstimate(@ModelAttribute EstimateVO e, String page, Model model) {
 	
 		edao.updateEstimate(e);
+		
+		String pseq=e.getProductSq();
 	
 		model.addAttribute("flag", "1");
 		model.addAttribute("page", page);
+		model.addAttribute("pseq", pseq);
 	
 		return "estimate/editEstimate";
 	}
@@ -119,33 +117,30 @@ public class EstimateController {
 	@ResponseBody
 	@RequestMapping(value="/delEstimate", method=RequestMethod.POST)
 	public boolean delEstimate(@RequestBody String checkList) {
-		System.out.println(checkList);
-		
 		Gson gson = new Gson();
 	
 		String[] list = gson.fromJson(checkList, String[].class);
-	
+		
 		for(String eseq : list) {
 			edao.delEstimate(eseq);
 		}
-	
 		return true;
 	}
 	
 	@ResponseBody
 	@RequestMapping(value="/okEstimate", method=RequestMethod.POST)
 	public boolean okEstimate(@RequestBody String checkList) {
-		DefaultTransactionDefinition def = new DefaultTransactionDefinition(); 
+		/*DefaultTransactionDefinition def = new DefaultTransactionDefinition(); 
 		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED); 
-		TransactionStatus txStatus= txManager.getTransaction(def);
+		TransactionStatus txStatus= txManager.getTransaction(def);*/
 		
 		Gson gson = new Gson();
 		
 		String[] list = gson.fromJson(checkList, String[].class);
 		
-		String pseq = edao.getEstimate(list[0]).getProductSq();
+		/*String pseq = edao.getEstimate(list[0]).getProductSq();*/
 		
-		try	{
+		/*try	{
 			for(String eseq : list) {
 				edao.okEstimate(eseq);
 			}
@@ -156,7 +151,12 @@ public class EstimateController {
 			
 			return false;
 		}
-		txManager.commit(txStatus);
+		txManager.commit(txStatus);*/
+		
+		for(String eseq : list) {
+			edao.okEstimate(eseq);
+		}
+		
 		return true;
 	}
 	
@@ -170,11 +170,11 @@ public class EstimateController {
 	public String searchEstimate(@RequestParam String key) {
 		Gson gson = new Gson();
 	
-		List<EstimateVO> elist = edao.searchEstimate(key);
+		List<ClientVO> clist = cdao.searchClients(key);
 		
-		String elistJson = gson.toJson(elist);
+		String clistJson = gson.toJson(clist);
 		
-		return elistJson;
+		return clistJson;
 	}
 		
 	@RequestMapping("/eExcelDownload")

@@ -1,6 +1,8 @@
 package com.sist.erp.controller;
 
+import java.io.File;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
@@ -18,7 +20,6 @@ import org.springframework.web.servlet.View;
 
 import com.google.gson.Gson;
 import com.sist.erp.dao.ProductDAO;
-import com.sist.erp.util.IOUtil;
 import com.sist.erp.util.ProductExcelDown;
 import com.sist.erp.vo.ProductVO;
 
@@ -62,6 +63,8 @@ public class ProductController {
 		
 		String category=p.getCategory();
 		
+		System.out.println("category: "+category);
+		
 		switch(category) {
 			case("1"):
 				p.setCategory("패션의류/잡화");
@@ -73,6 +76,12 @@ public class ProductController {
 				p.setCategory("식품");
 				break;
 		}
+		
+		System.out.println("category: "+category);
+		
+		System.out.println("img:" + p.getImg());
+		
+		
 		pdao.addProduct(p);
 
 		model.addAttribute("flag", "1");
@@ -88,14 +97,44 @@ public class ProductController {
 		
 		String path = "/resources/uploadImg/product/";
 		
-		String ThumbnailedFilePath = IOUtil.fileUpload(file, session, path);
+		UUID uuid = UUID.randomUUID();
+		String originFileName = file.getOriginalFilename();
+		String saveFileName = uuid.toString()+"_"+originFileName;
 		
-		return ThumbnailedFilePath;
+		String uploadPath = session.getServletContext().getRealPath(path);
+		String fullPath = uploadPath +saveFileName;
+		
+		try
+		{
+			file.transferTo(new File(fullPath));
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		return fullPath;
 	}
 	
 	@RequestMapping(value="/edit", method=RequestMethod.POST)
 	public String editProduct(@ModelAttribute ProductVO p, String page, Model model) {
-	
+		
+		String category=p.getCategory();
+		
+		System.out.println("category: "+category);
+		
+		switch(category) {
+			case("1"):
+				p.setCategory("패션의류/잡화");
+				break;
+			case("2"):
+				p.setCategory("뷰티");
+				break;
+			case("3"):
+				p.setCategory("식품");
+				break;
+		}
+		
 		pdao.updateProduct(p);
 	
 		model.addAttribute("flag", "1");

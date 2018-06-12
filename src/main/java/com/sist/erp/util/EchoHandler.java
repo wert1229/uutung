@@ -19,7 +19,7 @@ public class EchoHandler extends TextWebSocketHandler
 {
 	private static final Logger logger = LoggerFactory.getLogger(EchoHandler.class);
 	
-	private Map<String, WebSocketSession> sessionMap = new ConcurrentHashMap<>();
+	private Map<String, WebSocketSession> sessionMap = new ConcurrentHashMap<String, WebSocketSession>();
 	
 	@Autowired
 	private ChatDAO chatDAO;

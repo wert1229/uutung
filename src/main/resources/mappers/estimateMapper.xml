@@ -28,12 +28,11 @@
 		UPDATE ESTIMATE SET PRICE = #{price}, PRODUCT_SQ = #{productSq}, CLIENT_SQ = #{clientSq} WHERE ESEQ = #{eseq}
 	</update>
 	
-	<delete id="delEstimate">
-		DELETE ESTIMATE WHERE ESEQ=#{eseq}
-	</delete>
+	<update id="delEstimate">
+		UPDATE ESTIMATE SET STATE = 'N' WHERE ESEQ=#{eseq}
+	</update>
 	
 	<update id="okEstimate">
-		<!-- DELETE ESTIMATE WHERE PSEQ=#{product_sq} -->
 		UPDATE ESTIMATE SET STATE = 'Y' WHERE ESEQ = #{eseq}
 	</update>
 	

@@ -63,5 +63,4 @@ public class EstimateDAOimpl implements EstimateDAO {
 	public List<EstimateVO> getDetailEstimates(String pseq) {
 		return session.getMapper(EstimateDAO.class).getDetailEstimates(pseq);
 	}
-
 }

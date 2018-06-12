@@ -11,6 +11,8 @@ var childWin;
 $(function(){
 	var flag = "${flag}";
 	
+	alert(flag);
+	
 	if(flag =="1")
 	{
 		$(opener.location).attr("href", "${path}/product");
@@ -36,9 +38,7 @@ $(function(){
 	        contentType: false, 
 	        success: function(data) {
 	        	var fileName = data.substring(data.indexOf("uploadImg")+10);
-	        	var imgPath = '${path}/uploadImg/'+fileName;
-	        	var content = '<img src="'+imgPath+'">';
-	        	$("#displayImg").html(content);
+	        	var imgPath = '/uploadImg/'+fileName;
 	        	$("#imgPath").val(imgPath);
 	        }
 		});
@@ -73,10 +73,7 @@ window.onunload=function(){
                                     </div>
                                     <label>품목 이미지</label>
                                     <div class="form-group">
-                                    	<div id="displayImg" style="width:150px; height:180px; border: 1px solid black; text-align:center">
-                                    		<img src="${product.img}"/>
-                                    	</div>
-                                        <input id="upload" name="file" class="form-control" placeholder="Use Submit" type="file" required>
+                                    	<input id="upload" name="img" class="form-control" placeholder="Use Submit" type="file" required>
                                         <input id="imgPath" type="hidden" name="img">
                                     </div>
                                     <div class="form-group">

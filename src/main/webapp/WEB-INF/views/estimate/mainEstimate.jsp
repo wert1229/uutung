@@ -61,13 +61,15 @@ function detailEstimate(one) {
                             </thead>
                             <tbody>
                             	<c:forEach items="${plist}" var="p">
+									<c:if test="${p.state=='Y'}">
 									<tr>
 										<td class="productSq">${p.pseq}</td>
 										<td class="productName">
 											<a class="detailEstimate" onclick="detailEstimate(this)" style="cursor: pointer;">${p.name}</a>
 										</td>
 										<td class="productState">${p.state}</td>
-									</tr>							
+									</tr>
+									</c:if>							
 								</c:forEach>
                             </tbody>
                         </table>

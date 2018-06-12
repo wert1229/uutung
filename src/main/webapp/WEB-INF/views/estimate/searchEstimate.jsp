@@ -7,10 +7,8 @@
 <%@include file="/resources/jspf/links.jspf"%>
 <title>Insert title here</title>
 <script>
-
     
 	$(function(){
-		
 		$("#search").click();
 	});
 	
@@ -25,6 +23,8 @@
 			success: function(clist){
 				var content="";
 				
+				alert(clist.length);
+				
 				if(clist.length != 0)
 				{	
 					content+='<table class="table table-striped table-bordered table-hover" id="testTable">';
@@ -32,9 +32,9 @@
 					content+='<tbody>';
 					
 					for(var i in clist){
-						/* content+='<tr onclick="select(this)">'; */
+						alert(clist[i].name);
 						content+='<tr>';
-						content+='<td><a onclick=insertClient(this) style="cursor: pointer;>'+ clist[i].cseq +'</a></td>';
+						content+='<td><a onclick=insertClient(this) style="cursor: pointer;">'+ clist[i].cseq +'</a></td>';
 						content+='<td>'+ clist[i].name +'</td>';
 						content+='<td>'+ clist[i].owner +'</td>';
 						content+='<td>'+ clist[i].phone +'</td>';
@@ -70,31 +70,6 @@
 		$("#cseq", opener.document).val(cseq);
 		window.close();
 	}
-	
-	/* function select(one){
-		
-		var client = $(one).children("td");
-		
-		var cseq = $(client).eq(0).text();
-		var name = $(client).eq(1).text();
-		var owner = $(client).eq(2).text();
-		var phone = $(client).eq(3).text();
-		var location = $(client).eq(4).text();
-		
-		if(cseq != $("#cseq", opener.document).val()){
-			window.opener.clearProductList();
-		}
-		
-		$("#cseq", opener.document).val(cseq);
-		$("#name", opener.document).text(name);
-		$("#owner", opener.document).text(owner);
-		$("#phone", opener.document).text(phone);
-		$("#location", opener.document).text(location);
-		
-		alert(cseq);
-		
-		window.close();
-	} */
 </script>
 </head>
 <body>
