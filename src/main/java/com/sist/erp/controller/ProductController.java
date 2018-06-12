@@ -1,8 +1,10 @@
 package com.sist.erp.controller;
 
+import java.io.File;
 import java.util.List;
+import java.util.UUID;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.View;
 
 import com.google.gson.Gson;
@@ -56,23 +59,28 @@ public class ProductController {
 	}
 		
 	@RequestMapping(value="", method=RequestMethod.POST)
-	public String addProduct(@ModelAttribute ProductVO p, Model model, HttpServletRequest request) {
+	public String addProduct(@ModelAttribute ProductVO p, Model model) {
 		
-		/*String path = "/image";
-		String realPath = request.getServletContext().getRealPath(path);
-		System.out.println("path: " + path);
-		System.out.println("realPath: " + realPath);
+		String category=p.getCategory();
 		
-		MultipartRequest mulReq;
-		try {
-			mulReq = new MultipartRequest(request, realPath, 10*1024*1024, "UTF-8", new DefaultFileRenamePolicy());
-			String fileName = mulReq.getFilesystemName("file");
-			String orifileName = mulReq.getOriginalFileName("file");
-			System.out.println("fileName: " + fileName);
-			System.out.println("orifileName: " + orifileName);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
+		System.out.println("category: "+category);
+		
+		switch(category) {
+			case("1"):
+				p.setCategory("패션의류/잡화");
+				break;
+			case("2"):
+				p.setCategory("뷰티");
+				break;
+			case("3"):
+				p.setCategory("식품");
+				break;
+		}
+		
+		System.out.println("category: "+category);
+		
+		System.out.println("img:" + p.getImg());
+		
 		
 		pdao.addProduct(p);
 
@@ -81,9 +89,52 @@ public class ProductController {
 		return "product/addProduct";
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="/productImg", method=RequestMethod.POST)
+	public String upload(@RequestParam("file") MultipartFile file, HttpSession session) {
+		
+		System.out.println("이미지업로드테스트");
+		
+		String path = "/resources/uploadImg/product/";
+		
+		UUID uuid = UUID.randomUUID();
+		String originFileName = file.getOriginalFilename();
+		String saveFileName = uuid.toString()+"_"+originFileName;
+		
+		String uploadPath = session.getServletContext().getRealPath(path);
+		String fullPath = uploadPath +saveFileName;
+		
+		try
+		{
+			file.transferTo(new File(fullPath));
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		return fullPath;
+	}
+	
 	@RequestMapping(value="/edit", method=RequestMethod.POST)
 	public String editProduct(@ModelAttribute ProductVO p, String page, Model model) {
-	
+		
+		String category=p.getCategory();
+		
+		System.out.println("category: "+category);
+		
+		switch(category) {
+			case("1"):
+				p.setCategory("패션의류/잡화");
+				break;
+			case("2"):
+				p.setCategory("뷰티");
+				break;
+			case("3"):
+				p.setCategory("식품");
+				break;
+		}
+		
 		pdao.updateProduct(p);
 	
 		model.addAttribute("flag", "1");

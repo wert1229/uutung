@@ -11,10 +11,11 @@ var childWin;
 $(function(){
 	var flag = "${flag}";
 	var page = "${page}";
+	var pseq = "${pseq}";
 	
 	if(flag =="1")
 	{
-		$(opener.location).attr("href", "${path}/estimate?page="+page);
+		$(opener.location).attr("href", "${path}/estimate/detail?page="+page+"&pseq="+pseq);
 		window.close();			
 	}	
 	
@@ -55,7 +56,7 @@ window.onunload=function(){
                                     </div>
                                     <div class="form-group">
 	                                    <label>품목 일련번호</label>
-                                        <input name="productSq" class="form-control" placeholder="Enter Product_Seq" value="${estimate.productSq}" required >
+                                        <input id="pseq" name="productSq" class="form-control" placeholder="Enter Product_Seq" value="${estimate.productSq}" required >
                                     </div>
                                     <div class="form-group">
                                         <label>거래처 일련번호</label>

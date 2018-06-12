@@ -8,6 +8,8 @@ public interface ProductDAO {
 
 	List<ProductVO> getProducts();
 
+	List<ProductVO> getProductsAsc();
+	
 	ProductVO getProduct(String pseq);
 
 	void addProduct(ProductVO p);
@@ -17,4 +19,6 @@ public interface ProductDAO {
 	void delProduct(String pseq);
 
 	List<ProductVO> searchProduct(String key);
+
+	void okProduct(String pseq);
 }

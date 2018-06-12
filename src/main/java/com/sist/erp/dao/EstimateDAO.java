@@ -22,4 +22,6 @@ public interface EstimateDAO {
 	void okEstimate(String eseq);
 
 	List<EstiProductVO> searchEstProduct(String key, String cseq);
+
+	List<EstimateVO> getDetailEstimates(String pseq);
 }

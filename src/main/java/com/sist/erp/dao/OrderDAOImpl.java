@@ -74,5 +74,36 @@ public class OrderDAOImpl implements OrderDAO{
 		return session.getMapper(OrderDAO.class).getOrderAprvByOseq(oseq);
 	}
 
+	@Override
+	public void finishAprv(String oseq) {
+		
+		session.getMapper(OrderDAO.class).finishAprv(oseq);
+	}
+
+	@Override
+	public String checkAprvFinished(String oseq) {
+		
+		return session.getMapper(OrderDAO.class).checkAprvFinished(oseq);
+	}
+
+	@Override
+	public void addHistoryofOrder(String oseq, OrderListDetailVO o) {
+		
+		session.getMapper(OrderDAO.class).addHistoryofOrder(oseq, o);
+		
+	}
+
+	@Override
+	public void rejectOrderAprv(String oseq, String loginSeq) {
+		session.getMapper(OrderDAO.class).rejectOrderAprv(oseq, loginSeq);
+		
+	}
+
+	@Override
+	public void setAprvRejected(String oseq) {
+
+		session.getMapper(OrderDAO.class).setAprvRejected(oseq);
+	}
+
 
 }

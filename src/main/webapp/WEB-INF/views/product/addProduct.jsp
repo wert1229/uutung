@@ -22,6 +22,25 @@ $(function(){
 		childWin = window.open("${path}/product/searchProduct", "searchProduct",
 				"width=400, height=500, top=300, left=800, resizable=no, location=no");
 	});
+	
+	$("#upload").change(function(){
+		var formData = new FormData();
+		formData.append("file",$("#upload")[0].files[0]);
+		
+		$.ajax({
+			type: "POST",
+	        url: "${path}/product/productImg",
+	        data: formData,
+	        dataType: "text",
+	        processData: false,
+	        contentType: false, 
+	        success: function(data) {
+	        	var fileName = data.substring(data.indexOf("uploadImg")+10);
+	        	var imgPath = '/uploadImg/'+fileName;
+	        	$("#imgPath").val(imgPath);
+	        }
+		});
+	});
 });
 window.onunload=function(){
 	childWin.close();
@@ -52,14 +71,15 @@ window.onunload=function(){
                                     </div>
                                     <label>품목 이미지</label>
                                     <div class="form-group">
-                                        <input name="img" class="form-control" placeholder="Use Submit" type="file" required>
+                                    	<input id="upload" name="img" class="form-control" placeholder="Use Submit" type="file" required>
+                                        <input id="imgPath" type="hidden" name="img">
                                     </div>
                                     <div class="form-group">
                                         <label>분류</label>
                                         <select name="category" class="form-control" required>
-											<option value="fashion">패션의류/잡화</option>
-											<option value="beauty">뷰티</option>
-											<option value="food">식품</option>
+											<option value="1">패션의류/잡화</option>
+											<option value="2">뷰티</option>
+											<option value="3">식품</option>
 										</select>
                                     </div>
                                     <div class="form-group">

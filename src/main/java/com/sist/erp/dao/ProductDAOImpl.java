@@ -18,6 +18,11 @@ public class ProductDAOImpl implements ProductDAO {
 	public List<ProductVO> getProducts() {
 		return session.getMapper(ProductDAO.class).getProducts();
 	}
+	
+	@Override
+	public List<ProductVO> getProductsAsc() {
+		return session.getMapper(ProductDAO.class).getProductsAsc();
+	}
 
 	@Override
 	public ProductVO getProduct(String pseq) {
@@ -43,5 +48,10 @@ public class ProductDAOImpl implements ProductDAO {
 	public List<ProductVO> searchProduct(String key) {
 		String realKey = "%" + key + "%";
 		return session.getMapper(ProductDAO.class).searchProduct(realKey);
+	}
+
+	@Override
+	public void okProduct(String pseq) {
+		session.getMapper(ProductDAO.class).okProduct(pseq);
 	}
 }
