@@ -4,22 +4,30 @@ package com.sist.erp.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
 import com.sist.erp.dao.BranchDAO;
+import com.sist.erp.dao.ClientDAO;
 import com.sist.erp.dao.InventoryDAO;
 import com.sist.erp.dao.MemberDAO;
 import com.sist.erp.dao.ProductDAO;
 import com.sist.erp.vo.BranchVO;
+import com.sist.erp.vo.ClientVO;
 import com.sist.erp.vo.InventoryVO;
 import com.sist.erp.vo.MemberVO;
 import com.sist.erp.vo.ProductVO;
 
 @Controller
+@RequestMapping("/inventory")
 public class InventoryController 
 {
 	@Autowired
@@ -33,19 +41,24 @@ public class InventoryController
 	
 	@Autowired
 	MemberDAO memberDAO;
+	
+	@Autowired
+	ClientDAO clientDAO;
 
-	@RequestMapping(value = "/inventory", method = RequestMethod.GET)
+	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String inventory(Model model)
 	{
 		List<BranchVO> branchList = branchDAO.getBranches();
 
-		List<ProductVO> productList = productDAO.getProducts();
+		List<ProductVO> productList = productDAO.getProductsAsc();
 
 		List<InventoryVO> inventoryList = inventoryDAO.getInventorys();
 		
 		List<MemberVO> memberList = memberDAO.getMembers();
 
 		List<InventoryVO> balanceList = new ArrayList<>();
+		
+		List<ClientVO> clientList = clientDAO.getClients();
 		
 		for(int i=0; i<branchList.size(); i++) {
 			for(int j=0; j<productList.size(); j++) {
@@ -63,6 +76,9 @@ public class InventoryController
 		model.addAttribute("inventoryList", inventoryList);
 		model.addAttribute("balanceList", balanceList);
 		model.addAttribute("memberList", memberList);
+		model.addAttribute("clientList", clientList);
 		return "inventory/inventory";
 	}
+	
+	
 }
