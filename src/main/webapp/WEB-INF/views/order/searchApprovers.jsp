@@ -26,12 +26,13 @@
 				if(mlist.length != 0)
 				{	
 					content+='<table class="table table-striped table-bordered table-hover" id="testTable">';
-					content+='<thead><tr><th>사번</th><th>이름</th><th>직급</th></tr></thead>';
+					content+='<thead><tr><th>사번</th><th>지점</th><th>이름</th><th>직급</th></tr></thead>';
 					content+='<tbody>';
 					
 					for(var i in mlist){
 						content+='<tr onclick="select(this)">';
 						content+='<td>'+ mlist[i].mseq +'</td>';
+						content+='<td>'+ mlist[i].deptName +'</td>';
 						content+='<td>'+ mlist[i].name +'</td>';
 						content+='<td>'+ mlist[i].position +'</td>';
 						content+='</tr>';
@@ -85,8 +86,8 @@
 		
 		var writer = "${sessionScope.loginSeq}";
 		var mseq = $(member).eq(0).text();
-		var name = $(member).eq(1).text();
-		var position = $(member).eq(2).text();
+		var name = $(member).eq(2).text();
+		var position = $(member).eq(3).text();
 		
 		if(writer==mseq)
 		{

@@ -32,7 +32,7 @@
 						content+='<tr onclick="select(this)">';
 						content+='<td>'+ blist[i].bseq +'</td>';
 						content+='<td>'+ blist[i].name +'</td>';
-						content+='<td>'+ blist[i].manager +'</td>';
+						content+='<td>'+ blist[i].managerPos + ' ' + blist[i].managerName + '('+blist[i].manager+')' +'</td>';
 						content+='<td>'+ blist[i].phone +'</td>';
 						content+='<td>'+ blist[i].location +'</td>';
 						content+='</tr>';

@@ -31,13 +31,13 @@
 		$("#searchBranch").click(function(){
 			
 			childWin = window.open("${path}/move/searchBranch", "searchThings",
-					"width=600, height=600, top=300, left=800, resizable=no, location=no");
+					"width=760, height=600, top=200, left=600, resizable=no, location=no");
 		});
 		
 		$("#searchApprovers").click(function(){
 			
 			childWin = window.open("${path}/move/searchApprovers", "searchThings",
-					"width=600, height=600, top=300, left=800, resizable=no, location=no");
+					"width=750, height=600, top=200, left=600, resizable=no, location=no");
 		});
 		
 		$(document).on("click", ".searchProduct", function(){
@@ -45,7 +45,7 @@
 			var no = $(this).parents("td").siblings(".no").text();
 			
 			childWin = window.open("${path}/move/searchProduct?no="+no, "searchThings",
-					"width=600, height=600, top=300, left=800, resizable=no, location=no");
+					"width=700, height=600, top=200, left=600, resizable=no, location=no");
 		});
 		
 		$(document).on("click", ".addList", function(){
@@ -349,7 +349,7 @@
 	                                    <tbody>
 	                                        <tr>
 	                                            <th>작성자</th>
-	                                            <td>${slave}(${sessionScope.loginSeq})</td>
+	                                            <td>${slave.name}(${slave.mseq})[${slave.deptName}]</td>
 	                                        </tr>
 	                                        <tr>
 	                                            <th>결재자</th>

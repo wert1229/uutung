@@ -6,6 +6,7 @@ public class BranchVO
 	private String name;
 	private String manager;
 	private String managerName;
+	private String managerPos;
 	private String phone;
 	private String location;
 	
@@ -16,6 +17,14 @@ public class BranchVO
 	public void setBseq(String bseq)
 	{
 		this.bseq = bseq;
+	}
+	public String getManagerPos()
+	{
+		return managerPos;
+	}
+	public void setManagerPos(String managerPos)
+	{
+		this.managerPos = managerPos;
 	}
 	public String getName()
 	{

@@ -26,6 +26,7 @@ import com.google.gson.reflect.TypeToken;
 import com.sist.erp.dao.MemberDAO;
 import com.sist.erp.dao.MoveDAO;
 import com.sist.erp.util.MoveExcelDown;
+import com.sist.erp.vo.MemberVO;
 import com.sist.erp.vo.MoveAprvVO;
 import com.sist.erp.vo.MoveListDetailVO;
 import com.sist.erp.vo.MoveListVO;
@@ -62,9 +63,9 @@ public class MoveController
 		
 		String mseq = (String)session.getAttribute("loginSeq");
 		
-		String slaveName = memberDAO.getMemberBySeq(mseq).getName();
+		MemberVO slave = memberDAO.getMemberBySeq(mseq);
 		
-		model.addAttribute("slave", slaveName);
+		model.addAttribute("slave", slave);
 		
 		return "move/addMove";
 	}

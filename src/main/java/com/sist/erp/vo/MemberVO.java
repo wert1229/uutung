@@ -7,6 +7,7 @@ public class MemberVO
 	private String pwd;
 	private String name;
 	private String dept;
+	private String deptName;
 	private String position;
 	private String phone;
 	private String img;
@@ -51,6 +52,14 @@ public class MemberVO
 	public void setDept(String dept)
 	{
 		this.dept = dept;
+	}
+	public String getDeptName()
+	{
+		return deptName;
+	}
+	public void setDeptName(String deptName)
+	{
+		this.deptName = deptName;
 	}
 	public String getPosition()
 	{
