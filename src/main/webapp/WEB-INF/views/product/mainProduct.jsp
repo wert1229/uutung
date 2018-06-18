@@ -87,7 +87,9 @@ function popupImg(one)
 	
 	img = img.substring(img.indexOf(",")+1);
 	
-	window.open("${path}"+img, "detailImg", "width=600, height=800, top=100, left=600, resizable=no, location=no");
+	/* alert(img); */
+	
+	window.open("${path}"+img, "detailImg", "width=auto, height=500, top=100, left=600, resizable=no, location=no");
 }
 </script>
 <title>Product Main</title>

@@ -525,7 +525,7 @@ $(function(){
     <div id="page-wrapper">
 	    <div class="panel panel-primary" style="margin-top: 30px">
 			<div class="panel-heading">
-				품목 관리
+				재고 현황
 			</div>
 	    	<div class="panel-body">
 		    	<div class="btn-bar">
