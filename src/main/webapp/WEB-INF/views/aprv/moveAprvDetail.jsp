@@ -110,7 +110,7 @@
 	                                    <tbody>
 	                                        <tr>
 	                                            <th>작성자</th>
-	                                            <td>${m.slaveName}(${m.slaveSq})</td>
+	                                            <td>${m.slaveName}(${m.slaveSq})[${m.slaveDept}]</td>
 	                                        </tr>
 	                                        <tr>
 	                                            <th>결재자</th>

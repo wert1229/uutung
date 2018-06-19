@@ -15,11 +15,22 @@
 	</select>
 	
 	<select id="getMemberBySeq" resultType="com.sist.erp.vo.MemberVO">
-		SELECT * FROM MEMBER WHERE MSEQ=#{mseq}
+		SELECT 
+		    M.*,
+		    B.NAME AS DEPT_NAME
+		FROM MEMBER M, BRANCH B
+		WHERE M.DEPT = B.BSEQ
+		    AND M.MSEQ = #{mseq}
 	</select>
 	
 	<select id="searchMembers" resultType="com.sist.erp.vo.MemberVO">
-		SELECT * FROM MEMBER WHERE NAME LIKE #{key} ORDER BY TO_NUMBER(MSEQ)
+		SELECT 
+		    M.*,
+		    B.NAME AS DEPT_NAME
+		FROM MEMBER M, BRANCH B 
+		WHERE M.DEPT = B.BSEQ
+		    AND M.NAME LIKE #{key} 
+		ORDER BY TO_NUMBER(MSEQ)
 	</select>
 	
 	<select id="getMembersExceptMe" resultType="com.sist.erp.vo.MemberVO">

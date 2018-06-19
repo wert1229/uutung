@@ -128,7 +128,7 @@ $(function(){
 			modalLine += '<div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal">&times;</button>';
 			modalLine += '<h4 class="modal-title">거래 내역</h4></div>';
 			modalLine += '<div class="modal-body">';
-			modalLine += '<table class="table-hover table-bordered" width="auto"><tr><td>상대 지점</td><td>제품명</td><td>이동수량</td><td>전체 수량</td><td>거래 종류</td><td>상태</td><td>날짜</td></tr>';
+			modalLine += '<table class="table-hover table-bordered" width="auto"><tr><td>상대 지점</td><td>제품명</td><td>이동수량</td><td>전체 수량</td><td>거래 종류</td><td>날짜</td></tr>';
 			
 			
 			for(var k=0; k<historyList.length;k++){
@@ -153,7 +153,6 @@ $(function(){
 					modalLine += '<td>'+historyList[k].quantity+'</td>';
 					modalLine += '<td>'+historyList[k].balance+'</td>';
 					modalLine += '<td>'+historyList[k].kind+'</td>';
-					modalLine += '<td>'+historyList[k].state+'</td>';
 					modalLine += '<td>'+historyList[k].regdate+'</td></tr>';
 				}
 			}
@@ -525,7 +524,7 @@ $(function(){
     <div id="page-wrapper">
 	    <div class="panel panel-primary" style="margin-top: 30px">
 			<div class="panel-heading">
-				품목 관리
+				재고 현황
 			</div>
 	    	<div class="panel-body">
 		    	<div class="btn-bar">

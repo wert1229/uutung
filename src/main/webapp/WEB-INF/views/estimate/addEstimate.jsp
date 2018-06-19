@@ -20,7 +20,7 @@ $(function(){
 	$("#searchClient").click(function(){
 		
 		childWin = window.open("${path}/estimate/searchEstimate", "searchEstimate",
-		"width=600, height=600, top=300, left=800, resizable=no, location=no");
+		"width=600, height=800, top=100, left=800, resizable=no, location=no");
 	});
 });
 window.onunload=function(){
