@@ -32,7 +32,7 @@ function detailEstimate(one) {
 	
 	var pseq = $(one).parent().prev().text(); 
 	window.open("${path}/estimate/detail?pseq="+pseq, "detailEstimate",
-			"width=800px, height=600px, top=100, left=300, resizable=no, location=no");
+			"width=800px, height=600px, top=100, left=200, resizable=no, location=no");
 }
 </script>
 <title>견적 관리</title>

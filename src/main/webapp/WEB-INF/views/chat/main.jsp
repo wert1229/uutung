@@ -310,7 +310,7 @@
 				                    <div class="panel-heading">
 				                    	사내 멤버
 				                    </div>
-                    				<div class="panel-body" style="overflow: auto;">
+                    				<div class="panel-body" style="overflow: auto; height: 400px">
                     					<div class="list-group" >
                     						<c:forEach items="${mlist}" var="m">
 	                    						<a href="#" class="list-group-item">

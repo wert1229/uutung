@@ -28,14 +28,14 @@
 			}
 			
 			childWin = window.open("${path}/order/searchClient", "searchThings",
-			"width=600, height=600, top=300, left=800, resizable=no, location=no");
+			"width=760, height=600, top=200, left=600, resizable=no, location=no");
 		});
 	 
 		
 		$("#searchApprovers").click(function(){
 		
 			childWin = window.open("${path}/order/searchApprovers", "searchThings",
-					"width=600, height=600, top=300, left=800, resizable=no, location=no");
+					"width=750, height=600, top=200, left=600, resizable=no, location=no");
 		});
 		
 		
@@ -92,7 +92,7 @@
 			var j = parseInt(i)+1;
 			
 			content += '<tr>';
-            content += '<td class="no"><button class="btn btn-default btn-xs addList"><i class="fa fa-caret-down"></i></button>'+j+'</td>';
+            content += '<td class="no" style="width: 50px"><button class="btn btn-default btn-xs addList"><i class="fa fa-caret-down"></i></button>'+j+'</td>';
             content += '<td>'+products[i].productSq+'</td>';
             content += '<td>';
             content += '<div class="form-group input-group" style="padding: 0px; margin: 0px;">';
@@ -104,7 +104,7 @@
         	content += '</div>';
             content += '</td>';
             content += '<td>'+products[i].category+'</td>';
-            content += '<td><input class="form-control amount" type="number" min="1" value="'+products[i].quantity+'" " ></td>';
+            content += '<td><input class="form-control amount" type="number" min="1" style="width: 80px" value="'+products[i].quantity+'" " ></td>';
             content += '<td><input class="form-control price" type="number" min="1" value="'+products[i].price+'" " readonly></td>';
             content += '<td><input class="form-control totalPrice" type="number" min="1" value="'+products[i].totalPrice+'" " readonly></td>';
             content += '<td><input class="form-control note" placeholder="비고" value="'+products[i].note+'" readonly></td>';
@@ -375,7 +375,7 @@
 	                                    <tbody>
 	                                        <tr>
 	                                            <th>작성자</th>
-	                                            <td>${slave}(${sessionScope.loginSeq})</td>
+	                                            <td>${slave.name}(${slave.mseq})[${slave.deptName}]</td>
 	                                        </tr>
 	                                        <tr>
 	                                            <th>결재자</th>

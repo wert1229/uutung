@@ -24,7 +24,7 @@ $(function(){
 	
 	$("#reg").click(function(){
 		childWin = window.open("${path}/estimate/new?pseq="+pseq, "addEstimate",
-				"width=600, height=600, top=200, left=600, resizable=no, location=no");
+				"width=600, height=600, top=200, left=700, resizable=no, location=no");
 	});
 	
 	$("#excel").click(function(){
@@ -178,7 +178,7 @@ function detailClient(one)
 								<td class="productSq">
 									<a class="detailProduct" onclick="detailProduct(this)" style="cursor: pointer;">${e.productName} (${e.productSq})</a>
 								</td>
-								<td class="clientSq"><a class="detailClient" onclick="detailClient(this)" style="cursor: pointer;">${e.clientName} (${e.clientSq})</a></td>
+								<td class="clientSq">${e.clientName} (${e.clientSq})</td>
 								<td class="eState">${e.state}</td>
 							</tr>							
 						</c:forEach>

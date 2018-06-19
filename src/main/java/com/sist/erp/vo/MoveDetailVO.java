@@ -13,12 +13,21 @@ public class MoveDetailVO
 	private String slaveSq;
 	private String slaveName;
 	private String slavePosition;
+	private String slaveDept;
 	private String estdate;
 	private String expdate;
+
 	public String getBranchSq()
-	
 	{
 		return branchSq;
+	}
+	public String getSlaveDept()
+	{
+		return slaveDept;
+	}
+	public void setSlaveDept(String slaveDept)
+	{
+		this.slaveDept = slaveDept;
 	}
 	public void setBranchSq(String branchSq)
 	{

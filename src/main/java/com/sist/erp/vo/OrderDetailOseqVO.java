@@ -13,9 +13,18 @@ public class OrderDetailOseqVO {
 	private String slaveSq;
 	private String slaveName;
 	private String slavePosition;
+	private String slaveDept;
 	private String estdate;
 	private String expdate;
 
+	public String getSlaveDept()
+	{
+		return slaveDept;
+	}
+	public void setSlaveDept(String slaveDept)
+	{
+		this.slaveDept = slaveDept;
+	}
 	public String getClientSq() {
 		return clientSq;
 	}

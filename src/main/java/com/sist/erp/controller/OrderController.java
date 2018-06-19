@@ -27,6 +27,7 @@ import com.sist.erp.dao.EstimateDAO;
 import com.sist.erp.dao.MemberDAO;
 import com.sist.erp.dao.OrderDAO;
 import com.sist.erp.vo.EstiProductVO;
+import com.sist.erp.vo.MemberVO;
 import com.sist.erp.vo.OrderAprvVO;
 import com.sist.erp.vo.OrderCheckVO;
 import com.sist.erp.vo.OrderDetailVO;
@@ -106,9 +107,9 @@ public class OrderController {
 		
 		String mseq = (String)session.getAttribute("loginSeq");
 		
-		String slaveName = memberDAO.getMemberBySeq(mseq).getName();
+		MemberVO slave = memberDAO.getMemberBySeq(mseq);
 		
-		model.addAttribute("slave", slaveName);
+		model.addAttribute("slave", slave);
 		
 		return "order/addorder";
 	}
